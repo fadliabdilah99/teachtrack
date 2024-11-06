@@ -34,7 +34,6 @@
                         <path fill-rule="evenodd" d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"/>
                         <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086z"/>
                     </svg>
-                    echo "# teachtrack" >> README.md
 
                     TeachTrack
                 </a>
@@ -63,10 +62,10 @@
                             href="#">link</a>
                     </li>
                 </ul>
-                <button id="navAction"
+                <a href="register"
                     class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    Action
-                </button>
+                    Register
+                </a>
             </div>
         </div>
         <hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
@@ -84,15 +83,15 @@
                     class="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-normal lg:leading-normal text-gray-700">
                     Sub-hero message, not too long and not too short. Make it just right!
                 </p>
-                <button
+                <a href="login"
                     class="mx-auto md:mx-0 hover:underline bg-blue-600 text-white font-semibold rounded-full my-8 py-3  px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    Subscribe
-                </button>
+                    Login
+                </a>
             </div>
 
             <!--Right Col-->
             <div class="w-full md:w-1/2 lg:w-5/5 flex justify-center md:justify-end">
-                <img class="w-10/12 md:w-11/12 lg:w-10/12 xl:w-8/12 rounded-xl shadow-lg"
+                <img class="w-10/12 md:w-11/12 lg:w-10/12 xl:w-8/12 rounded-b-lg "
                     src="{{ asset('assets/hero.png') }}" alt="Hero Image" />
             </div>
         </div>
@@ -413,10 +412,10 @@
                 </div>
                 <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
                     <div class="flex items-center justify-start">
-                        <button
+                        <a href=""
                             class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                             Action
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>

@@ -21,6 +21,10 @@ class User extends Authenticatable
         'name',
         'email',
         'password',
+        'kelas',
+        'role',
+        'rombel_id',
+        'NoUnik',
     ];
 
     /**
@@ -44,5 +48,10 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function rombel()
+    {
+        return $this->belongsTo(rombel::class);
     }
 }
