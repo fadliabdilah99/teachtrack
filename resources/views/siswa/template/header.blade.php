@@ -97,11 +97,10 @@
     </div>
 
     <!-- Bottom Upgrade Option -->
-    <div class="m-4 relative grid">
-        <form action="{{ url('logout') }}" method="POST">
-            @csrf
-            <button class="text-base font-semibold hover:bg-blue-700 btn" type="submit">Logout</button>
-        </form>
-    </div>
+    <button wire:click="logout" class="text-base font-semibold hover:bg-blue-700 btn">
+        <x-dropdown-link>
+            {{ __('Log Out') }}
+        </x-dropdown-link>
+    </button>
     <!-- </aside> -->
 </aside>

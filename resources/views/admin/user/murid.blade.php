@@ -10,9 +10,9 @@
             <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                 <thead>
                     <tr class="text-sm">
-                        <th scope="col" class="p-4 font-semibold">Name</th>
                         <th scope="col" class="p-4 font-semibold">Kelas</th>
-                        <th scope="col" class="p-4 font-semibold">Extra classes</th>
+                        <th scope="col" class="p-4 font-semibold">KM</th>
+                        <th scope="col" class="p-4 font-semibold">Total Murid</th>
                         <th scope="col" class="p-4 font-semibold">Status</th>
                     </tr>
                 </thead>
@@ -25,15 +25,18 @@
                                             alt="" class="rounded-full w-100" />
                                     </div> --}}
                                     <div class="flex flex-col gap-1 text-gray-500">
-                                        <h3 class="font-bold">{{$murids->name}}</h3>
+                                        <h3 class="font-bold">
+                                            {{ $murids->rombel->kelas }}-{{ $murids->rombel->jurusan->jurusan }}</h3>
                                     </div>
                                 </div>
                             </td>
                             <td class="p-4">
-                                <h3 class="font-medium">{{$murids->kelas}}-{{$murids->rombel->name}}</h3>
+                                <h3 class="font-medium">{{ $murids->name }}</h3>
                             </td>
                             <td class="p-4">
-                                <h3 class="font-medium text-teal-500">+53</h3>
+                                <h3 class="font-medium text-teal-500">
+                                    {{ $total[$murids->rombel_id] ?? 0 }}
+                                </h3>
                             </td>
                             <td class="p-4">
                                 <span
