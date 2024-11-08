@@ -26,7 +26,7 @@
                                     </div> --}}
                                     <div class="flex flex-col gap-1 text-gray-500">
                                         <h3 class="font-bold">
-                                            {{ $murids->rombel->kelas }}-{{ $murids->rombel->jurusan->jurusan }}</h3>
+                                            {{ $murids->rombel->kelas }}-{{ $murids->rombel->jurusan->jurusan }}-{{$murids->rombel->jurusan->no}}</h3>
                                     </div>
                                 </div>
                             </td>

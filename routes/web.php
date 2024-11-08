@@ -1,6 +1,9 @@
 <?php
 
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\guruController;
+use App\Http\Controllers\kelasController;
+use App\Http\Controllers\mapelController;
 use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\userController;
@@ -34,7 +37,12 @@ Route::group(['middleware' => ['role:admin']], function () {
     
     // user setting
     Route::get('admin/user', [userController::class, 'index'])->name('user');
-    Route::post('addsiswa', [userController::class, 'addsiswa'])->name('addsiswa');
+    Route::post('admin/addkelas', [kelasController::class, 'addsiswa'])->name('addkelas');
+    Route::post('admin/addguru', [guruController::class, 'create'])->name('addguru');
+
+    // mapel
+    Route::get('admin/mapel', [mapelController::class, 'index'])->name('mapel');
+    Route::post('admin/addmapel', [mapelController::class, 'create'])->name('addmapel');
 });
 
 
@@ -46,7 +54,12 @@ Route::group(['middleware' => ['role:murid']], function () {
 
 // hanya murid yang bisa akses
 Route::group(['middleware' => ['role:siswa,KM']], function () {
+    // dashboard
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
+
+    // kelas
+    Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');
+    Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
 });
 
 

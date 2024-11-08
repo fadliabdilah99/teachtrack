@@ -23,7 +23,7 @@
 
             <div class="card">
                 <div class="card-body">
-                    <form action="{{ route('addsiswa') }}" method="POST">
+                    <form action="{{ route('addkelas') }}" method="POST">
                         @csrf
                         <div class="mb-6">
                             <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Nama</label>
@@ -51,7 +51,7 @@
                             <select id="country" name="rombel" autocomplete="country-name"
                                 class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
                                 @foreach ($jurusan as $rombels)
-                                    <option value="{{ $rombels->id }}">{{ $rombels->jurusan }}</option>
+                                    <option value="{{ $rombels->id }}">{{ $rombels->jurusan }}-{{ $rombels->no }}</option>
                                 @endforeach
                             </select>
                         </div>
@@ -59,8 +59,8 @@
                         <div class="flex justify-end">
                             <button onclick="closeModalsiswa()"
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
-                            <button
-                                class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700" type="submit">Confirm</button>
+                            <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
+                                type="submit">Confirm</button>
                         </div>
                     </form>
                 </div>
@@ -77,17 +77,40 @@
                 <button onclick="closeModalguru()" class="text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
-            <!-- Isi Modal -->
-            <p class="text-gray-600 mb-4">
-                This is a simple modal using Tailwind CSS. You can add any content here.
-            </p>
+            <form action="{{ route('addguru') }}" method="POST">
+                @csrf
+                <div class="mb-6">
+                    <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Nama</label>
+                    <input type="text" name="name" id="input-label-with-helper-text"
+                        class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+                        placeholder="" aria-describedby="hs-input-helper-text">
+                </div>
+                <div class="mb-6">
+                    <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">No Guru</label>
+                    <input type="number" name="NoUnik" id="input-label-with-helper-text"
+                        class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+                        placeholder="" aria-describedby="hs-input-helper-text">
+                </div>
+                <div class="mb-6">
+                    <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Wali Kelas</label>
+                    <select id="country" name="rombel" autocomplete="country-name"
+                        class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
+                        <option value="">Tidak ada</option>
+                        @foreach ($jurusan as $rombels)
+                            <option value="{{ $rombels->id }}">{{ $rombels->jurusan }}-{{ $rombels->no }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <!-- Footer Modal -->
+                <div class="flex justify-end">
+                    <button type="button" onclick="closeModalguru()"
+                        class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
+                    <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
+                        type="submit">Confirm</button>
+                </div>
+            </form>
 
-            <!-- Footer Modal -->
-            <div class="flex justify-end">
-                <button onclick="closeModalguru()"
-                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
-                <button class="bg-teal-500 hover:bg-teal-600 text-white px-4 py-2 rounded">Confirm</button>
-            </div>
+
         </div>
     </div>
 

@@ -14,50 +14,16 @@ class userController extends Controller
 {
     public function index()
     {
-        $user = User::with('rombel')->get();
+        $user = User::with(['rombel', 'siswa'])->get();
         $data['jurusan'] = jurusan::get();
         $data['guru'] = $user->where('role', 'guru');
         $data['murid'] = $user->where('role', 'KM');
         $data['total'] = $user->groupBy('rombel_id')->map->count();
-        $data['orangtua'] = $user->where('role', 'orangtua');
+        $data['orangtua'] = $user->where('role', 'ortu');
         return view('admin.user.index')->with($data);
     }
 
-    public function addsiswa(Request $request)
-    {
-        $request->validate([
-            'name' => 'required',
-            'rombel' => 'required',
-            'NoUnik' => 'required',
-        ]);
 
-        if (rombel::where('jurusan_id', $request->rombel)->where('kelas', $request->kelas)->first() != null) {
-            return redirect()->back()->with('error', 'kelas sudah ada');
-        };
-
-        $rombel = rombel::create([
-            'kelas' => $request->kelas,
-            'jurusan_id' => $request->rombel,
-        ]);
-
-
-        $user = User::create([
-            'rombel_id' => $rombel->id,
-            'name' => $request->name,
-            'NoUnik' => $request->NoUnik,
-            'role' => 'KM',
-            'password' => Hash::make('*' . $request->NoUnik),
-            'email' => $request->NoUnik . '@gmail.com',
-        ]);
-        User::create([
-            'name' => 'orang tua' . $request->name,
-            'NoUnik' =>  $user->id,
-            'role' => 'ortu',
-            'password' => Hash::make('*' . $request->NoUnik),
-            'email' => 'OT' . $request->NoUnik . '@gmail.com',
-        ]);
-        return redirect()->back()->with('success', 'berhasil menambahkan Ketua Murid & akun Orang Tua');
-    }
 
     public function destroy(Request $request): RedirectResponse
     {
