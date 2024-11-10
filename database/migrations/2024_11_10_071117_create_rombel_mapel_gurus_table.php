@@ -15,6 +15,9 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('rombel_id')->nullable();
             $table->bigInteger('guru_mapel_id')->nullable();
+            $table->integer('dari')->nullable();
+            $table->integer('sampai')->nullable();
+            $table->string('hari')->nullable();
             $table->timestamps();
         });
     }

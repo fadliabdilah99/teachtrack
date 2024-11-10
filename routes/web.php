@@ -4,6 +4,7 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
 use App\Http\Controllers\mapelController;
+use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\userController;
@@ -39,6 +40,9 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('admin/user', [userController::class, 'index'])->name('user');
     Route::post('admin/addkelas', [kelasController::class, 'addsiswa'])->name('addkelas');
     Route::post('admin/addguru', [guruController::class, 'create'])->name('addguru');
+
+    // rombel
+    Route::post('admin/addrombel', [rombelController::class, 'mapelRombel'])->name('addrombelmapel');
 
     // mapel
     Route::get('admin/mapel', [mapelController::class, 'index'])->name('mapel');

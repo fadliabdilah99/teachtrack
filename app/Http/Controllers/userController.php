@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\guru_mapel;
 use App\Models\jurusan;
+use App\Models\mapel;
 use App\Models\rombel;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -20,6 +22,7 @@ class userController extends Controller
         $data['murid'] = $user->where('role', 'KM');
         $data['total'] = $user->groupBy('rombel_id')->map->count();
         $data['orangtua'] = $user->where('role', 'ortu');
+        $data['mapellist'] = guru_mapel::with('mapel', 'user')->get();
         return view('admin.user.index')->with($data);
     }
 

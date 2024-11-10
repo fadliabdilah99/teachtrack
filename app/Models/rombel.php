@@ -17,4 +17,9 @@ class rombel extends Model
     {
         return $this->belongsTo(jurusan::class);
     }
+
+    public function mapelGuru()
+    {
+        return $this->belongsToMany(guru_mapel::class, 'rombel_mapel_gurus');
+    }
 }

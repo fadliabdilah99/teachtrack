@@ -13,7 +13,7 @@
                         <th scope="col" class="p-4 font-semibold">Kelas</th>
                         <th scope="col" class="p-4 font-semibold">KM</th>
                         <th scope="col" class="p-4 font-semibold">Total Murid</th>
-                        <th scope="col" class="p-4 font-semibold">Status</th>
+                        <th scope="col" class="p-4 font-semibold">Action</th>
                     </tr>
                 </thead>
                 <tbody id="dataTablesiswa">
@@ -26,7 +26,8 @@
                                     </div> --}}
                                     <div class="flex flex-col gap-1 text-gray-500">
                                         <h3 class="font-bold">
-                                            {{ $murids->rombel->kelas }}-{{ $murids->rombel->jurusan->jurusan }}-{{$murids->rombel->jurusan->no}}</h3>
+                                            {{ $murids->rombel->kelas }}-{{ $murids->rombel->jurusan->jurusan }}-{{ $murids->rombel->jurusan->no }}
+                                        </h3>
                                     </div>
                                 </div>
                             </td>
@@ -39,8 +40,10 @@
                                 </h3>
                             </td>
                             <td class="p-4">
-                                <span
-                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-teal-500">Available</span>
+                                <button onclick="addmapel(this, {{ $murids->id }})"
+                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i class="bi bi-plus-circle-fill"></i></button>
+                                <button onclick="addmapel(this, {{ $murids->id }})"
+                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i class="bi bi-plus-circle-fill"></i></button>
                             </td>
                         </tr>
                     @endforeach
