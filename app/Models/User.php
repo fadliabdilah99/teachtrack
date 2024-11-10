@@ -55,11 +55,6 @@ class User extends Authenticatable
         return $this->belongsTo(rombel::class);
     }
 
-    public function mapel()
-    {
-        return $this->hashMany(mapel::class);
-    }
-
 
 
     // Relasi untuk mendapatkan murid (siswa) dari orang tua
@@ -74,5 +69,10 @@ class User extends Authenticatable
     {
         return $this->hasMany(User::class, 'NoUnik', 'id')
             ->where('role', 'ortu');
+    }
+
+    public function mapel()
+    {
+        return $this->belongsToMany(Mapel::class, 'guru_mapels');
     }
 }

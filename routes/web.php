@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
 Route::group(['middleware' => ['role:admin']], function () {
     // homepage
     Route::get('admin', [adminController::class, 'index'])->name('admin');
-    
+
     // user setting
     Route::get('admin/user', [userController::class, 'index'])->name('user');
     Route::post('admin/addkelas', [kelasController::class, 'addsiswa'])->name('addkelas');
@@ -43,6 +43,7 @@ Route::group(['middleware' => ['role:admin']], function () {
     // mapel
     Route::get('admin/mapel', [mapelController::class, 'index'])->name('mapel');
     Route::post('admin/addmapel', [mapelController::class, 'create'])->name('addmapel');
+    Route::post('admin/addpengajar', [guruController::class, 'addmapel'])->name('addpengajar');
 });
 
 
