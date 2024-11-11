@@ -6,7 +6,22 @@
 @endpush
 
 @section('content')
-
+    <!-- Dashboard Cards -->
+    <div class="grid grid-cols-3 gap-4 mb-6">
+        <div class="bg-green-500 rounded-lg p-4 flex items-center text-white">
+            <i class="ti ti-clock text-3xl mr-3"></i>
+            <span class="font-semibold text-lg">{{$currentLesson->dari}}-{{$currentLesson->sampai}} {{$currentLesson->guruMapel->mapel->pelajaran}}</span>
+        </div>
+        <div class="bg-pink-400 rounded-lg p-4 flex items-center text-white">
+            <i class="ti ti-trophy text-3xl mr-3"></i>
+            <span class="font-semibold text-lg">Achievement</span>
+        </div>
+        <div class="bg-yellow-400 rounded-lg p-4 flex items-center text-white">
+            <i class="ti ti-star text-3xl mr-3"></i>
+            <span class="font-semibold text-lg">Leaderboard</span>
+        </div>
+    </div>
+    <!-- Main Content Area -->
     <div class="card h-full">
         <div class="card-body">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">Guru</h4>

@@ -22,7 +22,6 @@
                 <span class="font-semibold text-lg">Leaderboard</span>
             </div>
         </div>
-
         <!-- Main Content Area -->
         <div class="flex gap-6">
             <!-- Thread Section -->
@@ -67,39 +66,32 @@
                     + Buat Postingan
                 </button>
                 <div class="bg-white rounded-lg shadow-lg p-4">
-                    <h3 class="text-xl font-bold mb-4">Sedang Ramai</h3>
-                    <ul class="space-y-3">
-                        <li>
-                            <a href="#" class="flex justify-between text-gray-700 hover:text-green-600">
-                                <span>Apa Itu CORS? Panduan Lengkap untuk Pemula Dalam Pengembangan Web</span>
-                                <span class="text-sm">1 Reactions • 1 Komentar</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between text-gray-700 hover:text-green-600">
-                                <span>Integrasi Stack Overflow dan GitHub Copilot</span>
-                                <span class="text-sm">2 Reactions • 2 Komentar</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between text-gray-700 hover:text-green-600">
-                                <span>Kamu Anak IT? Bingung Cari Topik Tugas Akhir? Sini Saya Bantu</span>
-                                <span class="text-sm">16 Reactions • 1 Komentar</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between text-gray-700 hover:text-green-600">
-                                <span>Bikin Website (mirip) KitaBisa pake Tailwind CSS | Part 1 - 5</span>
-                                <span class="text-sm">1 Reactions • 1 Komentar</span>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" class="flex justify-between text-gray-700 hover:text-green-600">
-                                <span>Apa itu GitHub? Simak fungsi dan cara menggunakannya</span>
-                                <span class="text-sm">8 Reactions • 3 Komentar</span>
-                            </a>
-                        </li>
-                    </ul>
+                    <h3 class="text-xl font-bold mb-4">Jadwal Pelajaran</h3>
+                    @foreach ($groupedByHari as $hari => $jadwals)
+                        <h4 class="text-gray-500 text-lg font-semibold mb-5">{{ $hari }}</h4>
+                        <ul class="timeline-widget relative">
+                            @foreach ($jadwals as $jadwal)
+                                <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
+                                    <div class="timeline-time text-gray-500 min-w-[90px] py-[6px] text-sm pr-4 text-end">
+                                        jam ke {{ $jadwal->dari }} - {{ $jadwal->sampai }}
+                                    </div>
+                                    <div class="timeline-badge-wrap flex flex-col items-center">
+                                        <div
+                                            class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-300 my-[10px]">
+                                        </div>
+                                        <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
+                                    </div>
+                                    <div class="timeline-desc py-[6px] px-4 text-sm">
+                                        <p class="text-gray-500 font-semibold"></p>
+                                        <a href="javascript:void(0)" class="text-blue-600">
+                                            {{ $jadwal->guruMapel->mapel->pelajaran }} -
+                                            {{ $jadwal->guruMapel->user->name }}
+                                        </a>
+                                    </div>
+                                </li>
+                            @endforeach
+                        </ul>
+                    @endforeach
                 </div>
             </div>
         </div>

@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\rombel;
 use App\Models\User;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -11,12 +13,19 @@ class siswaController extends Controller
 {
     public function index()
     {
-        return view('siswa.home.index');
+       
+        $data['rombels'] = rombel::with('jadwal.guruMapel.mapel')->where('id', Auth::user()->rombel_id)->get();
+        $data['groupedByHari'] = $data['rombels']->flatMap(function ($rombel) {
+            return $rombel->jadwal;
+        })->groupBy('hari');
+
+
+        return view('siswa.home.index')->with($data);
     }
 
     public function addsiswa(Request $request)
     {
-        
+
         $request->validate([
             'name' => 'required',
             'role' => 'required',

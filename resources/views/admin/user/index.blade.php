@@ -115,17 +115,25 @@
     </div>
 
     {{-- jadwal pelajaran --}}
-    @foreach ($rombels as $rombeljadwal)
-        <div id="modaljadwal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+    @foreach ($rombe as $rombel)
+        <!-- Modal Jadwal untuk setiap Rombel -->
+        <div id="modaljadwal{{ $rombel->id }}"
+            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
             <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6 max-h-[90vh] overflow-y-auto">
-                <!-- Batas tinggi untuk scroll -->
                 <!-- Header Modal -->
                 <div class="flex justify-between items-center mb-4">
-                    <button onclick="closeModaljadwal()" class="text-gray-400 hover:text-gray-600">&times;</button>
+                    <h2 class="text-xl font-semibold">Jadwal untuk Rombel: {{ $rombel->nama_rombel }}</h2>
+                    <!-- Nama Rombel -->
+                    <button onclick="closeModaljadwal({{ $rombel->id }})"
+                        class="text-gray-400 hover:text-gray-600">&times;</button>
                 </div>
                 <!-- Card -->
                 <div class="card">
                     <div class="card-body">
+                        @php
+                            // Kelompokkan jadwal berdasarkan hari untuk rombel ini
+                            $groupedByHari = $rombel->jadwal->groupBy('hari');
+                        @endphp
                         @foreach ($groupedByHari as $hari => $jadwals)
                             <h4 class="text-gray-500 text-lg font-semibold mb-5">{{ $hari }}</h4>
                             <ul class="timeline-widget relative">
@@ -133,7 +141,7 @@
                                     <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
                                         <div
                                             class="timeline-time text-gray-500 min-w-[90px] py-[6px] text-sm pr-4 text-end">
-                                            jam ke {{ $jadwal->dari }} - {{ $jadwal->sampai }}
+                                            Jam ke {{ $jadwal->dari }} - {{ $jadwal->sampai }}
                                         </div>
                                         <div class="timeline-badge-wrap flex flex-col items-center">
                                             <div
@@ -142,7 +150,6 @@
                                             <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
                                         </div>
                                         <div class="timeline-desc py-[6px] px-4 text-sm">
-                                            <p class="text-gray-500 font-semibold"></p>
                                             <a href="javascript:void(0)" class="text-blue-600">
                                                 {{ $jadwal->guruMapel->mapel->pelajaran }} -
                                                 {{ $jadwal->guruMapel->user->name }}
@@ -157,6 +164,7 @@
             </div>
         </div>
     @endforeach
+
 
 
 
@@ -299,12 +307,12 @@
         </script>
 
         <script>
-            function modaljadwal() {
-                document.getElementById("modaljadwal").classList.remove("hidden");
+            function modaljadwal(id) {
+                document.getElementById(`modaljadwal${id}`).classList.remove("hidden");
             }
 
-            function closeModaljadwal() {
-                document.getElementById("modaljadwal").classList.add("hidden");
+            function closeModaljadwal(id) {
+                document.getElementById(`modaljadwal${id}`).classList.add("hidden");
             }
         </script>
 

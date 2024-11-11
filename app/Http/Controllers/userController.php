@@ -25,15 +25,11 @@ class userController extends Controller
         $data['mapellist'] = guru_mapel::with('mapel', 'user')->get();
 
         // Ambil semua rombel beserta jadwalnya
-        $data['rombels'] = Rombel::with('jadwal.guruMapel.mapel')->get();
-        // Kelompokkan jadwal berdasarkan hari
-        $data['groupedByHari'] = $data['rombels']->flatMap(function ($rombel) {
-            return $rombel->jadwal;
-        })->groupBy('hari');
-        // dd($data['groupedByHari']);
+        $data['rombe'] = Rombel::with('jadwal.guruMapel.mapel', 'jadwal.guruMapel.user')->get();
 
         return view('admin.user.index')->with($data);
     }
+
 
 
 
