@@ -114,6 +114,55 @@
         </div>
     </div>
 
+    {{-- jadwal pelajaran --}}
+    @foreach ($rombels as $rombeljadwal)
+        <div id="modaljadwal" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+            <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6 max-h-[90vh] overflow-y-auto">
+                <!-- Batas tinggi untuk scroll -->
+                <!-- Header Modal -->
+                <div class="flex justify-between items-center mb-4">
+                    <button onclick="closeModaljadwal()" class="text-gray-400 hover:text-gray-600">&times;</button>
+                </div>
+                <!-- Card -->
+                <div class="card">
+                    <div class="card-body">
+                        @foreach ($groupedByHari as $hari => $jadwals)
+                            <h4 class="text-gray-500 text-lg font-semibold mb-5">{{ $hari }}</h4>
+                            <ul class="timeline-widget relative">
+                                @foreach ($jadwals as $jadwal)
+                                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
+                                        <div
+                                            class="timeline-time text-gray-500 min-w-[90px] py-[6px] text-sm pr-4 text-end">
+                                            jam ke {{ $jadwal->dari }} - {{ $jadwal->sampai }}
+                                        </div>
+                                        <div class="timeline-badge-wrap flex flex-col items-center">
+                                            <div
+                                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-300 my-[10px]">
+                                            </div>
+                                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
+                                        </div>
+                                        <div class="timeline-desc py-[6px] px-4 text-sm">
+                                            <p class="text-gray-500 font-semibold"></p>
+                                            <a href="javascript:void(0)" class="text-blue-600">
+                                                {{ $jadwal->guruMapel->mapel->pelajaran }} -
+                                                {{ $jadwal->guruMapel->user->name }}
+                                            </a>
+                                        </div>
+                                    </li>
+                                @endforeach
+                            </ul>
+                        @endforeach
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endforeach
+
+
+
+
+
+
     {{-- add pelajaran --}}
     <div id="addmapel" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">
@@ -171,7 +220,8 @@
                 </div>
                 <div class="mb-6">
                     <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">rombaelID</label>
-                    <select name="hari" id="hari" class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
+                    <select name="hari" id="hari"
+                        class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
                         <option value="">Pilih Hari</option>
                         <option value="Senin">Senin</option>
                         <option value="Selasa">Selasa</option>
@@ -245,6 +295,16 @@
 
             function closeModalsiswa() {
                 document.getElementById("modalsiswas").classList.add("hidden");
+            }
+        </script>
+
+        <script>
+            function modaljadwal() {
+                document.getElementById("modaljadwal").classList.remove("hidden");
+            }
+
+            function closeModaljadwal() {
+                document.getElementById("modaljadwal").classList.add("hidden");
             }
         </script>
 

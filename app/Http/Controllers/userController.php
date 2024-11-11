@@ -16,13 +16,22 @@ class userController extends Controller
 {
     public function index()
     {
-        $user = User::with(['rombel', 'siswa'])->get();
+        $user = User::with(['rombel', 'siswa', 'mapel'])->get();
         $data['jurusan'] = jurusan::get();
         $data['guru'] = $user->where('role', 'guru');
         $data['murid'] = $user->where('role', 'KM');
         $data['total'] = $user->groupBy('rombel_id')->map->count();
         $data['orangtua'] = $user->where('role', 'ortu');
         $data['mapellist'] = guru_mapel::with('mapel', 'user')->get();
+
+        // Ambil semua rombel beserta jadwalnya
+        $data['rombels'] = Rombel::with('jadwal.guruMapel.mapel')->get();
+        // Kelompokkan jadwal berdasarkan hari
+        $data['groupedByHari'] = $data['rombels']->flatMap(function ($rombel) {
+            return $rombel->jadwal;
+        })->groupBy('hari');
+        // dd($data['groupedByHari']);
+
         return view('admin.user.index')->with($data);
     }
 

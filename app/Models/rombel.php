@@ -22,4 +22,8 @@ class rombel extends Model
     {
         return $this->belongsToMany(guru_mapel::class, 'rombel_mapel_gurus');
     }
+
+    public function jadwal(){
+        return $this->hasMany(rombel_mapel_guru::class);
+    }
 }

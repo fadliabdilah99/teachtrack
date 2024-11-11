@@ -40,10 +40,12 @@
                                 </h3>
                             </td>
                             <td class="p-4">
-                                <button onclick="addmapel(this, {{ $murids->id }})"
-                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i class="bi bi-plus-circle-fill"></i></button>
-                                <button onclick="addmapel(this, {{ $murids->id }})"
-                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i class="bi bi-plus-circle-fill"></i></button>
+                                <button onclick="addmapel(this, {{ $murids->rombel->id }})"
+                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                        class="bi bi-plus-circle-fill"></i></button>
+                                <button onclick="modaljadwal({{ $murids->rombel->id }})"
+                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                        class="bi bi-list"></i></button>
                             </td>
                         </tr>
                     @endforeach
