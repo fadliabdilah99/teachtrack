@@ -9,6 +9,14 @@ use Illuminate\Support\Facades\Hash;
 
 class guruController extends Controller
 {
+    public function index(){
+        return view('guru.home.index');
+    }
+
+
+
+
+    // admin ----------------------------------------------------------------------
     public function create(Request $request)
     {
         $request->validate([

@@ -208,7 +208,7 @@
                         <select name="dari" id="dari-jam"
                             class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
                             <option value="">Pilih Jam</option>
-                            @for ($i = 1; $i <= 8; $i++)
+                            @for ($i = 7; $i <= 16; $i++)
                                 <option value="{{ $i }}">Jam {{ $i }}</option>
                             @endfor
                         </select>
@@ -220,7 +220,7 @@
                         <select name="sampai" id="sampai-jam"
                             class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
                             <option value="">Pilih Jam</option>
-                            @for ($i = 1; $i <= 8; $i++)
+                            @for ($i = 7; $i <= 16; $i++)
                                 <option value="{{ $i }}">Jam {{ $i }}</option>
                             @endfor
                         </select>
@@ -357,7 +357,7 @@
 
                 sampaiJam.innerHTML = '<option value="">Pilih Jam</option>';
 
-                for (let i = dariJamValue + 1; i <= 8; i++) {
+                for (let i = dariJamValue + 1; i <= 16; i++) {
                     const option = document.createElement('option');
                     option.value = i;
                     option.textContent = `Jam ${i}`;

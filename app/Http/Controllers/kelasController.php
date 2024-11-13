@@ -40,7 +40,6 @@ class kelasController extends Controller
                 break;
             }
         }
-
         $data['currentLesson'] = $currentLesson;
 
         return view('siswa.kelas.index')->with($data);

@@ -8,7 +8,13 @@ class rombel_mapel_guru extends Model
 {
     protected $guarded = [];
 
-    public function guruMapel(){
+    public function guruMapel()
+    {
         return $this->belongsTo(guru_mapel::class);
+    }
+
+    public function materi()
+    {
+        return $this->belongsToMany(materiGuru::class, 'rombelMateri');
     }
 }

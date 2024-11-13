@@ -10,7 +10,11 @@
     <div class="grid grid-cols-3 gap-4 mb-6">
         <div class="bg-green-500 rounded-lg p-4 flex items-center text-white">
             <i class="ti ti-clock text-3xl mr-3"></i>
+            @if ($currentLesson)
             <span class="font-semibold text-lg">{{$currentLesson->dari}}-{{$currentLesson->sampai}} {{$currentLesson->guruMapel->mapel->pelajaran}}</span>
+            @else
+                <span class="font-semibold text-lg">Belum Ada Jadwal</span>
+            @endif
         </div>
         <div class="bg-pink-400 rounded-lg p-4 flex items-center text-white">
             <i class="ti ti-trophy text-3xl mr-3"></i>

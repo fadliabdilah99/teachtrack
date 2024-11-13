@@ -4,12 +4,14 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
 use App\Http\Controllers\mapelController;
+use App\Http\Controllers\materiController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\userController;
 use App\Livewire\Admin\User;
 use App\Livewire\AdminComponent;
+use App\Models\materiGuru;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -52,8 +54,14 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
 // hanya murid yang bisa akses
-Route::group(['middleware' => ['role:murid']], function () {
-    // homepage
+Route::group(['middleware' => ['role:guru']], function () {
+    // dashboard
+    Route::get('guru', [guruController::class, 'index'])->name('guru');
+
+    // halaman materi
+    Route::get('guru/materi', [materiController::class, 'index'])->name('materi');
+    Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
+    Route::post('guru/addmateri/structure', [materiController::class, 'addstruktur'])->name('addstruktur');
 });
 
 

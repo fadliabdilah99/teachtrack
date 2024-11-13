@@ -75,4 +75,8 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Mapel::class, 'guru_mapels');
     }
+
+    public function materiGuru(){
+        return $this->hasMany(materiGuru::class);
+    }
 }
