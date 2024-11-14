@@ -60,8 +60,10 @@ Route::group(['middleware' => ['role:guru']], function () {
 
     // halaman materi
     Route::get('guru/materi', [materiController::class, 'index'])->name('materi');
+    Route::get('guru/materi/kelas', [materiController::class, 'gurumateri'])->name('gurumateri');
     Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
-    Route::post('guru/addmateri/structure', [materiController::class, 'addstruktur'])->name('addstruktur');
+    Route::get('guru/materi/structure/{id}', [materiController::class, 'struktur'])->name('struktur');
+    Route::post('guru/materi/addstruktur', [materiController::class, 'addstruktur'])->name('addstruktur');
 });
 
 

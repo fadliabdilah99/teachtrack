@@ -16,8 +16,9 @@ return new class extends Migration
             $table->bigInteger('materiGuru_id');
             $table->string('judul');
             $table->string('subjudul');
-            $table->string('artikel')->nullable();
+            $table->longText('artikel')->nullable();
             $table->string('file')->nullable();
+            $table->string('status')->nullable();
             $table->timestamps();
         });
     }

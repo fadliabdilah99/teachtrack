@@ -52,14 +52,10 @@
                                     </div>
                                 </td>
                                 <td class="p-4">
-                                    <form action="{{ route('addstruktur') }}" method="POST">
-                                        @csrf
-                                        <input type="hidden" name="struktur_id" value="{{ $mapel->id }}">
-                                        <button type="submit"
+                                        <a href="{{ url('guru/materi/structure/' . $mapel->id) }}"
                                             class="inline-flex
                                         items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
-                                                class="bi bi-eye font-bold "></i></button>
-                                    </form>
+                                                class="bi bi-eye font-bold "></i></a>
                                 </td>
                             </tr>
                         @endforeach

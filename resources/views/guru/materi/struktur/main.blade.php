@@ -51,6 +51,30 @@
             /* Gray for inactive steps */
         }
     </style>
+    <script>
+        function showMateri(id) {
+            // Sembunyikan form
+            document.getElementById('form-container').classList.add('hidden');
+
+            // Sembunyikan semua materi
+            document.querySelectorAll('.materi-content').forEach((content) => {
+                content.classList.add('hidden');
+            });
+
+            // Tampilkan materi yang dipilih
+            document.getElementById('materi-' + id).classList.remove('hidden');
+        }
+
+        function showForm() {
+            // Sembunyikan semua materi
+            document.querySelectorAll('.materi-content').forEach((content) => {
+                content.classList.add('hidden');
+            });
+
+            // Tampilkan form
+            document.getElementById('form-container').classList.remove('hidden');
+        }
+    </script>
 </head>
 
 <body class="bg-surface">
@@ -63,7 +87,97 @@
                 <main class="h-full max-w-full">
                     <div class="container full-container p-0 flex flex-col gap-6">
                         @include('guru.materi.struktur.navbar')
-                        @yield('content')
+
+                        {{-- form add stuktur materi --}}
+                        <div id="form-container" class="p-6 bg-white rounded-lg shadow-md container mx-auto mt-6">
+                            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Input Materi</h2>
+
+                            <!-- Form untuk memasukkan materi -->
+                            <form action="{{ url('guru/materi/addstruktur') }}" method="POST"
+                                enctype="multipart/form-data">
+                                @csrf
+                                <input type="number" name="materiGuru_id" value="{{ $materi->id }}" hidden>
+                                <!-- Input Judul -->
+                                <label for="judul" class="block text-gray-700 font-medium mb-2">Judul Materi:</label>
+                                <input type="text" id="judul" name="judul"
+                                    class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                    placeholder="Masukkan judul materi" required />
+
+                                <!-- Input Subjudul -->
+                                <label for="subjudul"
+                                    class="block text-gray-700 font-medium mb-2">Subjudul/Deskripsi</label>
+                                <input type="text" id="subjudul" name="subjudul"
+                                    class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                    placeholder="Masukkan Deskripsi" required />
+
+                                <!-- Textarea sebagai teks editor sederhana -->
+                                <label for="materi" class="block text-gray-700 font-medium mb-2">Deskripsi
+                                    Materi:</label>
+                                <textarea id="materi" name="artikel"
+                                    class="w-full h-48 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 resize-none mb-4"
+                                    placeholder="Tulis deskripsi materi di sini..."></textarea>
+
+                                <!-- Input untuk Upload File -->
+                                <label for="file" class="block text-gray-700 font-medium mb-2">Upload File
+                                    (opsional):</label>
+                                <input type="file" id="file" name="file"
+                                    class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                    accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.png,.mp4" />
+
+                                <!-- Tombol submit -->
+                                <button type="submit"
+                                    class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                    Simpan Materi
+                                </button>
+                            </form>
+                        </div>
+
+                        {{-- table materi --}}
+                        @foreach ($structure as $materis)
+                            <div id="materi-{{ $materis->id }}"
+                                class="materi-content hidden container mx-auto px-4 py-8">
+                                <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+                                    <h2 class="text-2xl font-semibold text-gray-800">{{ $materis->judul }}</h2>
+                                    <h3 class="text-lg text-gray-600 mt-2">{{ $materis->subjudul }}</h3>
+                                    <p class="mt-4 text-gray-700">{{ $materis->artikel }}</p>
+                                </section>
+                                <!-- File Materi -->
+                                <section class="bg-white shadow-md rounded-lg p-6">
+                                    <h3 class="text-xl font-semibold text-gray-800">File Materi</h3>
+                                    <p class="text-gray-600 mt-2 mb-4">Unduh materi dalam format PDF atau DOCX untuk
+                                        belajar lebih lanjut.</p>
+                                    <div class="space-y-4 p-4 bg-gray-50 rounded-lg shadow-md">
+                                        <h2 class="text-lg font-semibold text-gray-800">Download Materi</h2>
+                                        @if ($materis->file)
+                                            @php
+                                                $filePath = public_path('file/' . $materis->file);
+                                            @endphp
+
+                                            @if (file_exists($filePath))
+                                                <a href="{{ asset('file/' . $materis->file) }}"
+                                                    class="flex items-center justify-center bg-blue-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-blue-700 transition duration-200"
+                                                    download>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 mr-2"
+                                                        fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                                        <path stroke-linecap="round" stroke-linejoin="round"
+                                                            stroke-width="2" d="M12 4v16m8-8H4" />
+                                                    </svg>
+                                                    Download Materi
+                                                    ({{ strtoupper(pathinfo($filePath, PATHINFO_EXTENSION)) }})
+                                                </a>
+                                            @else
+                                                <p class="text-red-500 font-medium">File tidak ditemukan di server.</p>
+                                            @endif
+                                        @else
+                                            <p class="text-gray-500 italic">Tidak ada file materi yang tersedia untuk
+                                                diunduh.</p>
+                                        @endif
+                                    </div>
+
+                                </section>
+                            </div>
+                        @endforeach
+
                     </div>
                 </main>
                 <!-- Main Content End -->

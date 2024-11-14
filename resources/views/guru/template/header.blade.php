@@ -29,7 +29,7 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="{{ route('user') }}"> <i class="ti ti-school ps-2 text-2xl"></i>
+                        href="{{ route('gurumateri') }}"> <i class="ti ti-school ps-2 text-2xl"></i>
                         <span>kelas</span> </a>
                 </li>
 

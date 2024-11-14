@@ -2,8 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\guru_mapel;
 use App\Models\materiGuru;
 use App\Models\materiStrukture;
+use App\Models\rombel_mapel_guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -13,6 +15,14 @@ class materiController extends Controller
     {
         $data['materis'] = materiGuru::where('user_id', Auth::user()->id)->with('struktur')->get();
         return view('guru.materi.index')->with($data);
+    }
+
+    public function gurumateri()
+    {
+        $data['mapel'] = guru_mapel::where('user_id', Auth::user()->id)->get();
+        $data['kelas'] = rombel_mapel_guru::whereIn('guru_mapel_id', $data['mapel']->pluck('id'))->get();
+
+        return view('guru.kelas.index')->with($data);
     }
 
     public function create(Request $request)
@@ -26,11 +36,43 @@ class materiController extends Controller
         return redirect()->back()->with('success', 'materi berhasil ditambahkan');
     }
 
+    public function struktur($id)
+    {
+        if (materiGuru::where('id', $id)->where('user_id', Auth::user()->id)->first() == null) {
+            return redirect()->back()->with('error', 'materi ini bukan milikmu');
+        }
+        $data['materi'] = materiGuru::where('id', $id)->first();
+        $data['structure'] = materiStrukture::where('materiGuru_id', $id)->get();
+        return view('guru.materi.struktur.main')->with($data);
+    }
+
+
     public function addstruktur(Request $request)
     {
+        $request->validate([
+            'materiGuru_id' => 'required',
+            'judul' => 'required',
+            'subjudul' => 'required',
+            'file' => 'mimes:pdf,doc,docx,ppt,pptx,jpg,png,mp4',
+        ]);
 
-        $data['materi'] = materiGuru::where('id', $request->struktur_id)->first();
-        $data['structure'] = materiStrukture::where('materiGuru_id', $request->struktur_id)->get();
-        return view('guru.materi.struktur.main')->with($data);
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('file'), $fileName);
+            $request->merge(['file' => $fileName]);
+        }
+
+        materiStrukture::create([
+            'materiGuru_id' => $request->materiGuru_id,
+            'judul' => $request->judul,
+            'subjudul' => $request->subjudul,
+            'artikel' => $request->artikel,
+            'file' => $fileName,
+        ]);
+
+
+
+        return redirect()->back()->with('success', 'materi struktur berhasil ditambahkan');
     }
 }

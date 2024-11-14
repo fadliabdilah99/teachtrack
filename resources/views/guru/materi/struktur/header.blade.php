@@ -6,44 +6,33 @@
                 <!-- Timeline Header -->
                 <li class="text-xs font-bold mb-4 mt-6">
                     <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-                    <span class="text-lg text-gray-400 font-semibold">{{$materi->judul}}</span>
-                </li>
-
-                <!-- Timeline Step 1 -->
                 <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="{{ url('introduction') }}">
-                        <div class="step-marker bg-blue-500 w-3 h-3 rounded-full"></div>
-                        <span class="ml-2">Introduction to Course</span>
-                    </a>
+                    <a href="{{ route('materi') }}" class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"><i class="ti ti-arrow-left"></i>Back</a>
                 </li>
-
-                <!-- Timeline Step 2 (current step) -->
                 <li class="sidebar-item">
+                    <button onclick="showForm()"
+                        class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full">
+                        <i class="ti ti-plus text-lg"></i>
+                        <span class="ml-2 font-semibold text-gray-800">Tambah Materi</span>
+                    </button>
+                </li>
+                <span class="text-lg text-gray-400 font-semibold">{{ $materi->judul }}</span>
+                {{-- <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full active"
                         href="{{ url('basic-concepts') }}">
                         <div class="step-marker bg-green-500 w-3 h-3 rounded-full"></div>
                         <span class="ml-2 font-semibold text-gray-800">Basic Concepts</span>
                     </a>
-                </li>
-
-                <!-- Timeline Step 3 -->
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="{{ url('advanced-topics') }}">
-                        <div class="step-marker bg-gray-300 w-3 h-3 rounded-full"></div>
-                        <span class="ml-2">Advanced Topics</span>
-                    </a>
-                </li>
-
-                <!-- Timeline Step 4 -->
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="{{ url('final-project') }}">
-                        <div class="step-marker bg-gray-300 w-3 h-3 rounded-full"></div>
-                        <span class="ml-2">Final Project</span>
-                    </a>
-                </li>
+                </li> --}}
+                @foreach ($structure as $struktur)
+                    <li class="sidebar-item">
+                        <button onclick="showMateri({{ $struktur->id }})"
+                            class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full">
+                            <div class="step-marker bg-gray-300 w-3 h-3 rounded-full"></div>
+                            <span class="ml-2">{{ $struktur->judul }}</span>
+                        </button>
+                    </li>
+                @endforeach
             </ul>
         </nav>
     </div>
