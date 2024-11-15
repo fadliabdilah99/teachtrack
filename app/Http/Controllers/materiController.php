@@ -17,13 +17,7 @@ class materiController extends Controller
         return view('guru.materi.index')->with($data);
     }
 
-    public function gurumateri()
-    {
-        $data['mapel'] = guru_mapel::where('user_id', Auth::user()->id)->get();
-        $data['kelas'] = rombel_mapel_guru::whereIn('guru_mapel_id', $data['mapel']->pluck('id'))->get();
-
-        return view('guru.kelas.index')->with($data);
-    }
+   
 
     public function create(Request $request)
     {

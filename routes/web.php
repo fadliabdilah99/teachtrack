@@ -12,6 +12,7 @@ use App\Http\Controllers\userController;
 use App\Livewire\Admin\User;
 use App\Livewire\AdminComponent;
 use App\Models\materiGuru;
+use App\Models\rombelMateri;
 use Illuminate\Support\Facades\Route;
 use Livewire\Volt\Volt;
 
@@ -60,10 +61,14 @@ Route::group(['middleware' => ['role:guru']], function () {
 
     // halaman materi
     Route::get('guru/materi', [materiController::class, 'index'])->name('materi');
-    Route::get('guru/materi/kelas', [materiController::class, 'gurumateri'])->name('gurumateri');
     Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
     Route::get('guru/materi/structure/{id}', [materiController::class, 'struktur'])->name('struktur');
     Route::post('guru/materi/addstruktur', [materiController::class, 'addstruktur'])->name('addstruktur');
+
+    // halaman kelas yang di ajar
+    Route::get('guru/kelas', [rombelController::class, 'gurumateri'])->name('gurumateri');
+    Route::post('guru/kelas/addmateri', [rombelController::class, 'addmateri'])->name('addmaterirombel');
+
 });
 
 

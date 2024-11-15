@@ -11,10 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('rombel_materis', function (Blueprint $table) {
+        Schema::create('materi_rombels', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('rombel_guru_mapel_id')->nullable();
-            $table->bigInteger('materiGuru_id')->nullable();
+            $table->bigInteger('rombel_mapel_guru_id');
+            $table->bigInteger('materi_guru_id');
+            $table->bigInteger('rombel_id');
+            $table->bigInteger('progres')->nullable();
             $table->timestamps();
         });
     }
@@ -24,6 +26,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('rombel_materis');
+        Schema::dropIfExists('materi_rombels');
     }
 };
