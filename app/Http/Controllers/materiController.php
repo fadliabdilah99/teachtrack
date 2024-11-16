@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\guru_mapel;
+use App\Models\materi_rombel;
 use App\Models\materiGuru;
 use App\Models\materiStrukture;
 use App\Models\rombel_mapel_guru;
@@ -68,5 +69,15 @@ class materiController extends Controller
 
 
         return redirect()->back()->with('success', 'materi struktur berhasil ditambahkan');
+    }
+
+
+    public function strukturMapel($id){
+        if (materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->first() == null) {
+            return redirect()->back()->with('error', 'materi ini bukan milikmu');
+        }
+        $data['materi'] = materiGuru::where('id', $id)->first();
+        $data['structure'] = materiStrukture::where('materiGuru_id', $id)->get();
+        return view('siswa.kelas.struktur.main')->with($data);
     }
 }

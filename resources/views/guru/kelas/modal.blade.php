@@ -14,7 +14,7 @@
                     <input type="number" name="rombel_id" id="rombel_id" hidden>
                     <div class="mb-6">
                         <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Jenis</label>
-                        <select type="text" name="materiGuru_id"
+                        <select type="text" name="materi_guru_id"
                             class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
                             placeholder="" aria-describedby="hs-input-helper-text">
                             @foreach ($listMateri as $materi)
@@ -48,7 +48,6 @@
                 <div class="card h-full">
                     <div class="card-body">
                         <div class="relative overflow-x-auto">
-
                             <input type="text" id="searchInputmapel" placeholder="  Search..."
                                 class="py-3 px-4 mb-4 border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
                                 onkeyup="searchTablemapel()" />

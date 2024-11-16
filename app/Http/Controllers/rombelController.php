@@ -47,7 +47,7 @@ class rombelController extends Controller
             ->with('guruMapel', 'rombel', 'materiGuru')
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->get();
-            
+
         return view('guru.kelas.index')->with($data);
     }
     public function addmateri(Request $request)
@@ -59,7 +59,7 @@ class rombelController extends Controller
         ]);
 
 
-        if (materi_rombel::where('rombel_id', $request->rombel_id)->where('materiGuru_id', $request->materiGuru_id)->first() != null) {
+        if (materi_rombel::where('rombel_id', $request->rombel_id)->where('materi_guru_id', $request->materi_guru_id)->first() != null) {
             return redirect()->back()->with('error', 'materi telah di tambahkan ke kelas ini');
         }
         materi_rombel::create($request->all());

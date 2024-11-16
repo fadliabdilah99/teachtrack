@@ -68,7 +68,6 @@ Route::group(['middleware' => ['role:guru']], function () {
     // halaman kelas yang di ajar
     Route::get('guru/kelas', [rombelController::class, 'gurumateri'])->name('gurumateri');
     Route::post('guru/kelas/addmateri', [rombelController::class, 'addmateri'])->name('addmaterirombel');
-
 });
 
 
@@ -79,6 +78,7 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
 
     // kelas
     Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');
+    Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
     Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
 });
 
