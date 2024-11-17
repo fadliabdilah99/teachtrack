@@ -79,6 +79,7 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     // kelas
     Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');
     Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
+    Route::post('siswa/kelas/structure/done', [materiController::class, 'done'])->name('paham');
     Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
 });
 

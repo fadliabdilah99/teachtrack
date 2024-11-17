@@ -10,6 +10,17 @@ class materiStrukture extends Model
 
     public function materiGuru()
     {
-        return $this->belongsTo(materiGuru::class);
+        return $this->belongsTo(materiGuru::class, 'materiGuru_id');
+    }
+
+    public function siswa()
+    {
+        return $this->belongsToMany(User::class, 'user_materi_guru');
+    }
+
+
+    public function userMateriGuru()
+    {
+        return $this->hasOne(user_materi_guru::class, 'materiStrukture_id');
     }
 }

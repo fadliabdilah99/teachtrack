@@ -7,6 +7,8 @@ use App\Models\materi_rombel;
 use App\Models\materiGuru;
 use App\Models\materiStrukture;
 use App\Models\rombel_mapel_guru;
+use App\Models\User;
+use App\Models\user_materi_guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -18,7 +20,7 @@ class materiController extends Controller
         return view('guru.materi.index')->with($data);
     }
 
-   
+
 
     public function create(Request $request)
     {
@@ -58,26 +60,66 @@ class materiController extends Controller
             $request->merge(['file' => $fileName]);
         }
 
-        materiStrukture::create([
+        // memanggil data data yang di perlukan untuk menginput progres materi bila ada tambahan materi
+        $guru_mapel_id = materiGuru::where('id', $request->materiGuru_id)->first()->id;
+        $rombel_mapel = rombel_mapel_guru::where('guru_mapel_id', $guru_mapel_id)->select('rombel_id')->distinct()->get();
+
+
+
+        $id = materiStrukture::create([
             'materiGuru_id' => $request->materiGuru_id,
             'judul' => $request->judul,
             'subjudul' => $request->subjudul,
             'artikel' => $request->artikel,
-            'file' => $fileName,
+            'file' => $request->file,
         ]);
 
+        // mengambil data user yang memiliki rombel yang sama dengan rombel mapel
+        foreach ($rombel_mapel as $rombel) {
+            $user = User::where('rombel_id', $rombel->rombel_id)->get();
+            // menambahkan user ke table user_materi_guru
+            foreach ($user as $u) {
+                user_materi_guru::create([
+                    'user_id' => $u->id,
+                    'materiStrukture_id' => $id->id,
+                    'materi_guru_id' => $request->materiGuru_id,
+                    'progres' => 2,
+                ]);
+            }
+        }
 
 
         return redirect()->back()->with('success', 'materi struktur berhasil ditambahkan');
     }
 
 
-    public function strukturMapel($id){
+    public function strukturMapel($id)
+    {
         if (materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->first() == null) {
             return redirect()->back()->with('error', 'materi ini bukan milikmu');
         }
+
+        $data['materiFirst'] = user_materi_guru::where('user_id', Auth::id())
+            ->where('materi_guru_id', $id)
+            ->where('progres', '2')
+            ->first()->materiStrukture_id;
+
+
+
         $data['materi'] = materiGuru::where('id', $id)->first();
-        $data['structure'] = materiStrukture::where('materiGuru_id', $id)->get();
+        $data['structure'] = materiStrukture::with(['materiGuru', 'userMateriGuru' => function ($query) {
+            $query->where('user_id', Auth::id());
+        }])->get();
+
+        // dd($data['structure']);
         return view('siswa.kelas.struktur.main')->with($data);
+    }
+
+    public function done(Request $request)
+    {
+        $data = user_materi_guru::where('user_id', Auth::user()->id)->where('materiStrukture_id', $request->materiStrukture_id)->update([
+            'progres' => 1
+        ]);
+        return redirect()->back()->with('success', 'Good Job!! Yuk lanjut');
     }
 }

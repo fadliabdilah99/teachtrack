@@ -119,11 +119,19 @@
 
                                 </section>
                                 <div class="flex space-x-4 my-4">
-                                    <a href="#"
-                                        class="flex-1 flex items-center justify-center bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200">Saya
-                                        Sudah Paham</a>
-                                    <a href="#"
-                                        class="flex-1 flex items-center justify-center bg-gray-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-700 transition duration-200">Diskusi Kelas</a>
+                                    <form action="{{ route('paham') }}" method="POST">
+                                        @csrf
+                                        <input type="number" name="materiStrukture_id" value="{{ $materis->id }}"
+                                            hidden>
+                                        <button type="submit"
+                                            class="flex-1 flex items-center justify-center bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200">Saya
+                                            Sudah Paham</button>
+                                    </form>
+                                    <div class="">
+                                        <a href="#"
+                                            class="flex-1 flex items-center justify-center bg-gray-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-700 transition duration-200">Diskusi
+                                            Kelas</a>
+                                    </div>
                                 </div>
                             </div>
                         @endforeach
@@ -194,7 +202,7 @@
 
     {{-- menampilkan materi pertama --}}
     <script>
-        let idM = {{ $structure->first()->id }};
+        let idM = {{ $materiFirst }};
         document.getElementById(`materi-${idM}`).classList.remove('hidden');
     </script>
 

@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\guru_mapel;
 use App\Models\materi_rombel;
 use App\Models\materiGuru;
+use App\Models\materiStrukture;
+use App\Models\rombel;
 use App\Models\rombel_mapel_guru;
+use App\Models\User;
+use App\Models\user_materi_guru;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -62,6 +66,20 @@ class rombelController extends Controller
         if (materi_rombel::where('rombel_id', $request->rombel_id)->where('materi_guru_id', $request->materi_guru_id)->first() != null) {
             return redirect()->back()->with('error', 'materi telah di tambahkan ke kelas ini');
         }
+
+        $user = User::where('rombel_id', $request->rombel_id)->get();
+        $materi = materiStrukture::where('materiGuru_id', $request->materi_guru_id)->get();
+        foreach ($user as $u) {
+            foreach ($materi as $m) {
+                user_materi_guru::create([
+                    'user_id' => $u->id,
+                    'materiStrukture_id' => $m->id,
+                    'materi_guru_id' => $request->materi_guru_id,
+                    'progres' => 2,
+                ]);
+            }
+        }
+
         materi_rombel::create($request->all());
         return redirect()->back()->with('success', 'materi berhasil ditambahkan');
     }
