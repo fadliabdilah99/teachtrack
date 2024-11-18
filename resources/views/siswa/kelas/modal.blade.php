@@ -78,9 +78,6 @@
 
                             <!-- Info Level, Durasi, Siswa, Modul -->
                             <div class="flex items-center mt-2 text-gray-500 text-sm">
-                                <span class="flex items-center mr-4">
-                                    <i class="bi bi-people mr-1"></i> 0 Siswa Selesai
-                                </span>
                                 <span class="flex items-center">
                                     <i class="bi bi-journal-text mr-1"></i> {{$materi->struktur->count()}} Modul
                                 </span>

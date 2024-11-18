@@ -107,7 +107,7 @@ class materiController extends Controller
 
 
         $data['materi'] = materiGuru::where('id', $id)->first();
-        $data['structure'] = materiStrukture::with(['materiGuru', 'userMateriGuru' => function ($query) {
+        $data['structure'] = materiStrukture::where('materiGuru_id', $id)->with(['materiGuru', 'userMateriGuru' => function ($query) {
             $query->where('user_id', Auth::id());
         }])->get();
 
