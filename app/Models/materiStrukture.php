@@ -23,4 +23,9 @@ class materiStrukture extends Model
     {
         return $this->hasOne(user_materi_guru::class, 'materiStrukture_id');
     }
+
+    public function diskusi()
+    {
+        return $this->hasMany(diskusi::class, 'materiStrukture_id');
+    }
 }

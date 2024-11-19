@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\diskusi;
 use App\Models\guru_mapel;
 use App\Models\materi_rombel;
 use App\Models\materiGuru;
@@ -107,11 +108,18 @@ class materiController extends Controller
 
 
         $data['materi'] = materiGuru::where('id', $id)->first();
-        $data['structure'] = materiStrukture::where('materiGuru_id', $id)->with(['materiGuru', 'userMateriGuru' => function ($query) {
-            $query->where('user_id', Auth::id());
-        }])->get();
+        $data['structure'] = materiStrukture::where('materiGuru_id', $id)->with([
+            'materiGuru',
+            'diskusi' => function ($query) {
+                $query->whereNull('parent');
+            },
+            'userMateriGuru' => function ($query) {
+                $query->where('user_id', Auth::id());
+            }
+        ])
+            ->get();
 
-        // dd($data['structure']);
+
         return view('siswa.kelas.struktur.main')->with($data);
     }
 

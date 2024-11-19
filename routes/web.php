@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\adminController;
+use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
 use App\Http\Controllers\mapelController;
@@ -81,6 +82,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
     Route::post('siswa/kelas/structure/done', [materiController::class, 'done'])->name('paham');
     Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
+
+    // diskusi kelas
+    Route::post('siswa/kelas/diskusi/', [diskusiController::class, 'create'])->name('diskusi');
 });
 
 

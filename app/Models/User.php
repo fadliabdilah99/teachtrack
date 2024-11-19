@@ -84,4 +84,9 @@ class User extends Authenticatable
     public function pelajaran(){
         return $this->belongsToMany(materiStrukture::class, 'user_materi_guru');
     }
+
+    public function duskusi(){
+        return $this->belongsTo(diskusi::class);
+    }
+    
 }
