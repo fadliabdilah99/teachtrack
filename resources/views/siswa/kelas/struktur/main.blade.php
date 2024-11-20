@@ -25,6 +25,68 @@
     @livewireStyles
 
     <style>
+        .fixed-form {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            background-color: white;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            /* Bayangan lembut */
+            z-index: 1000;
+            /* Pastikan form berada di atas konten lainnya */
+        }
+
+        .fixed-form .comment-input-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            /* Memberikan jarak antar elemen */
+            padding: 12px;
+            max-width: 100%;
+            /* Pastikan tidak melebar melebihi layar */
+        }
+
+        .fixed-form textarea {
+            flex-grow: 1;
+            /* Memastikan textarea mengambil ruang kosong */
+            padding: 8px;
+            border: 1px solid #e2e8f0;
+            /* Warna border ringan */
+            border-radius: 6px;
+            outline: none;
+            font-size: 14px;
+            resize: none;
+            height: auto;
+            /* Pastikan tidak ada overflow */
+        }
+
+        .fixed-form input[type="file"] {
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        .fixed-form button {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            padding: 8px 12px;
+            background-color: #2563eb;
+            /* Warna biru */
+            color: white;
+            font-size: 14px;
+            font-weight: 500;
+            border-radius: 6px;
+            transition: background-color 0.3s ease;
+        }
+
+        .fixed-form button:hover {
+            background-color: #1d4ed8;
+            /* Warna biru lebih gelap saat hover */
+        }
+
+
+
         .comment-input-box {
             display: flex;
             align-items: center;
@@ -32,7 +94,7 @@
             border: 1px solid #e5e7eb;
             /* Warna abu-abu muda */
             border-radius: 8px;
-            background-color: #fff;
+            background-color: #e3e3e3;
             box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
         }
 
@@ -108,17 +170,18 @@
     {{-- menampilkan materi yang di select --}}
     <script>
         function showMateri(id) {
+
             console.log(id)
-            // Sembunyikan semua materi
             document.querySelectorAll('.materi-content').forEach((content) => {
                 content.classList.add('hidden');
             });
+            document.querySelectorAll('.diskusi-page').forEach((content) => {
+                console.log(content)
+                content.classList.add('hidden');
+            });
 
-            // Tampilkan materi yang dipilih
             document.getElementById('materi-' + id).classList.remove('hidden');
         }
-
-
         // menampilkan diskusi
         function showDiskusi(id) {
             const materi = document.querySelectorAll('.materi-content');
@@ -140,8 +203,6 @@
             const materi = document.getElementById('materi-' + id).classList.remove('hidden');
         }
     </script>
-
-
 
 </head>
 
@@ -223,8 +284,15 @@
                                 </div>
                             </div>
                             {{-- diskusi --}}
-                            <div class="card hidden" id="diskusi-{{ $materis->id }}">
-                                <div class="card-body">
+                            <div class="diskusi-page card" id="diskusi-{{ $materis->id }}">
+                                <!-- Tombol Close -->
+                                <div class="p-4">
+                                    <button onclick="closeDiskusi({{ $materis->id }})"
+                                        class="w-full bg-gray-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-700 transition duration-200">
+                                        Tutup Diskusi
+                                    </button>
+                                </div>
+                                <div class="card-body mb-[calc(100vh-14rem)]">
                                     <h4 class="text-gray-500 text-lg font-semibold mb-5">Diskusi</h4>
                                     <ul class="timeline-widget relative">
                                         <!-- Looping komentar utama -->
@@ -248,6 +316,11 @@
                                                     class="timeline-desc py-[6px] px-4 bg-gray-50 rounded-lg shadow-sm">
                                                     <p class="text-gray-600 text-sm font-normal">
                                                         {{ $diskusis->content }}</p>
+                                                    <!-- Tombol Balas -->
+                                                    <button class="mt-2 text-blue-600 text-sm underline"
+                                                        onclick="setParentId('{{ $diskusis->id }}', '{{ $diskusis->content }}', '{{ $materis->id }}' )">
+                                                        Balas
+                                                    </button>
                                                 </div>
                                             </li>
 
@@ -286,46 +359,45 @@
                                         @endforeach
                                     </ul>
                                 </div>
-                                <form action="{{ route('diskusi') }}" method="POST" enctype="multipart/form-data">
-                                    @csrf
-                                    <div
-                                        class="comment-input-box flex items-center p-3 border rounded-lg shadow-sm bg-white">
-                                        <input type="number" name="rombel_id" value="{{ Auth::user()->rombel->id }}"
-                                            hidden>
+                                <div class="fixed-form ">
+                                    <form action="{{ route('diskusi') }}" method="POST" enctype="multipart/form-data">
+                                        @csrf
+                                        <!-- Input tersembunyi untuk parent_id -->
+                                        <div class="relative flex items-center hidden" id="form-{{ $materis->id }}">
+                                            <input type="number" name="parent_id" hidden
+                                                id="parent_id-{{ $materis->id }}" value="">
+                                            <input type="text"
+                                                class="bg-gray-200 border-0 text-gray-500 rounded-tr-lg"
+                                                id="content-{{ $materis->id }}" value="">
+                                            <button type="button" class="ml-2 text-gray-600"
+                                                onclick="clearContent({{ $materis->id }})">
+                                                &times;
+                                            </button>
+                                        </div>
+
+
+                                        <input type="number" name="rombel_id"
+                                            value="{{ Auth::user()->rombel->id }}" hidden>
                                         <input type="number" name="materiStrukture_id" value="{{ $materis->id }}"
                                             hidden>
-                                        <!-- Ikon Emoji -->
-                                        <button type="button" class="text-gray-400 hover:text-blue-500 mr-3">
-                                            <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6" fill="none"
-                                                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                                                <path stroke-linecap="round" stroke-linejoin="round"
-                                                    d="M14.828 14.828a4 4 0 01-5.656 0m5.656 0a4 4 0 01-5.656 0m1.414-4.243a4 4 0 118.485-2.829A4 4 0 0112.343 4a4 4 0 00-1.414 4.242m5.657 5.657l4 4M21 21l-4-4" />
-                                            </svg>
-                                        </button>
 
-                                        <!-- Input Komentar -->
-                                        <textarea class="flex-grow resize-none border-none focus:ring-0 text-sm text-gray-700 placeholder-gray-400"
-                                            rows="1" placeholder="Write a message..." id="content" name="content" required></textarea>
+                                        <div class="comment-input-box">
+                                            <!-- Input Komentar -->
+                                            <textarea class="flex-grow resize-none border-none focus:ring-0 text-sm text-gray-700 placeholder-gray-400"
+                                                rows="1" placeholder="Write a message..." id="content" name="content" required></textarea>
 
-                                        <!-- Ikon Tambah File -->
-                                        <label for="fileInput" class="sr-only">Tambahkan file</label>
-                                        <input type="file" name="file" id="fileInput"
-                                            class="bg-white border border-gray-300 text-gray-700 rounded-lg px-4 m-2 py-2 focus:outline-none focus:ring-2 focus:ring-blue-500 transition duration-150 ease-in-out hover:shadow-md" />
+                                            <!-- Ikon Tambah File -->
+                                            <input type="file" name="file" id="fileInput" />
 
-                                        <!-- Tombol Kirim -->
-                                        <button type="submit"
-                                            class="text-white bg-blue-600 hover:bg-blue-700 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm px-3 py-2.5 text-center inline-flex items-center">
-                                            <i class="bi bi-send-fill"></i>
-                                        </button>
-                                    </div>
-                                </form>
-                                <!-- Tombol Close -->
-                                <div class="p-4">
-                                    <button onclick="closeDiskusi({{ $materis->id }})"
-                                        class="w-full bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200">
-                                        Tutup Diskusi
-                                    </button>
+                                            <!-- Tombol Kirim -->
+                                            <button type="submit">
+                                                <i class="bi bi-send-fill"></i>
+                                            </button>
+                                        </div>
+                                    </form>
                                 </div>
+
+
                             </div>
                         @endforeach
 
@@ -398,10 +470,32 @@
     <script>
         let idM = {{ $materiFirst }};
         document.getElementById(`materi-${idM}`).classList.remove('hidden');
+        document.querySelectorAll('.diskusi-page').forEach((content) => {
+            content.classList.add('hidden');
+        });
     </script>
 
 
+    {{-- balas diskusi --}}
+    <script>
+        function setParentId(parentId, content, materiId) {
+            console.log(parentId, content, materiId);
+            document.getElementById('content-' + materiId).value = 'membalas : ' + content;
+            document.getElementById('parent_id-' + materiId).value = parentId;
+            document.getElementById('content-' + materiId).classList.remove('hidden');
+            document.getElementById('form-' + materiId).classList.remove('hidden');
+        }
+    </script>
 
+    {{-- batal membalas --}}
+    <script>
+        function clearContent(materiId) {
+            document.getElementById('content-' + materiId).value = '';
+            document.getElementById('content-' + materiId).classList.add('hidden');
+            document.getElementById('parent_id-' + materiId).value = '';
+            document.getElementById('form-' + materiId).classList.add('hidden');
+        }
+    </script>
 </body>
 
 </html>

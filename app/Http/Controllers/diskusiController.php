@@ -31,6 +31,7 @@ class diskusiController extends Controller
         diskusi::create([
             'content' => $request->content,
             'file' => $fileName,
+            'parent' => $request->parent_id,
             'user_id' => Auth::user()->id,
             'rombel_id' => $request->rombel_id,
             'materiStrukture_id' => $request->materiStrukture_id,
