@@ -28,5 +28,10 @@ class materiGuru extends Model
         return $this->belongsToMany(rombel_mapel_guru::class, 'materi_rombel');
     }
 
+    public function question()
+    {
+        return $this->hasMany(questions::class);
+    }
+
 
 }

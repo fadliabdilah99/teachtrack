@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('user_materi_gurus', function (Blueprint $table) {
             $table->id();
             $table->bigInteger('user_id');
-            $table->bigInteger('materiStrukture_id');
+            $table->bigInteger('materiStrukture_id')->nullable();
             $table->bigInteger('materi_guru_id');
             $table->integer('progres')->nullable();
             $table->timestamps();

@@ -52,10 +52,17 @@
                                     </div>
                                 </td>
                                 <td class="p-4">
+                                    @if ($mapel->jenis == 'ujian')
+                                        <a href="{{ url('guru/materi/ujian/' . $mapel->id) }}"
+                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
+                                            <i class="bi bi-eye font-bold"></i>
+                                        </a>
+                                    @else
                                         <a href="{{ url('guru/materi/structure/' . $mapel->id) }}"
-                                            class="inline-flex
-                                        items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
-                                                class="bi bi-eye font-bold "></i></a>
+                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
+                                            <i class="bi bi-eye font-bold"></i>
+                                        </a>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -79,6 +86,18 @@
 
         function closeModalmateri() {
             document.getElementById("addmateri").classList.add("hidden");
+        }
+    </script>
+
+
+
+    <script>
+        function showWaktuUjian(value) {
+            if (value == "ujian") {
+                document.getElementById("ujian").classList.remove("hidden");
+            } else {
+                document.getElementById("ujian").classList.add("hidden");
+            }
         }
     </script>
 @endpush

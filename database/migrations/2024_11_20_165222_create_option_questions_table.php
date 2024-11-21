@@ -11,12 +11,11 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('materi_gurus', function (Blueprint $table) {
+        Schema::create('option_questions', function (Blueprint $table) {
             $table->id();
-            $table->bigInteger('user_id');
-            $table->string('judul');
-            $table->string('jenis');
-            $table->integer('menit');
+            $table->bigInteger('question_id');
+            $table->string('option');
+            $table->string('status');
             $table->timestamps();
         });
     }
@@ -26,6 +25,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('materi_gurus');
+        Schema::dropIfExists('option_questions');
     }
 };

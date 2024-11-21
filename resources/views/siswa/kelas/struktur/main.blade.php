@@ -176,8 +176,8 @@
                 content.classList.add('hidden');
             });
             document.querySelectorAll('.diskusi-page').forEach((content) => {
-                console.log(content)
                 content.classList.add('hidden');
+                content.classList.remove('fade-in'); // Pastikan kelas fade-in dihapus
             });
 
             document.getElementById('materi-' + id).classList.remove('hidden');

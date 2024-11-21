@@ -9,6 +9,7 @@ use App\Http\Controllers\materiController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
+use App\Http\Controllers\ujianController;
 use App\Http\Controllers\userController;
 use App\Livewire\Admin\User;
 use App\Livewire\AdminComponent;
@@ -65,6 +66,12 @@ Route::group(['middleware' => ['role:guru']], function () {
     Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
     Route::get('guru/materi/structure/{id}', [materiController::class, 'struktur'])->name('struktur');
     Route::post('guru/materi/addstruktur', [materiController::class, 'addstruktur'])->name('addstruktur');
+
+    // ujian controller
+    Route::get('guru/materi/ujian/{id}', [ujianController::class, 'struktur'])->name('struktur');
+    Route::post('guru/materi/ujian/addsoal', [ujianController::class, 'addsoal'])->name('addsoal');
+    Route::post('guru/materi/ujian/addopsi', [ujianController::class, 'addopsi'])->name('addopsi');
+    Route::post('guru/materi/ujian/editopsi/{id}', [ujianController::class, 'editopsi'])->name('editopsi');
 
     // halaman kelas yang di ajar
     Route::get('guru/kelas', [rombelController::class, 'gurumateri'])->name('gurumateri');
