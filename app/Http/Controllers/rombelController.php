@@ -6,6 +6,7 @@ use App\Models\guru_mapel;
 use App\Models\materi_rombel;
 use App\Models\materiGuru;
 use App\Models\materiStrukture;
+use App\Models\questions;
 use App\Models\rombel;
 use App\Models\rombel_mapel_guru;
 use App\Models\User;
@@ -46,7 +47,7 @@ class rombelController extends Controller
     public function gurumateri()
     {
         $data['mapel'] = guru_mapel::where('user_id', Auth::user()->id)->get();
-        $data['listMateri'] = materiGuru::where('user_id', Auth::user()->id)->get();
+        $data['listMateri'] = materiGuru::where('user_id', Auth::user()->id)->latest()->get();
         $data['kelas'] = rombel_mapel_guru::whereIn('guru_mapel_id', $data['mapel']->pluck('id'))
             ->with('guruMapel', 'rombel', 'materiGuru')
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
@@ -62,23 +63,45 @@ class rombelController extends Controller
             'rombel_id' => 'required',
         ]);
 
-
-        if (materi_rombel::where('rombel_id', $request->rombel_id)->where('materi_guru_id', $request->materi_guru_id)->first() != null) {
-            return redirect()->back()->with('error', 'materi telah di tambahkan ke kelas ini');
-        }
-
-        $user = User::where('rombel_id', $request->rombel_id)->get();
-        $materi = materiStrukture::where('materiGuru_id', $request->materi_guru_id)->get();
-        foreach ($user as $u) {
-            foreach ($materi as $m) {
-                user_materi_guru::create([
-                    'user_id' => $u->id,
-                    'materiStrukture_id' => $m->id,
-                    'materi_guru_id' => $request->materi_guru_id,
-                    'progres' => 2,
-                ]);
+        // fungsi untuk membatasi jika materi sudah ada di rombel di jam yang sama
+        $materiRombel = materi_rombel::where('rombel_id', $request->rombel_id)->where('rombel_mapel_guru_id', $request->rombel_mapel_guru_id)->get();
+        foreach ($materiRombel as $m) {
+            if ($m->materi_guru_id == $request->materi_guru_id) {
+                return redirect()->back()->with('error', 'Materi sudah ada di rombel dam di jam yang sama');
             }
         }
+
+
+
+        $materiGuru = materiGuru::where('id', $request->materi_guru_id)->first();
+
+        if ($materiGuru->jenis == 'materi') {
+            $materi = materiStrukture::where('materiGuru_id', $request->materi_guru_id)->get();
+        } elseif ($materiGuru->jenis == 'ujian') {
+            $materi = questions::where('materi_guru_id', $request->materi_guru_id)->get();
+        }
+
+
+        // Menambahkan seluruh struktur ke siswa
+        $user = User::where('rombel_id', $request->rombel_id)->get();
+        foreach ($user as $u) {
+            foreach ($materi as $m) {
+                $data = [
+                    'user_id' => $u->id,
+                    'materi_guru_id' => $request->materi_guru_id,
+                    'progres' => 2,
+                ];
+
+                if ($materiGuru->jenis == 'materi') {
+                    $data['materiStrukture_id'] = $m->id;
+                } elseif ($materiGuru->jenis == 'ujian') {
+                    $data['question_id'] = $m->id;
+                }
+
+                user_materi_guru::create($data);
+            }
+        }
+
 
         materi_rombel::create($request->all());
         return redirect()->back()->with('success', 'materi berhasil ditambahkan');

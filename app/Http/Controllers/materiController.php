@@ -78,7 +78,7 @@ class materiController extends Controller
         // mengambil data user yang memiliki rombel yang sama dengan rombel mapel
         foreach ($rombel_mapel as $rombel) {
             $user = User::where('rombel_id', $rombel->rombel_id)->get();
-            // menambahkan user ke table user_materi_guru
+            // menambahkan membagikan materi baru ke seluruh siswa terkait
             foreach ($user as $u) {
                 user_materi_guru::create([
                     'user_id' => $u->id,

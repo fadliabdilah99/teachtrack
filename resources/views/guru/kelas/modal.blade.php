@@ -8,7 +8,7 @@
 
         <div class="card">
             <div class="card-body">
-                <form id="addmateri" action="{{ route('addmaterirombel') }}" method="POST">
+                <form id="addmaterirombel" action="{{ route('addmaterirombel') }}" method="POST">
                     @csrf
                     <input type="number" name="rombel_mapel_guru_id" id="rombel_mapel_guru_id" hidden>
                     <input type="number" name="rombel_id" id="rombel_id" hidden>
@@ -18,7 +18,13 @@
                             class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
                             placeholder="" aria-describedby="hs-input-helper-text">
                             @foreach ($listMateri as $materi)
-                                <option value="{{ $materi->id }}">{{ $materi->judul }}</option>
+                                @php
+                                    $now = new DateTime();
+                                    $createDate = new DateTime($materi->created_at);
+                                    $diff = $now->diff($createDate);
+                                @endphp
+                                <option value="{{ $materi->id }}">{{ $materi->judul }}
+                                    {{ $diff->days <= 1 ? ' (New)' : '' }}</option>
                             @endforeach
                         </select>
                     </div>
@@ -42,7 +48,8 @@
             <!-- Header Modal -->
             <div class="flex justify-between items-center mb-4">
                 <h2 class="text-xl font-bold">list materi kelas</h2>
-                <button onclick="closeModallist({{ $list->id }})" class="text-gray-400 hover:text-gray-600">&times;</button>
+                <button onclick="closeModallist({{ $list->id }})"
+                    class="text-gray-400 hover:text-gray-600">&times;</button>
             </div>
             <div class="">
                 <div class="card h-full">
