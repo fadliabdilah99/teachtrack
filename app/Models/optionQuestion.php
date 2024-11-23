@@ -10,7 +10,12 @@ class optionQuestion extends Model
 
     public function question()
     {
-        return $this->belongsTo(questions::class);
+        return $this->belongsTo(questions::class, 'question_id');
+    }
+
+    public function userMateriGuru()
+    {
+        return $this->hasMany(user_materi_guru::class, 'option_question_id');
     }
 
 

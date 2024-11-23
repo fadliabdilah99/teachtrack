@@ -7,6 +7,7 @@ use App\Models\guru_mapel;
 use App\Models\materi_rombel;
 use App\Models\materiGuru;
 use App\Models\materiStrukture;
+use App\Models\questions;
 use App\Models\rombel_mapel_guru;
 use App\Models\User;
 use App\Models\user_materi_guru;
@@ -122,6 +123,24 @@ class materiController extends Controller
 
         return view('siswa.kelas.struktur.main')->with($data);
     }
+
+    // public function ujian($id)
+    // {
+    //     if (materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->first() == null) {
+    //         return redirect()->back()->with('error', 'materi ini bukan milikmu');
+    //     }
+
+    //     $data['materiFirst'] = user_materi_guru::where('user_id', Auth::id())
+    //     ->where('materi_guru_id', $id)
+    //     ->where('progres', '2')
+    //     ->first()->question_id;
+
+
+
+    //     $data['materi'] = materiGuru::where('id', $id)->first();
+    //     $data['soals'] = questions::where('materi_guru_id', $id)->with('options')->get();
+    //     return view('siswa.kelas.ujian.main')->with($data);
+    // }
 
     public function done(Request $request)
     {

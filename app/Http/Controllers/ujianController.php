@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\materi_rombel;
 use App\Models\materiGuru;
+use App\Models\materiStrukture;
 use App\Models\optionQuestion;
 use App\Models\questions;
 use App\Models\rombel_mapel_guru;
@@ -38,28 +40,28 @@ class ujianController extends Controller
             $file->move(public_path('file'), $fileName);
             $request->merge(['file' => $fileName]);
         }
-        // memanggil data data yang di perlukan untuk menginput progres materi bila ada tambahan materi
-        $guru_mapel_id = materiGuru::where('id', $request->materi_guru_id)->first()->id;
-        $rombel_mapel = rombel_mapel_guru::where('guru_mapel_id', $guru_mapel_id)->select('rombel_id')->distinct()->get();
         $id = questions::create([
             'materi_guru_id' => $request->materi_guru_id,
             'question' => $request->question,
             'file' => $request->file,
         ]);
 
-        // mengambil data user yang memiliki rombel yang sama dengan rombel mapel
-        foreach ($rombel_mapel as $rombel) {
-            $user = User::where('rombel_id', $rombel->rombel_id)->get();
-            // menambahkan user ke table user_materi_guru
-            foreach ($user as $u) {
-                user_materi_guru::create([
-                    'user_id' => $u->id,
-                    'questions_id' => $id->id,
-                    'materi_guru_id' => $request->materiGuru_id,
-                    'progres' => 2,
-                ]);
-            }
-        }
+        // memanggil data data yang di perlukan untuk menginput progres materi bila ada tambahan materi
+        // $guru_mapel_id = materiGuru::where('id', $request->materi_guru_id)->first()->id;
+        // $rombel_mapel = rombel_mapel_guru::where('guru_mapel_id', $guru_mapel_id)->select('rombel_id')->distinct()->get();
+        // // mengambil data user yang memiliki rombel yang sama dengan rombel mapel
+        // foreach ($rombel_mapel as $rombel) {
+        //     $user = User::where('rombel_id', $rombel->rombel_id)->get();
+        //     // menambahkan user ke table user_materi_guru
+        //     foreach ($user as $u) {
+        //         user_materi_guru::create([
+        //             'user_id' => $u->id,
+        //             'questions_id' => $id->id,
+        //             'materi_guru_id' => $request->materiGuru_id,
+        //             'progres' => 2,
+        //         ]);
+        //     }
+        // }
         return redirect()->back()->with('success', 'Soal berhasil di tambahkan');
     }
 
@@ -76,7 +78,8 @@ class ujianController extends Controller
         return redirect()->back()->with('success', 'opsi berhasil di tambahkan')->with(['soal_id' => $request->question_id]);
     }
 
-    public function editopsi($id, Request $request)
+
+    public function change($id, Request $request)
     {
         $request->validate([
             'status' => 'required',
@@ -94,5 +97,49 @@ class ujianController extends Controller
         ]);
 
         return redirect()->back()->with(['soal_id' => $request->question_id])->with('success', 'opsi berhasil di ubah');
+    }
+
+    public function fixed(Request $request)
+    {
+        materiGuru::where('id', $request->materi_id)->update([
+            'jenis' => 'ujian(fixed)',
+        ]);
+        return redirect()->route('materi')->with('success', 'Ujian selesai Di buat');
+    }
+
+
+    // siswa--------------------------------------------------------------  
+
+    public function ujian($id)
+    {
+        if (materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->first() == null) {
+            return redirect()->back()->with('error', 'materi ini bukan milikmu');
+        }
+
+        $data['materiFirst'] = user_materi_guru::where('user_id', Auth::id())
+            ->where('materi_guru_id', $id)
+            ->where('progres', '2')
+            ->first()->question_id;
+
+
+
+        $data['materi'] = materiGuru::where('id', $id)->first();
+        $data['soals'] = questions::where('materi_guru_id', $id)->with('options')->get();
+        return view('siswa.kelas.ujian.main')->with($data);
+    }
+
+
+    // memilih jawaban
+    public function select(Request $request)
+    {
+        dd($request->all());
+    }
+
+    // pandding jawaban
+    public function pending(Request $request)
+    {
+        $data = user_materi_guru::where('user_id', Auth::user()->id)->where('question_id', $request->option)->update([
+            'progres' => 1
+        ]);
     }
 }

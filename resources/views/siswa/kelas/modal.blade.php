@@ -59,44 +59,59 @@
     </div>
 
     <div class="card h-full" id="materitable">
-        <div class="card-body">
+        <div class="card-body p-6">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">Materi</h4>
+
             @if ($currentLesson != null)
-                @foreach ($currentLesson->materiGuru as $materi)
-                    <div class="max-w-xs bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
-                        <!-- Gambar -->
-                        <img class="w-full h-48 object-cover" src="{{ $materi->image_url }}" alt="Course Image">
-                        <div class="p-4">
-                            <!-- Nama Instruktur -->
-                            <div class="text-sm text-gray-500 flex items-center">
-                                <span>By {{ $materi->user->name }}</span>
-                            </div>
+                <!-- Grid Wrapper -->
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach ($currentLesson->materiGuru as $materi)
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                            <!-- Gambar -->
+                            <img class="w-full h-48 object-cover" src="{{ $materi->image_url }}" alt="Course Image">
+                            <div class="p-4">
+                                <div class="text-sm text-gray-500 flex items-center">
+                                    <span>By {{ $materi->user->name }}</span>
+                                </div>
 
-                            <!-- Judul Kursus -->
-                            <h3 class="mt-2 font-bold text-lg text-gray-800">{{ $materi->judul }}
-                            </h3>
+                                <h3 class="mt-2 font-bold text-lg text-gray-800">
+                                    {{ $materi->judul }}
+                                </h3>
 
-                            <!-- Info Level, Durasi, Siswa, Modul -->
-                            <div class="flex items-center mt-2 text-gray-500 text-sm">
-                                <span class="flex items-center">
-                                    <i class="bi bi-journal-text mr-1"></i> {{$materi->struktur->count()}} Modul
-                                </span>
-                            </div>
+                                <div class="flex items-center mt-2 text-gray-500 text-sm">
+                                    <span class="flex items-center">
+                                        <i class="bi bi-journal-text mr-1"></i>
+                                        {{ $materi->struktur->count() }} Modul
+                                    </span>
+                                </div>
 
-                            <!-- Rating -->
-                            <div class="flex items-center mt-2">
-                                <i class="bi bi-star text-yellow-500"></i>
-                                <span class="ml-1 font-semibold text-yellow-500">0.0</span>
-                                <span class="ml-1 text-gray-500">(0) Penilaian</span>
-                            </div>
+                                <!-- Penilaian -->
+                                <div class="flex items-center mt-2">
+                                    <i class="bi bi-star text-yellow-500"></i>
+                                    <span class="ml-1 font-semibold text-yellow-500">0.0</span>
+                                    <span class="ml-1 text-gray-500">(0) Penilaian</span>
+                                </div>
 
-                            <!-- Harga -->
-                            <div class="border-t border-gray-200 p-4 flex justify-between items-center">
-                                <a href="{{ route('strukturrombel', $materi->id) }}"
-                                    class="bg-teal-500 text-white px-4 py-2 rounded-md"><i class="bi bi-book"></i></a>
+                                <!-- Tombol -->
+
+                                @php
+                                    if ($materi->jenis == 'ujian') {
+                                        $link = 'ujian';
+                                    } elseif ($materi->jenis == 'materi') {
+                                        $link = 'strukturrombel';
+                                    }
+                                @endphp
+
+                                <div class="border-t border-gray-200 p-4 flex justify-between items-center">
+                                    <a href="{{ route($link, $materi->id) }}"
+                                        class="bg-teal-500 text-white px-4 py-2 rounded-md">
+                                        <i class="bi bi-book"></i>
+                                    </a>
+                                </div>
                             </div>
                         </div>
-                @endforeach
+                    @endforeach
+                </div>
             @else
                 <p class="text-lg font-semibold text-center">Belum Ada Materi</p>
             @endif

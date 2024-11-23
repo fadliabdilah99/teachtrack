@@ -7,19 +7,10 @@
                 <li class="text-xs font-bold mb-4 mt-6">
                     <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
                 <li class="sidebar-item">
-                    <a href="{{ route('materi') }}"
+                    <a href="{{ route('kelas') }}"
                         class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"><i
                             class="ti ti-arrow-left"></i>Back</a>
                 </li>
-                @if ($materi->jenis == 'ujian')
-                    <li class="sidebar-item">
-                        <button onclick="showForm()"
-                            class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full">
-                            <i class="ti ti-plus text-lg"></i>
-                            <span class="ml-2 font-semibold text-gray-800">Tambah soal</span>
-                        </button>
-                    </li>
-                @endif
                 <span class="text-lg text-gray-400 font-semibold">{{ $materi->judul }}</span>
                 {{-- <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full active"
@@ -31,25 +22,21 @@
                 @php
                     $no = 1;
                 @endphp
-                @foreach ($structure as $struktur)
+                @foreach ($soals as $soal)
+                    @php
+                        $isActive = optional($soal->userMateriGuru)->progres == 1;
+                    @endphp
                     <li class="sidebar-item">
-                        <button onclick="showMateri({{ $struktur->id }})"
-                            class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full">
-                            <div class="step-marker bg-gray-300 w-3 h-3 rounded-full"></div>
-                            <span class="ml-2">{{ $no++ }}</span>
+                        <button onclick="showMateri({{ $soal->id }})"
+                            class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md w-full 
+                            {{ $isActive ? 'active' : 'text-gray-500' }}">
+                            <div
+                                class="step-marker {{ $isActive ? 'bg-green-500' : 'bg-gray-300' }} w-3 h-3 rounded-full">
+                            </div>
+                            <span class="ml-2">{{$no++}}</span>
                         </button>
                     </li>
                 @endforeach
-                <li class="sidebar-item">
-                    <form id="fixedForm" action="{{ route('fixed') }}" method="POST">
-                        @csrf
-                        <input type="hidden" name="materi_id" value="{{ $materi->id }}">
-                        <button onclick="confirmFixed()" type="button"
-                            class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full">
-                            <span class="ml-2">publish soal</span>
-                        </button>
-                    </form>
-                </li>
             </ul>
         </nav>
     </div>

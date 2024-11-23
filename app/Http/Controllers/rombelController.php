@@ -47,7 +47,7 @@ class rombelController extends Controller
     public function gurumateri()
     {
         $data['mapel'] = guru_mapel::where('user_id', Auth::user()->id)->get();
-        $data['listMateri'] = materiGuru::where('user_id', Auth::user()->id)->latest()->get();
+        $data['listMateri'] = materiGuru::where('user_id', Auth::user()->id)->whereIn('jenis', ['materi', 'ujian(fixed)'])->latest()->get();
         $data['kelas'] = rombel_mapel_guru::whereIn('guru_mapel_id', $data['mapel']->pluck('id'))
             ->with('guruMapel', 'rombel', 'materiGuru')
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")

@@ -97,32 +97,37 @@
 
                         {{-- form add stuktur materi --}}
                         <div id="form-container" class="p-6 bg-white rounded-lg shadow-md container mx-auto mt-6">
-                            <h2 class="text-3xl font-semibold mb-6 text-gray-800">Tambah Soal</h2>
+                            @if ($materi->jenis == 'ujian')
+                                <h2 class="text-3xl font-semibold mb-6 text-gray-800">Tambah Soal</h2>
 
-                            <!-- Form untuk memasukkan materi -->
-                            <form action="{{ route('addsoal') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <input type="number" name="materi_guru_id" value="{{ $materi->id }}" hidden>
+                                <!-- Form untuk memasukkan materi -->
+                                <form action="{{ route('addsoal') }}" method="POST" enctype="multipart/form-data">
+                                    @csrf
+                                    <input type="number" name="materi_guru_id" value="{{ $materi->id }}" hidden>
 
-                                <!-- Textarea sebagai teks editor sederhana -->
-                                <label for="materi" class="block text-gray-700 font-medium mb-2">Pertanyaan:</label>
-                                <textarea id="materi" name="question"
-                                    class="w-full h-48 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 resize-none mb-4"
-                                    placeholder="Tulis soal di sini..."></textarea>
+                                    <!-- Textarea sebagai teks editor sederhana -->
+                                    <label for="materi"
+                                        class="block text-gray-700 font-medium mb-2">Pertanyaan:</label>
+                                    <textarea id="materi" name="question"
+                                        class="w-full h-48 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 resize-none mb-4"
+                                        placeholder="Tulis soal di sini..."></textarea>
 
-                                <!-- Input untuk Upload File -->
-                                <label for="file" class="block text-gray-700 font-medium mb-2">Upload File
-                                    (opsional):</label>
-                                <input type="file" id="file" name="file"
-                                    class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
-                                    accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.png,.mp4" />
+                                    <!-- Input untuk Upload File -->
+                                    <label for="file" class="block text-gray-700 font-medium mb-2">Upload File
+                                        (opsional):</label>
+                                    <input type="file" id="file" name="file"
+                                        class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.png,.mp4" />
 
-                                <!-- Tombol submit -->
-                                <button type="submit"
-                                    class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                    Simpan Materi
-                                </button>
-                            </form>
+                                    <!-- Tombol submit -->
+                                    <button type="submit"
+                                        class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                        Simpan Materi
+                                    </button>
+                                </form>
+                            @else
+                                <h4 class=" font-semibold mb-6 text-center text-gray-800">soal siap di bagikan</h4>
+                            @endif
                         </div>
 
                         {{-- table soal --}}
@@ -139,32 +144,34 @@
                                 </section>
 
 
-                                <!-- Form Pilihan -->
-                                <form action="{{ route('addopsi') }}" method="POST" enctype="multipart/form-data"
-                                    class="bg-white shadow-md rounded-lg p-6 flex items-center space-x-4">
-                                    @csrf
+                                @if ($materi->jenis == 'ujian')
+                                    <!-- Form Pilihan -->
+                                    <form action="{{ route('addopsi') }}" method="POST" enctype="multipart/form-data"
+                                        class="bg-white shadow-md rounded-lg p-6 flex items-center space-x-4">
+                                        @csrf
 
-                                    <!-- Hidden Inputs -->
-                                    <input type="hidden" name="question_id" value="{{ $materis->id }}">
+                                        <!-- Hidden Inputs -->
+                                        <input type="hidden" name="question_id" value="{{ $materis->id }}">
 
-                                    <!-- Input Pilihan -->
-                                    <div class="flex-1">
-                                        <label for="pilihan-{{ $materis->id }}"
-                                            class="block text-sm font-medium text-gray-600 mb-2">
-                                            Pilihan:
-                                        </label>
-                                        <input type="text" id="pilihan-{{ $materis->id }}" name="option"
-                                            class="w-full px-4 py-2 border border-gray-300 rounded-lg 
+                                        <!-- Input Pilihan -->
+                                        <div class="flex-1">
+                                            <label for="pilihan-{{ $materis->id }}"
+                                                class="block text-sm font-medium text-gray-600 mb-2">
+                                                Pilihan:
+                                            </label>
+                                            <input type="text" id="pilihan-{{ $materis->id }}" name="option"
+                                                class="w-full px-4 py-2 border border-gray-300 rounded-lg 
                                                   focus:outline-none focus:ring-2 focus:ring-indigo-500"
-                                            placeholder="Tulis pilihan di sini..." required>
-                                    </div>
-                                    <!-- Button Simpan -->
-                                    <button type="submit"
-                                        class="bg-indigo-600  hover:bg-indigo-700 text-white font-semibold mt-6 px-6 py-2 rounded-lg 
+                                                placeholder="Tulis pilihan di sini..." required>
+                                        </div>
+                                        <!-- Button Simpan -->
+                                        <button type="submit"
+                                            class="bg-indigo-600  hover:bg-indigo-700 text-white font-semibold mt-6 px-6 py-2 rounded-lg 
                                                focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
-                                        Simpan Pilihan
-                                    </button>
-                                </form>
+                                            Simpan Pilihan
+                                        </button>
+                                    </form>
+                                @endif
                                 <!-- Section Pertanyaan -->
                                 <section class="bg-gray-100 shadow-md rounded-lg p-6 mb-6">
                                     @foreach ($materis->options as $opsi)
@@ -175,15 +182,17 @@
                                             </h3>
                                             <div class="flex space-x-2">
                                                 @if ($opsi->status == 'salah')
-                                                <form action="{{ route('editopsi', $opsi->id) }}" method="POST">
-                                                    @csrf
-                                                    <input type="hidden" name="status" value="benar">
-                                                    <input type="hidden" name="soal_id" value="{{ $materis->id }}">
-                                                    <input type="hidden" name="question_id" value="{{ $opsi->question_id }}">
-                                                    <button class="text-yellow-500 hover:text-blue-700 font-medium">
-                                                        salah
-                                                    </button>
-                                                </form>
+                                                    <form action="{{ route('change', $opsi->id) }}" method="POST">
+                                                        @csrf
+                                                        <input type="hidden" name="status" value="benar">
+                                                        <input type="hidden" name="soal_id"
+                                                            value="{{ $materis->id }}">
+                                                        <input type="hidden" name="question_id"
+                                                            value="{{ $opsi->question_id }}">
+                                                        <button class="text-yellow-500 hover:text-blue-700 font-medium">
+                                                            salah
+                                                        </button>
+                                                    </form>
                                                 @else
                                                     <button class="text-green-500 hover:text-blue-700 font-medium">
                                                         benar
@@ -266,6 +275,28 @@
             });
         </script>
     @endif
+
+
+
+    {{-- konfirmasi fixed soal --}}
+
+    <script>
+        function confirmFixed() {
+            Swal.fire({
+                title: 'Apakah sudah Selesai?',
+                text: "Materi tidak bisa di edit atau di tambahkan setelah selesai!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, Sudah Beres!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('fixedForm').submit();
+                }
+            })
+        }
+    </script>
 
 </body>
 

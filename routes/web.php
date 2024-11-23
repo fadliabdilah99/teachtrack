@@ -56,7 +56,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 });
 
 
-// hanya murid yang bisa akses
+// hanya guru yang bisa akses
 Route::group(['middleware' => ['role:guru']], function () {
     // dashboard
     Route::get('guru', [guruController::class, 'index'])->name('guru');
@@ -71,7 +71,8 @@ Route::group(['middleware' => ['role:guru']], function () {
     Route::get('guru/materi/ujian/{id}', [ujianController::class, 'struktur'])->name('struktur');
     Route::post('guru/materi/ujian/addsoal', [ujianController::class, 'addsoal'])->name('addsoal');
     Route::post('guru/materi/ujian/addopsi', [ujianController::class, 'addopsi'])->name('addopsi');
-    Route::post('guru/materi/ujian/editopsi/{id}', [ujianController::class, 'editopsi'])->name('editopsi');
+    Route::post('guru/materi/ujian/change/{id}', [ujianController::class, 'change'])->name('change');
+    Route::post('guru/materi/ujian/fixed', [ujianController::class, 'fixed'])->name('fixed');
 
     // halaman kelas yang di ajar
     Route::get('guru/kelas', [rombelController::class, 'gurumateri'])->name('gurumateri');
@@ -89,6 +90,11 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
     Route::post('siswa/kelas/structure/done', [materiController::class, 'done'])->name('paham');
     Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
+    
+    // ujian
+    Route::get('siswa/kelas/ujian/{id}', [ujianController::class, 'ujian'])->name('ujian');
+    Route::post('siswa/kelas/ujian/select', [ujianController::class, 'select'])->name('select');
+    Route::post('siswa/kelas/ujian/pending', [ujianController::class, 'pending'])->name('pending');
 
     // diskusi kelas
     Route::post('siswa/kelas/diskusi/', [diskusiController::class, 'create'])->name('diskusi');
