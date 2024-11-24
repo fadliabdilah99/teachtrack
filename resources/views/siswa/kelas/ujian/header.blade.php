@@ -24,7 +24,7 @@
                 @endphp
                 @foreach ($soals as $soal)
                     @php
-                        $isActive = optional($soal->userMateriGuru)->progres == 1;
+                        $isActive = optional($soal->userMateri)->progres == 1;
                     @endphp
                     <li class="sidebar-item">
                         <button onclick="showMateri({{ $soal->id }})"

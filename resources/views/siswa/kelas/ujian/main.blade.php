@@ -175,7 +175,6 @@
             document.getElementById('materi-' + id).classList.remove('hidden');
         }
     </script>
-
 </head>
 
 <body class="bg-surface">
@@ -208,7 +207,8 @@
                                                     class="flex items-center p-4 my-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 cursor-pointer transition">
                                                     <!-- Radio Button -->
                                                     <input type="radio" name="option" value="{{ $pg->id }}"
-                                                        class="w-4 h-4 text-teal-500 focus:ring-teal-500 cursor-pointer">
+                                                        class="w-4 h-4 text-teal-500 focus:ring-teal-500 cursor-pointer"
+                                                        required>
                                                     <!-- Teks -->
                                                     <span class="m-4 text-gray-700 text-sm font-medium">
                                                         {{ $pg->option }}
@@ -301,6 +301,7 @@
     {{-- menampilkan materi pertama --}}
     <script>
         let idM = {{ $materiFirst }};
+        console.log(idM);
         document.getElementById(`materi-${idM}`).classList.remove('hidden');
         document.querySelectorAll('.diskusi-page').forEach((content) => {
             content.classList.add('hidden');

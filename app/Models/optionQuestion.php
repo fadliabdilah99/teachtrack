@@ -18,5 +18,10 @@ class optionQuestion extends Model
         return $this->hasMany(user_materi_guru::class, 'option_question_id');
     }
 
+    public function userSelectOption()
+    {
+        return $this->hasMany(user_select_option::class, 'option_id');
+    }
+
 
 }

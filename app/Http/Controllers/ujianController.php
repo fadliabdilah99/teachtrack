@@ -10,6 +10,7 @@ use App\Models\questions;
 use App\Models\rombel_mapel_guru;
 use App\Models\User;
 use App\Models\user_materi_guru;
+use App\Models\user_select_option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -45,23 +46,6 @@ class ujianController extends Controller
             'question' => $request->question,
             'file' => $request->file,
         ]);
-
-        // memanggil data data yang di perlukan untuk menginput progres materi bila ada tambahan materi
-        // $guru_mapel_id = materiGuru::where('id', $request->materi_guru_id)->first()->id;
-        // $rombel_mapel = rombel_mapel_guru::where('guru_mapel_id', $guru_mapel_id)->select('rombel_id')->distinct()->get();
-        // // mengambil data user yang memiliki rombel yang sama dengan rombel mapel
-        // foreach ($rombel_mapel as $rombel) {
-        //     $user = User::where('rombel_id', $rombel->rombel_id)->get();
-        //     // menambahkan user ke table user_materi_guru
-        //     foreach ($user as $u) {
-        //         user_materi_guru::create([
-        //             'user_id' => $u->id,
-        //             'questions_id' => $id->id,
-        //             'materi_guru_id' => $request->materiGuru_id,
-        //             'progres' => 2,
-        //         ]);
-        //     }
-        // }
         return redirect()->back()->with('success', 'Soal berhasil di tambahkan');
     }
 
@@ -124,7 +108,12 @@ class ujianController extends Controller
 
 
         $data['materi'] = materiGuru::where('id', $id)->first();
-        $data['soals'] = questions::where('materi_guru_id', $id)->with('options')->get();
+        $data['soals'] = questions::where('materi_guru_id', $id)->with('options')->with(['userMateri' => function ($query) {
+            $query->where('user_id', Auth::user()->id);
+        }])->get();
+        // dd($data['soals']);
+
+        // dd('stp');
         return view('siswa.kelas.ujian.main')->with($data);
     }
 
@@ -132,7 +121,27 @@ class ujianController extends Controller
     // memilih jawaban
     public function select(Request $request)
     {
-        dd($request->all());
+        $opsidipilih = optionQuestion::where('id', $request->option)->first();
+        $user_materi_guru = user_materi_guru::where('user_id', Auth::id())->where('question_id', $opsidipilih->question_id)->first();
+        $userSelect = user_select_option::where('question_id', $opsidipilih->question_id)->where('user_materi_guru_id', $user_materi_guru->id)->first();
+
+        if ($userSelect == null) {
+            user_select_option::create([
+                'user_materi_guru_id' => $user_materi_guru->id,
+                'question_id' => $opsidipilih->question_id,
+                'option_id' => $opsidipilih->id,
+            ]);
+        } else {
+            $userSelect->update([
+                'option_id' => $request->option,
+            ]);
+        }
+
+        $user_materi_guru->update([
+            'progres' => 1
+        ]);
+
+        return redirect()->back();
     }
 
     // pandding jawaban

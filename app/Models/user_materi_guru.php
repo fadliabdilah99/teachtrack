@@ -22,7 +22,13 @@ class user_materi_guru extends Model
         return $this->belongsTo(materiStrukture::class);
     }
 
-    public function soal(){
+    public function soal()
+    {
         return $this->belongsTo(questions::class);
+    }
+
+    public function userSelectOption()
+    {
+        return $this->hasMany(user_select_option::class, 'option_id');
     }
 }

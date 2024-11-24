@@ -95,7 +95,7 @@
                                 <!-- Tombol -->
 
                                 @php
-                                    if ($materi->jenis == 'ujian') {
+                                    if ($materi->jenis == 'ujian(fixed)') {
                                         $link = 'ujian';
                                     } elseif ($materi->jenis == 'materi') {
                                         $link = 'strukturrombel';

@@ -19,6 +19,11 @@ class questions extends Model
     }
 
     public function userMateri(){
-        return $this->hasMany(user_materi_guru::class);
+        return $this->hasOne(user_materi_guru::class, 'question_id');
+    }
+
+    public function userSelectOption()
+    {
+        return $this->hasMany(user_select_option::class, 'option_id');
     }
 }
