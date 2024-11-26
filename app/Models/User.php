@@ -88,5 +88,9 @@ class User extends Authenticatable
     public function duskusi(){
         return $this->belongsTo(diskusi::class);
     }
+
+    public function nilai(){
+        return $this->hasMany(nilai::class);
+    }
     
 }

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\materi_rombel;
 use App\Models\materiGuru;
 use App\Models\materiStrukture;
+use App\Models\nilai;
 use App\Models\optionQuestion;
 use App\Models\questions;
 use App\Models\rombel_mapel_guru;
@@ -13,6 +14,7 @@ use App\Models\user_materi_guru;
 use App\Models\user_select_option;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 
 class ujianController extends Controller
 {
@@ -70,15 +72,15 @@ class ujianController extends Controller
             'question_id' => 'required',
         ]);
 
-        $soal = optionQuestion::where('id', $id)->first();
-        $status = $request->status == 'benar' ? 'salah' : 'benar';
-        optionQuestion::where('question_id', $soal->question_id)->update([
-            'status' => $status
-        ]);
+            $soal = optionQuestion::where('id', $id)->first();
+            $status = $request->status == 'benar' ? 'salah' : 'benar';
+            optionQuestion::where('question_id', $soal->question_id)->update([
+                'status' => $status
+            ]);
 
-        optionQuestion::where('id', $id)->update([
-            'status' => $request->status,
-        ]);
+            optionQuestion::where('id', $id)->update([
+                'status' => $request->status,
+            ]);
 
         return redirect()->back()->with(['soal_id' => $request->question_id])->with('success', 'opsi berhasil di ubah');
     }
@@ -94,26 +96,64 @@ class ujianController extends Controller
 
     // siswa--------------------------------------------------------------  
 
+
+
     public function ujian($id)
     {
         if (materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->first() == null) {
             return redirect()->back()->with('error', 'materi ini bukan milikmu');
         }
 
-        $data['materiFirst'] = user_materi_guru::where('user_id', Auth::id())
+        $materi = user_materi_guru::where('user_id', Auth::id())
             ->where('materi_guru_id', $id)
             ->where('progres', '2')
-            ->first()->question_id;
+            ->first();
 
+        if ($materi != null) {
+            $data['materiFirst'] = $materi->question_id;
+        } else {
+            $data['materiFirst'] = null;
+            $data['allAnswered'] = true;
+        }
+
+        $data['totalPertanyaan'] = user_materi_guru::where('materi_guru_id', $id)
+            ->where('user_id', Auth::id())
+            ->count();
+
+        $totalBenar = 0;
+        $userMateriGurus = user_materi_guru::where('materi_guru_id', $id)
+            ->where('user_id', Auth::id())
+            ->get();
+        foreach ($userMateriGurus as $userMateriGuru) {
+            $userSelectOption = user_select_option::where('user_materi_guru_id', $userMateriGuru->id)->first();
+            if ($userSelectOption->option->status == 'benar') {
+                $totalBenar++;
+            }
+        }
+        $data['totalBenar'] = $totalBenar;
+
+
+        $data['nilai'] = $data['totalPertanyaan'] > 0 ? ($data['totalBenar'] / $data['totalPertanyaan']) * 100 : 0;
+
+        $nilai = nilai::where('user_id', Auth::id())->where('materi_guru_id', $id)->first();
+
+        if ($nilai != null) {
+            $nilai->update([
+                'nilai' => $data['nilai'],
+            ]);
+        } else {
+            nilai::create([
+                'user_id' => Auth::id(),
+                'materi_guru_id' => $id,
+                'nilai' => $data['nilai'],
+            ]);
+        }
 
 
         $data['materi'] = materiGuru::where('id', $id)->first();
         $data['soals'] = questions::where('materi_guru_id', $id)->with('options')->with(['userMateri' => function ($query) {
             $query->where('user_id', Auth::user()->id);
         }])->get();
-        // dd($data['soals']);
-
-        // dd('stp');
         return view('siswa.kelas.ujian.main')->with($data);
     }
 
@@ -149,6 +189,13 @@ class ujianController extends Controller
     {
         $data = user_materi_guru::where('user_id', Auth::user()->id)->where('question_id', $request->option)->update([
             'progres' => 1
+        ]);
+    }
+
+    public function done(Request $request)
+    {
+        user_materi_guru::where('user_id', Auth::user()->id)->where('materi_guru_id', $request->materi_id)->update([
+            'progres' => 100,
         ]);
     }
 }

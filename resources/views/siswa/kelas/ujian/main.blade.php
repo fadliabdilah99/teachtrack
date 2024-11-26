@@ -189,53 +189,101 @@
                 <main class="h-full max-w-full">
                     <div class="container full-container p-0 flex flex-col gap-6">
                         @include('siswa.kelas.ujian.navbar')
-                        {{-- table materi --}}
-                        @foreach ($soals as $soal)
-                            <div id="materi-{{ $soal->id }}"
-                                class="materi-content hidden container mx-auto px-4 py-8">
-                                <section class="bg-white shadow-md rounded-lg p-6 mb-8">
-                                    <h3 class="text-lg text-gray-600 mt-2">{{ $soal->question }}</h3>
-                                </section>
-                                <!-- File Materi -->
-                                <section class="bg-white shadow-md rounded-lg p-6">
-                                    <h4 class="text-lg font-semibold text-gray-700 mb-4">Pilihan Ganda</h4>
-                                    <div class="space-y-4">
-                                        <form method="POST">
-                                            @csrf
-                                            @foreach ($soal->options as $pg)
-                                                <label
-                                                    class="flex items-center p-4 my-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 cursor-pointer transition">
-                                                    <!-- Radio Button -->
-                                                    <input type="radio" name="option" value="{{ $pg->id }}"
-                                                        class="w-4 h-4 text-teal-500 focus:ring-teal-500 cursor-pointer"
-                                                        required>
-                                                    <!-- Teks -->
-                                                    <span class="m-4 text-gray-700 text-sm font-medium">
-                                                        {{ $pg->option }}
-                                                    </span>
-                                                </label>
-                                            @endforeach
-                                            <div class="flex">
-                                                <!-- Tombol untuk Jawab -->
-                                                <button type="submit" formaction="{{ route('select') }}"
-                                                    class="flex-1 flex items-center justify-center bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200 mr-2">
-                                                    Jawab
-                                                </button>
-                                                <!-- Tombol untuk Jawab Nanti -->
-                                                <button type="submit" formaction="{{ route('pending') }}"
-                                                    class="flex-1 flex items-center justify-center bg-gray-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-700 transition duration-200">
-                                                    Jawab nanti
+                        @if (isset($allAnswered) && $allAnswered)
+                            <!-- Konten selesai -->
+                            @if ($soals[0]->userMateri->progres == 100)
+                                <div class="container mx-auto py-8">
+                                    <div class="bg-white shadow-md rounded-lg p-6">
+                                        <h2 class="text-xl font-bold text-gray-700 mb-4">Hasil Ujian</h2>
+
+                                        <div class="mb-6">
+                                            <p class="text-gray-600 text-lg">
+                                                <span class="font-semibold">Total Pertanyaan:</span>
+                                                {{ $totalPertanyaan }}
+                                            </p>
+                                            <p class="text-gray-600 text-lg">
+                                                <span class="font-semibold">Jawaban Benar:</span> {{ $totalBenar }}
+                                            </p>
+                                            <p class="text-gray-600 text-lg">
+                                                <span class="font-semibold">Nilai:</span>
+                                                {{ number_format($nilai, 2) }}%
+                                            </p>
+                                        </div>
+
+                                        <div class="flex justify-end">
+                                            <a href="{{ route('dashboard') }}"
+                                                class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
+                                                Kembali ke Dashboard
+                                            </a>
+                                        </div>
+                                    </div>
+                                </div>
+                            @else
+                                <form action="{{ route('kirim-jawaban') }}" method="POST" id="form-kirim-jawaban">
+                                    @csrf
+                                    <input type="number" name="materi_id" value="{{ $materi->id }}" hidden>
+                                    <div class="container mx-auto px-4 py-8">
+                                        <section class="bg-white shadow-md rounded-lg p-6">
+                                            <h3 class="text-lg font-bold text-gray-700 mb-4">Apakah Anda yakin ingin
+                                                mengirimkan
+                                                jawaban?</h3>
+                                            <p class="text-gray-600">
+                                                Setelah Anda mengirimkan jawaban, Anda tidak dapat mengubah jawaban Anda
+                                                lagi.
+                                            </p>
+                                            <div class="flex justify-end mt-4">
+                                                <button type="button"
+                                                    class="bg-teal-500 text-white font-medium py-3 px-6 rounded-lg hover:bg-teal-600 transition duration-200"
+                                                    onclick="confirmKirimJawaban()">
+                                                    Ya, kirim jawaban
                                                 </button>
                                             </div>
-                                        </form>
+                                        </section>
                                     </div>
-                                </section>
-                            </div>
-                        @endforeach
-
-                        {{-- end diskusi --}}
+                                </form>
+                            @endif
+                        @else
+                            {{-- table materi --}}
+                            @foreach ($soals as $soal)
+                                <div id="materi-{{ $soal->id }}"
+                                    class="materi-content hidden container mx-auto px-4 py-8">
+                                    <section class="bg-white shadow-md rounded-lg p-6 mb-8">
+                                        <h3 class="text-lg text-gray-600 mt-2">{{ $soal->question }}</h3>
+                                    </section>
+                                    <section class="bg-white shadow-md rounded-lg p-6">
+                                        <h4 class="text-lg font-semibold text-gray-700 mb-4">Pilihan Ganda</h4>
+                                        <div class="space-y-4">
+                                            <form method="POST">
+                                                @csrf
+                                                @foreach ($soal->options as $pg)
+                                                    <label
+                                                        class="flex items-center p-4 my-2 bg-gray-50 border border-gray-200 rounded-lg hover:bg-gray-100 cursor-pointer transition">
+                                                        <input type="radio" name="option" value="{{ $pg->id }}"
+                                                            class="w-4 h-4 text-teal-500 focus:ring-teal-500 cursor-pointer"
+                                                            required>
+                                                        <span
+                                                            class="m-4 text-gray-700 text-sm font-medium">{{ $pg->option }}</span>
+                                                    </label>
+                                                @endforeach
+                                                <div class="flex">
+                                                    <button type="submit" formaction="{{ route('select') }}"
+                                                        class="flex-1 flex items-center justify-center bg-green-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-green-700 transition duration-200 mr-2">
+                                                        Jawab
+                                                    </button>
+                                                    <button type="submit" formaction="{{ route('pending') }}"
+                                                        class="flex-1 flex items-center justify-center bg-gray-600 text-white font-medium py-3 px-6 rounded-lg hover:bg-gray-700 transition duration-200">
+                                                        Jawab nanti
+                                                    </button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </section>
+                                </div>
+                            @endforeach
+                        @endif
                     </div>
                 </main>
+
                 <!-- Main Content End -->
             </div>
         </div>
@@ -300,12 +348,41 @@
 
     {{-- menampilkan materi pertama --}}
     <script>
-        let idM = {{ $materiFirst }};
-        console.log(idM);
-        document.getElementById(`materi-${idM}`).classList.remove('hidden');
-        document.querySelectorAll('.diskusi-page').forEach((content) => {
-            content.classList.add('hidden');
-        });
+        let idM = "{{ $materiFirst }}";
+        if (idM === "null") {
+            console.log("Semua materi sudah dijawab");
+            // Tampilkan konten selesai
+            document.querySelectorAll('.materi-content').forEach((content) => {
+                content.classList.add('hidden');
+            });
+        } else {
+            console.log(`Menampilkan materi ID: ${idM}`);
+            document.getElementById(`materi-${idM}`).classList.remove('hidden');
+            document.querySelectorAll('.diskusi-page').forEach((content) => {
+                content.classList.add('hidden');
+            });
+        }
+    </script>
+
+
+
+
+    <script>
+        function confirmKirimJawaban() {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Jawaban Anda tidak dapat diubah lagi setelah dikirimkan!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, kirim jawaban'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form-kirim-jawaban').submit();
+                }
+            })
+        }
     </script>
 </body>
 

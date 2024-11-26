@@ -3,6 +3,48 @@
 @section('title', 'Siswa-Home')
 
 @push('style')
+    <style>
+        .slider-container {
+            position: relative;
+            overflow: hidden;
+            height: 2rem;
+            /* Pastikan sesuai dengan tinggi teks */
+            display: flex;
+            align-items: center;
+        }
+
+        .slider-words {
+            display: flex;
+            flex-direction: column;
+            animation: slide-up 8s ease-in-out infinite;
+        }
+
+        .slider-words span {
+            display: block;
+            height: 2rem;
+            line-height: 2rem;
+            text-align: left;
+        }
+
+        @keyframes slide-up {
+            0% {
+                transform: translateY(0);
+            }
+
+            33% {
+                transform: translateY(-2rem);
+            }
+
+            66% {
+                transform: translateY(-4rem);
+            }
+
+            100% {
+                transform: translateY(0);
+            }
+
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -19,8 +61,19 @@
             </div>
             <div class="bg-yellow-400 rounded-lg p-4 flex items-center text-white">
                 <i class="ti ti-star text-3xl mr-3"></i>
-                <span class="font-semibold text-lg">Leaderboard</span>
+                <div class="slider-container overflow-hidden">
+                    <div class="slider-words">
+                        <span class="font-semibold text-lg">Achievements</span>
+                        <span class="font-semibold text-lg"></span>
+                        <span class="font-semibold text-lg">Nilai Tertinggi</span>
+                        <span
+                            class="font-semibold text-lg">{{ $kelasRank->kelas . ' ' . $kelasRank->jurusan->jurusan . ' ' . $kelasRank->jurusan->no }}
+                            nilai {{ $kelasRank->rataRataNilai }}</span>
+                        <span class="font-semibold text-lg">{{$siswaNilaiTertinggi->name}} nilai {{$siswaNilaiTertinggi->tes}}</span>
+                    </div>
+                </div>
             </div>
+
         </div>
         <!-- Main Content Area -->
         <div class="flex gap-6">

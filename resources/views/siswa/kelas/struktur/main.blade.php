@@ -301,7 +301,7 @@
                                                 <div
                                                     class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
                                                     <span
-                                                        class="text-xs">{{ $diskusis->created_at->format('H:i, d-m-Y') }}</span>
+                                                        class="text-xs">{{ $diskusis->created_at->diffForHumans() }}</span>
                                                     <br>
                                                     <strong>{{ $diskusis->user->name }}</strong>
                                                 </div>
@@ -332,7 +332,7 @@
                                                         <div
                                                             class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
                                                             <span
-                                                                class="text-xs">{{ $reply->created_at->format('H:i, d-m-Y') }}</span>
+                                                                class="text-xs">{{ $reply->created_at->diffForHumans() }}</span>
                                                             <br>
                                                             <strong>{{ $reply->user->name }}</strong>
                                                         </div>

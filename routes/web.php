@@ -95,6 +95,7 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     Route::get('siswa/kelas/ujian/{id}', [ujianController::class, 'ujian'])->name('ujian');
     Route::post('siswa/kelas/ujian/select', [ujianController::class, 'select'])->name('select');
     Route::post('siswa/kelas/ujian/pending', [ujianController::class, 'pending'])->name('pending');
+    Route::post('siswa/kelas/ujian/kirim', [ujianController::class, 'done'])->name('kirim-jawaban');
 
     // diskusi kelas
     Route::post('siswa/kelas/diskusi/', [diskusiController::class, 'create'])->name('diskusi');

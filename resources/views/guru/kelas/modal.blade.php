@@ -41,7 +41,7 @@
     </div>
 </div>
 
-@foreach ($kelas as $list)
+@foreach ($jadwal as $list)
     <div id="modallist{{ $list->id }}"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">

@@ -33,5 +33,8 @@ class materiGuru extends Model
         return $this->hasMany(questions::class);
     }
 
-
+    public function nilai()
+    {
+        return $this->hasMany(nilai::class);
+    }
 }

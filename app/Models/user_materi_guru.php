@@ -29,6 +29,6 @@ class user_materi_guru extends Model
 
     public function userSelectOption()
     {
-        return $this->hasMany(user_select_option::class, 'option_id');
+        return $this->hasOne(user_select_option::class, 'option_id');
     }
 }

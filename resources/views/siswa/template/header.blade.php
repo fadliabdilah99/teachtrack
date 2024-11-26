@@ -17,13 +17,19 @@
     <!-- Navigation Links -->
     <nav class="mt-6">
         <ul class="text-gray-600 text-sm space-y-4 px-4">
+            <!-- sosmed Link -->
+            <li>
+                <a href="{{url('siswa')}}" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
+                    <i class="ti ti-world text-2xl"></i> Sosial Media
+                </a>
+            </li>
             <!-- Profile Link -->
             <li>
                 <a href="{{url('profile')}}" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
                     <i class="ti ti-user text-2xl"></i> Profil Saya
                 </a>
             </li>
-            <!-- Class Link -->
+            <!-- kelas Link -->
             <li>
                 <a href="{{route('kelas')}}" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
                     <i class="ti ti-book text-2xl"></i> Kelas Saya

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\nilai;
 use App\Models\rombel;
 use App\Models\User;
 use Carbon\Carbon;
@@ -13,12 +14,41 @@ class siswaController extends Controller
 {
     public function index()
     {
-       
+
         $data['rombels'] = rombel::with('jadwal.guruMapel.mapel')->where('id', Auth::user()->rombel_id)->get();
         $data['groupedByHari'] = $data['rombels']->flatMap(function ($rombel) {
             return $rombel->jadwal;
         })->groupBy('hari');
 
+
+        // mencari kelas dengan rata rata nilai tertinggi
+        $data['kelasRank'] = rombel::with('user.nilai')
+            ->get()
+            ->map(function ($rombel) {
+                $totalNilai = 0;
+                $jumlahNilai = 0;
+
+                foreach ($rombel->user as $user) {
+                    $totalNilai += $user->nilai->sum('nilai');
+                    $jumlahNilai += $user->nilai->count();
+                }
+
+                $rombel->rataRataNilai = $jumlahNilai > 0 ? $totalNilai / $jumlahNilai : 0;
+                return $rombel;
+            })
+            ->sortByDesc('rataRataNilai')
+            ->first();
+
+
+        // mencari siswa dengan nilai tertinggi
+        $data['siswaNilaiTertinggi'] = User::with('nilai')
+            ->get()
+            ->map(function ($user) {
+                $user->tes = $user->nilai->max('nilai');
+                return $user;
+            })
+            ->sortByDesc('tes')
+            ->first();
 
         return view('siswa.home.index')->with($data);
     }

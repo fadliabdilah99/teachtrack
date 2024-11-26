@@ -7,6 +7,8 @@
 
 @section('content')
 
+
+    {{-- jadwal --}}
     <div class="card h-full">
         <div class="card-body">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">Jadwal Kelas Mengajar</h4>
@@ -21,13 +23,13 @@
                         </tr>
                     </thead>
                     <tbody id="dataTablemapel">
-                        @foreach ($kelas as $kelast)
+                        @foreach ($jadwal as $jadwals)
                             <tr>
                                 <td class="p-4 text-sm">
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
                                             <h3 class="font-bold">
-                                                {{ $kelast->rombel->kelas . '-' . $kelast->rombel->jurusan->jurusan . '-' . $kelast->rombel->jurusan->no }}
+                                                {{ $jadwals->rombel->kelas . '-' . $jadwals->rombel->jurusan->jurusan . '-' . $jadwals->rombel->jurusan->no }}
                                             </h3>
                                         </div>
                                     </div>
@@ -36,7 +38,7 @@
                                 <td class="p-4 text-sm">
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
-                                            <h3 class="font-bold">{{ $kelast->guruMapel->mapel->pelajaran }}</h3>
+                                            <h3 class="font-bold">{{ $jadwals->guruMapel->mapel->pelajaran }}</h3>
                                         </div>
                                     </div>
                                 </td>
@@ -44,16 +46,17 @@
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
                                             <h3 class="font-bold">
-                                                {{ $kelast->hari . ' - ' . $kelast->dari . ' - ' . $kelast->sampai }}</h3>
+                                                {{ $jadwals->hari . ' - ' . $jadwals->dari . ' - ' . $jadwals->sampai }}
+                                            </h3>
                                         </div>
                                     </div>
                                 </td>
                                 <td class="p-4">
-                                    <button onclick="modalmateri({{ $kelast->id }}, {{ $kelast->rombel->id }}, )"
+                                    <button onclick="modalmateri({{ $jadwals->id }}, {{ $jadwals->rombel->id }}, )"
                                         class="inline-flex
                                     items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
                                             class="bi bi-plus font-bold "></i></button>
-                                    <button onclick="modallist({{ $kelast->id }})"
+                                    <button onclick="modallist({{ $jadwals->id }})"
                                         class="inline-flex
                                     items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
                                             class="bi bi-eye font-bold"></i></button>
@@ -63,6 +66,82 @@
                     </tbody>
                 </table>
 
+            </div>
+        </div>
+    </div>
+
+
+
+    {{-- kelas --}}
+    <div class="card h-full">
+        <div class="card-body">
+            <h4 class="text-gray-500 text-lg font-semibold mb-5">List Kelas Mengajar</h4>
+            <div class="relative overflow-x-auto">
+                <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
+                    <thead>
+                        <tr class="text-sm">
+                            <th scope="col" class="p-4 font-semibold">Kelas</th>
+                            <th scope="col" class="p-4 font-semibold">murid</th>
+                            <th scope="col" class="p-4 font-semibold">Materi/Ujian</th>
+                            <th scope="col" class="p-4 font-semibold">nilai Rata Rata</th>
+                            <th scope="col" class="p-4 font-semibold">Lihat</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTablemapel">
+                        @foreach ($rombel as $kelas)
+                            <tr>
+                                <td class="p-4 text-sm">
+                                    <div class="flex gap-6 items-center">
+                                        <div class="flex flex-col gap-1 text-gray-500">
+                                            <h3 class="font-bold">
+                                                <p>{{ $kelas->kelas . '-' . $kelas->jurusan->jurusan . '-' . $kelas->jurusan->no }}
+                                                </p>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-sm">
+                                    <div class="flex gap-6 items-center">
+                                        <div class="flex flex-col gap-1 text-gray-500">
+                                            <h3 class="font-bold">
+                                                <p>{{ $kelas->user->count() }}</p>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-sm">
+                                    <div class="flex gap-6 items-center">
+                                        <div class="flex flex-col gap-1 text-gray-500">
+                                            <h3 class="font-bold">
+                                                <p>{{ $kelas->jadwal->unique('guru_mapel_id')->count() }}</p>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-sm">
+                                    <div class="flex gap-6 items-center">
+                                        <div class="flex flex-col gap-1 text-gray-500">
+                                            <h3 class="font-bold">
+                                                <p>{{ number_format($kelas->user->flatMap->nilai->avg('nilai'), 1) }}</p>
+                                            </h3>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td class="p-4 text-sm">
+                                    <div class="flex gap-6 items-center">
+                                        <div class="flex items-center justify-center">
+                                            <button
+                                                class="inline-flex
+                                    items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
+                                                <i class="bi bi-eye"></i>
+                                            </button>
+                                        </div>
+                                    </div>
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
             </div>
         </div>
     </div>
