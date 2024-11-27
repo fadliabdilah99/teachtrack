@@ -77,20 +77,38 @@ class User extends Authenticatable
     }
 
     // relasi untuk guru
-    public function materiGuru(){
+    public function materiGuru()
+    {
         return $this->hasMany(materiGuru::class);
     }
 
-    public function pelajaran(){
+    public function pelajaran()
+    {
         return $this->belongsToMany(materiStrukture::class, 'user_materi_guru');
     }
 
-    public function duskusi(){
+    public function duskusi()
+    {
         return $this->belongsTo(diskusi::class);
     }
 
-    public function nilai(){
+    public function nilai()
+    {
         return $this->hasMany(nilai::class);
     }
-    
+
+    public function post()
+    {
+        return $this->hasMany(post::class);
+    }
+
+    public function comment()
+    {
+        return $this->hasMany(comment::class);
+    }
+
+    public function like()
+    {
+        return $this->hasMany(like::class);
+    }
 }
