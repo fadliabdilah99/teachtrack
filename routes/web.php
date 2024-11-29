@@ -103,6 +103,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
 
     // sosial media
     Route::post('siswa/posting', [sosmedController::class, 'posting'])->name('posting');
+    Route::post('/post/{post}/like', [sosmedController::class, 'like'])->name('like');
+    Route::post('/comments/{post}', [sosmedController::class, 'store']);
+
 });
 
 

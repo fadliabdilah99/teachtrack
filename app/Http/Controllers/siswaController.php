@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\nilai;
+use App\Models\post;
 use App\Models\rombel;
 use App\Models\User;
 use Carbon\Carbon;
@@ -19,6 +20,9 @@ class siswaController extends Controller
         $data['groupedByHari'] = $data['rombels']->flatMap(function ($rombel) {
             return $rombel->jadwal;
         })->groupBy('hari');
+
+        // postingan
+        $data['postingan'] = post::with(['user', 'comments', 'likes', 'fotoPost'])->latest()->get();
 
 
         // mencari kelas dengan rata rata nilai tertinggi
