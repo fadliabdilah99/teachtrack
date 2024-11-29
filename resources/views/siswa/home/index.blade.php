@@ -48,6 +48,10 @@
 @endpush
 
 @section('content')
+
+
+
+
     <div class="min-h-screen bg-gray-100 p-6">
         <!-- Dashboard Cards -->
         <div class="grid grid-cols-3 gap-4 mb-6">
@@ -69,7 +73,8 @@
                         <span
                             class="font-semibold text-lg">{{ $kelasRank->kelas . ' ' . $kelasRank->jurusan->jurusan . ' ' . $kelasRank->jurusan->no }}
                             nilai {{ $kelasRank->rataRataNilai }}</span>
-                        <span class="font-semibold text-lg">{{$siswaNilaiTertinggi->name}} nilai {{$siswaNilaiTertinggi->tes}}</span>
+                        <span class="font-semibold text-lg">{{ $siswaNilaiTertinggi->name }} nilai
+                            {{ $siswaNilaiTertinggi->tes }}</span>
                     </div>
                 </div>
             </div>
@@ -114,7 +119,7 @@
 
             <!-- Sidebar Section -->
             <div class="w-1/3">
-                <button
+                <button onclick="openModalpost()"
                     class="w-full bg-green-500 text-white font-semibold py-2 rounded-lg mb-6 hover:bg-green-600 transition">
                     + Buat Postingan
                 </button>
@@ -150,7 +155,20 @@
         </div>
     </div>
 
+
+    @include('siswa.home.modal')
+
 @endSection
 
 @push('script')
+    {{-- modal tambah postingan --}}
+    <script>
+        function openModalpost() {
+            document.getElementById("modalpost").classList.remove("hidden");
+        }
+
+        function closemodalpost() {
+            document.getElementById("modalpost").classList.add("hidden");
+        }
+    </script>
 @endpush

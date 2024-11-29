@@ -9,6 +9,7 @@ use App\Http\Controllers\materiController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
+use App\Http\Controllers\sosmedController;
 use App\Http\Controllers\ujianController;
 use App\Http\Controllers\userController;
 use App\Livewire\Admin\User;
@@ -99,6 +100,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
 
     // diskusi kelas
     Route::post('siswa/kelas/diskusi/', [diskusiController::class, 'create'])->name('diskusi');
+
+    // sosial media
+    Route::post('siswa/posting', [sosmedController::class, 'posting'])->name('posting');
 });
 
 
