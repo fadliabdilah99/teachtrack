@@ -18,7 +18,8 @@ class materiController extends Controller
 {
     public function index()
     {
-        $data['materis'] = materiGuru::where('user_id', Auth::user()->id)->with('struktur')->get();
+        $data['materis'] = materiGuru::where('user_id', Auth::user()->id)->with(['buy', 'struktur', 'sell'])->get();
+        // dd($data['materis']);
         return view('guru.materi.index')->with($data);
     }
 

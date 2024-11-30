@@ -5,6 +5,7 @@ use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
 use App\Http\Controllers\mapelController;
+use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswa;
@@ -78,6 +79,10 @@ Route::group(['middleware' => ['role:guru']], function () {
     // halaman kelas yang di ajar
     Route::get('guru/kelas', [rombelController::class, 'gurumateri'])->name('gurumateri');
     Route::post('guru/kelas/addmateri', [rombelController::class, 'addmateri'])->name('addmaterirombel');
+
+    // jual materi
+    Route::post('guru/materi/jual', [marketController::class, 'jual'])->name('jualmateri');
+    Route::delete('guru/materi/stopsell/{id}', [marketController::class, 'stopsell'])->name('stopsell');
 });
 
 

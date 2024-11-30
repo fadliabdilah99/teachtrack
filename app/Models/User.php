@@ -111,4 +111,9 @@ class User extends Authenticatable
     {
         return $this->hasMany(like::class);
     }
+
+    public function buyMateri()
+    {
+        return $this->hasMany(buyMateri::class);
+    }
 }

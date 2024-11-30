@@ -37,4 +37,14 @@ class materiGuru extends Model
     {
         return $this->hasMany(nilai::class);
     }
+
+    public function sell()
+    {
+        return $this->hasMany(sellMateri::class, 'materi_guru_id');
+    }
+
+    public function buy()
+    {
+        return $this->hasMany(buyMateri::class, 'sell_materi_id');
+    }
 }
