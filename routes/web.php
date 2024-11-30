@@ -111,6 +111,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     Route::post('/post/{post}/like', [sosmedController::class, 'like'])->name('like');
     Route::post('/comments/{post}', [sosmedController::class, 'store']);
 
+
+    // shop
+    Route::get('shop', [marketController::class, 'index'])->name('shop');
 });
 
 

@@ -62,6 +62,9 @@
                                             class="bi bi-eye font-bold"></i></button>
                                 </td>
                             </tr>
+
+
+                            
                         @endforeach
                     </tbody>
                 </table>
@@ -153,7 +156,7 @@
     <script>
         // add materi ke rombel
         function modalmateri(kelasID, rombelID) {
-            document.getElementById("addmateri").classList.remove("hidden");
+            document.getElementById(`addmateri${kelasID}`).classList.remove("hidden");
             document.getElementById('rombel_mapel_guru_id').value = kelasID;
             document.getElementById('rombel_id').value = rombelID;
         }
@@ -169,8 +172,8 @@
     </script>
 
     <script>
-        function closeModalmateri() {
-            document.getElementById("addmateri").classList.add("hidden");
+        function closeModalmateri(id) {
+            document.getElementById(`addmateri${id}`).classList.add("hidden");
         }
     </script>
 @endpush

@@ -30,6 +30,7 @@ class materiController extends Controller
         $request->validate([
             'judul' => 'required',
             'jenis' => 'required',
+            'guru_mapel_id' => 'required',
         ]);
 
         materiGuru::create($request->all());

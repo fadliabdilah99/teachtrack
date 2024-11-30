@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 
 class marketController extends Controller
 {
+    // guru------------------------------------------------
     public function jual(Request $request)
     {
         $request->validate([
@@ -18,5 +19,11 @@ class marketController extends Controller
     public function stopsell($id){
         sellMateri::where('materi_guru_id', $id)->delete();
         return redirect()->back()->with('success', 'Berhasil Di hapus dari market');
+    }
+
+    // siswa------------------------------------------------
+    public function index(){
+        $data['sell'] = sellMateri::with('materiGuru')->inRandomOrder()->limit(10)->get();
+        return view('siswa.market.index')->with($data);
     }
 }

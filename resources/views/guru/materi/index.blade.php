@@ -100,7 +100,6 @@
                 <input type="text" id="searchInputmapel" placeholder="  Search..."
                     class="py-3 px-4 mb-4 border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
                     onkeyup="searchTablemapel()" />
-
                 <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                     <thead>
                         <tr class="text-sm">

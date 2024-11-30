@@ -1,47 +1,51 @@
-<div id="addmateri" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
-    <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">
-        <!-- Header Modal -->
-        <div class="flex justify-between items-center mb-4">
-            <h2 class="text-xl font-bold">Tambah pengajar</h2>
-            <button onclick="closeModalmateri()" class="text-gray-400 hover:text-gray-600">&times;</button>
-        </div>
+@foreach ($jadwal as $list)
+    <div id="addmateri{{ $list->id }}" class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+        <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">
+            <!-- Header Modal -->
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-xl font-bold">Tambah materi</h2>
+                <button onclick="closeModalmateri({{ $list->id }})" class="text-gray-400 hover:text-gray-600">&times;</button>
+            </div>
 
-        <div class="card">
-            <div class="card-body">
-                <form id="addmaterirombel" action="{{ route('addmaterirombel') }}" method="POST">
-                    @csrf
-                    <input type="number" name="rombel_mapel_guru_id" id="rombel_mapel_guru_id" hidden>
-                    <input type="number" name="rombel_id" id="rombel_id" hidden>
-                    <div class="mb-6">
-                        <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Jenis</label>
-                        <select type="text" name="materi_guru_id"
-                            class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
-                            placeholder="" aria-describedby="hs-input-helper-text">
-                            @foreach ($listMateri as $materi)
-                                @php
-                                    $now = new DateTime();
-                                    $createDate = new DateTime($materi->created_at);
-                                    $diff = $now->diff($createDate);
-                                @endphp
-                                <option value="{{ $materi->id }}">{{ $materi->judul }}
-                                    {{ $diff->days <= 1 ? ' (New)' : '' }}</option>
-                            @endforeach
-                        </select>
-                    </div>
+            <div class="card">
+                <div class="card-body">
+                    <form id="addmaterirombel" action="{{ route('addmaterirombel') }}" method="POST">
+                        @csrf
+                        <input type="number" name="rombel_mapel_guru_id" id="rombel_mapel_guru_id" hidden>
+                        <input type="number" name="rombel_id" id="rombel_id" hidden>
+                        <div class="mb-6">
+                            <label for="input-label-with-helper-text"
+                                class="block text-sm mb-2 text-gray-400">Jenis</label>
+                            <select type="text" name="materi_guru_id"
+                                class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+                                placeholder="" aria-describedby="hs-input-helper-text">
+                                <option value="">-- Pilih Materi --</option>
+                                @if ($list->guruMapel->materiGuru->count() > 0)
+                                    @foreach ($list->guruMapel->materiGuru as $materi)
+                                        @php
+                                            $now = new DateTime();
+                                            $createDate = new DateTime($materi->created_at);
+                                            $diff = $now->diff($createDate);
+                                        @endphp
+                                        <option value="{{ $materi->id }}">{{ $materi->judul }}
+                                            {{ $diff->days <= 1 ? ' (New)' : '' }}</option>
+                                    @endforeach
+                                @endif
+                            </select>
+                        </div>
 
-                    <div class="flex justify-end">
-                        <button type="button" onclick="closeModalmateri()"
-                            class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
-                        <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
-                            type="submit">Confirm</button>
-                    </div>
-                </form>
+                        <div class="flex justify-end">
+                            <button type="button" onclick="closeModalmateri({{ $list->id }})"
+                                class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
+                            <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
+                                type="submit">Confirm</button>
+                        </div>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
-</div>
 
-@foreach ($jadwal as $list)
     <div id="modallist{{ $list->id }}"
         class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
         <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">

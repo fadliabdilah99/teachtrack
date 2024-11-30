@@ -35,22 +35,10 @@
                     <i class="ti ti-book text-2xl"></i> Kelas Saya
                 </a>
             </li>
-            <!-- Thread Link -->
+            <!-- Shop -->
             <li>
-                <a href="#" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
-                    <i class="ti ti-comments text-2xl"></i> Thread Saya
-                </a>
-            </li>
-            <!-- Bookmark Link -->
-            <li>
-                <a href="#" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
-                    <i class="ti ti-bookmark text-2xl"></i> Bookmark Saya
-                </a>
-            </li>
-            <!-- Question Link -->
-            <li>
-                <a href="#" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
-                    <i class="ti ti-question text-2xl"></i> Pertanyaan Saya
+                <a href="{{route('shop')}}" class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
+                    <i class="ti ti-shopping-cart text-2xl"></i> Shop
                 </a>
             </li>
         </ul>

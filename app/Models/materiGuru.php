@@ -9,6 +9,11 @@ class materiGuru extends Model
     protected $guarded = [];
 
     // relasi untuk guru
+
+    public function gurumapel()
+    {
+        return $this->belongsTo(guru_mapel::class, 'guru_mapel_id');
+    }
     public function user()
     {
         return $this->belongsTo(User::class);
@@ -19,13 +24,10 @@ class materiGuru extends Model
         return $this->hasMany(materiStrukture::class, 'materiGuru_id');
     }
 
-    public function rombelmateri()
-    {
-        return $this->belongsToMany(rombel_mapel_guru::class, 'rombelMateri');
-    }
+    
     public function materi_rombel()
     {
-        return $this->belongsToMany(rombel_mapel_guru::class, 'materi_rombel');
+        return $this->belongsToMany(rombel_mapel_guru::class, 'materi_rombels');
     }
 
     public function question()
