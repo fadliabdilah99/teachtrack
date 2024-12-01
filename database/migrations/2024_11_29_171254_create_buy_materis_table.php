@@ -16,6 +16,7 @@ return new class extends Migration
             $table->bigInteger('materi_guru_id')->nullable();
             $table->bigInteger('sell_materi_id')->nullable();
             $table->bigInteger('user_id')->nullable();
+            $table->bigInteger('kodeInvoice')->nullable();
             $table->timestamps();
         });
     }

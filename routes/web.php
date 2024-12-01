@@ -7,6 +7,7 @@ use App\Http\Controllers\kelasController;
 use App\Http\Controllers\mapelController;
 use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
+use App\Http\Controllers\paymentController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
@@ -114,6 +115,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
 
     // shop
     Route::get('shop', [marketController::class, 'index'])->name('shop');
+
+    // market
+    Route::post('/donation', [paymentController::class, 'store']);
 });
 
 

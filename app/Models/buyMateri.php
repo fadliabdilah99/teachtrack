@@ -16,4 +16,6 @@ class buyMateri extends Model
     {
         return $this->belongsTo(materiGuru::class, 'sell_materi_id');
     }
+
+    
 }
