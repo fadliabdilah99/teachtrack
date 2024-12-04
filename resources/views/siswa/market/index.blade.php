@@ -16,13 +16,23 @@
                     <p class="text-sm text-gray-500">pelajaran {{ $product->materiGuru->gurumapel->mapel->pelajaran }}</p>
                     <p class="text-sm text-gray-500">Dibuat oleh: {{ $product->materiGuru->user->name }}</p>
                     <p class="text-lg font-bold">Rp. {{ number_format($product->harga) }}</p>
-                    <form action="#" id="donation_form">
 
-                        <input type="number" name="pembayaran" id="pembayaran" value="{{ $product->harga }}" hidden>
-                        <input type="number" name="sell_id" id="sell_id" value="{{ $product->id }}" hidden>
+                    <div class="flex justify-between space-x-4">
+                        <form action="#" id="donation_form">
+                            <input type="number" name="pembayaran" id="pembayaran" value="{{ $product->harga }}" hidden>
+                            <input type="number" name="sell_id" id="sell_id" value="{{ $product->id }}" hidden>
+                            @if ($product->pembeli->where('user_id', Auth::user()->id)->count() > 0)
+                                <p class="text-sm text-green-500"> <i class="bi bi-check-circle"></i> Sudah di beli</p>
+                            @else
+                                <button class="btn btn-success" type="submit">Bayar</button>
+                            @endif
+                        </form>
+                        <div class="flex items-center text-sm text-gray-500">
+                            <i class="bi bi-people-fill mr-1"></i>
+                            <span>{{ $product->pembeli->count() }} terjual</span>
+                        </div>
+                    </div>
 
-                        <button class="btn btn-success" type="submit">Bayar</button>
-                    </form>
                 </div>
             </div>
         @endforeach

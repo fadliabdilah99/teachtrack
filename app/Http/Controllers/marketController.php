@@ -23,7 +23,8 @@ class marketController extends Controller
 
     // siswa------------------------------------------------
     public function index(){
-        $data['sell'] = sellMateri::with('materiGuru')->inRandomOrder()->limit(10)->get();
+        $data['sell'] = sellMateri::with(['materiGuru', 'pembeli'])->inRandomOrder()->limit(10)->get();
+        
         return view('siswa.market.index')->with($data);
     }
 }

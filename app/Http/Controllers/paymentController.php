@@ -32,7 +32,7 @@ class paymentController extends Controller
     public function store(Request $request)
     {
         try {
-            $kodeInvoice =  rand(10000, 99999) . time();
+            $kodeInvoice =  rand(1000, 9999) . time();
             $selectbuy = sellMateri::where('id', $request->sell_id)->first();
 
             DB::beginTransaction();
@@ -46,7 +46,7 @@ class paymentController extends Controller
 
                 $payload = [
                     'transaction_details' => [
-                        'order_id'      => $donation->kodeInvoice,
+                        'order_id'      => $donation->id,
                         'gross_amount'  => $request->pembayaran,
                     ],
                     'customer_details' => [
@@ -81,73 +81,54 @@ class paymentController extends Controller
         return response()->json($this->response);
     }
 
-    // public function notification(Request $request)
-    // {
-    //     $payload = $request->getContent();
-    //     Log::info('Midtrans Notification Received:');
-    //     Log::info($payload);
+    public function notification(Request $request)
+    {
+        $payload = $request->getContent();
+        Log::info('Midtrans Notification Received:');
+        Log::info($payload);
 
-    //     $notification = json_decode($payload);
+        $notification = json_decode($payload);
 
-    //     $transactionStatus = $notification->transaction_status;
-    //     $paymentType = $notification->payment_type;
-    //     $kodeInvoice = $notification->order_id;
-    //     $fraudStatus = $notification->fraud_status;
+        $transactionStatus = $notification->transaction_status;
+        $paymentType = $notification->payment_type;
+        $id = $notification->order_id;
+        $fraudStatus = $notification->fraud_status;
 
-    //     $barang = penjualan::where('kodeInvoice', $kodeInvoice)->get();
-
-    //     if ($barang->isEmpty()) {
-    //         Log::error('Donation with order ID ' . $kodeInvoice . ' not found.');
-    //         return response('Donation not found.', 404);
-    //     }
+        $pesanan = buyMateri::where('id', $id)->first();
 
 
-    //     foreach ($barang as $paymentrespons) {
-    //         // Logika status transaksi
-    //         if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
-    //             $paymentrespons->status = ($fraudStatus == 'challenge') ? 'pending' : 'payment';
-    //         } elseif ($transactionStatus == 'settlement') {
-    //             $paymentrespons->status = 'payment';
-    //         } elseif ($transactionStatus == 'pending') {
-    //             $paymentrespons->status = 'pending';
-    //         } elseif ($transactionStatus == 'deny' || $transactionStatus == 'cancel') {
-    //             $paymentrespons->status = 'failed';
-    //         } elseif ($transactionStatus == 'expire') {
-    //             $paymentrespons->status = 'expired';
-    //         }
+        // Logika status transaksi
+        if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
+            $pesanan->status = ($fraudStatus == 'challenge') ? 'pending' : 'payment';
+        } elseif ($transactionStatus == 'settlement') {
+            $pesanan->status = 'payment';
+        } elseif ($transactionStatus == 'pending') {
+            $pesanan->status = 'pending';
+        } elseif ($transactionStatus == 'deny' || $transactionStatus == 'cancel') {
+            $pesanan->status = 'failed';
+        } elseif ($transactionStatus == 'expire') {
+            $pesanan->status = 'expired';
+        }
 
-    //         $paymentrespons->save();
+        $pesanan->save();
 
-    //         // Proses pengurangan stok jika sukses
-    //         if ($paymentrespons->status == 'payment') {
-    //             $cart = chart::where('so_id', $paymentrespons->so_id)->where('user_id', $paymentrespons->user_id)->first();
-    //             $shop = shop::where('so_id', $paymentrespons->so_id)->first();
 
-    //             if ($cart && $shop) {
-    //                 $size = size::where('shop_id', $shop->id)->where('size', $cart->size)->first();
-    //                 if ($size) {
-    //                     $size->update(['qty' => $size->qty - $cart->qty]);
-    //                 }
-    //                 $shop->update(['qty' => $shop->qty - $cart->qty]);
-    //                 $cart->delete();
-    //             }
+        if ($pesanan->status == 'payment') {
+            // notifikasi ke admin
+            $sid    = env('TWILIO_SID');
+            $token  = env('TWILIO_TOKEN');
+            $twilio = new Client($sid, $token);
 
-    //             // notifikasi ke admin
-    //             $sid    = env('TWILIO_SID');
-    //             $token  = env('TWILIO_TOKEN');
-    //             $twilio = new Client($sid, $token);
+            $message = $twilio->messages
+                ->create(
+                    "whatsapp:+6281220786387", // to
+                    array(
+                        "from" => "whatsapp:+14155238886",
+                        "body" => 'Anda telah membeli materi selamat belajar'
+                    )
+                );
+        }
 
-    //             $message = $twilio->messages
-    //                 ->create(
-    //                     "whatsapp:+6281220786387", // to
-    //                     array(
-    //                         "from" => "whatsapp:+14155238886",
-    //                         "body" => 'Ada Pesanan Yang Harus dikirim Nihhhh....!!'
-    //                     )
-    //                 );
-    //         }
-    //     }
-
-    //     return response('Notification processed.', 200);
-    // }
+        return response('Notification processed.', 200);
+    }
 }

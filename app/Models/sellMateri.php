@@ -16,4 +16,9 @@ class sellMateri extends Model
     {
         return $this->belongsTo(User::class, 'terjual_id');
     }
+
+    public function pembeli()
+    {
+        return $this->hasMany(buyMateri::class);
+    }
 }
