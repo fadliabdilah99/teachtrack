@@ -9,6 +9,7 @@ use App\Models\sellMateri;
 use App\Models\shop;
 use App\Models\size;
 use App\Models\so;
+use App\Models\wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -93,8 +94,9 @@ class paymentController extends Controller
         $paymentType = $notification->payment_type;
         $id = $notification->order_id;
         $fraudStatus = $notification->fraud_status;
+        $amout = $notification->gross_amount;
 
-        $pesanan = buyMateri::where('id', $id)->first();
+        $pesanan = buyMateri::where('id', $id)->with('materiGuru')->first();
 
 
         // Logika status transaksi
@@ -127,7 +129,20 @@ class paymentController extends Controller
                         "body" => 'Anda telah membeli materi selamat belajar'
                     )
                 );
+
+            if (wallet::where('keterangan', 'pembelian materi ' . $pesanan->materiGuru->judul)->first() == null) {
+                wallet::create([
+                    'user_id' => $pesanan->materiGuru->user->id,
+                    'nominal' => $amout,
+                    'keterangan' => 'pembelian materi ' . $pesanan->materiGuru->judul,
+                    'jenis' => 'uang masuk'
+                ]);
+            }
         }
+
+
+
+
 
         return response('Notification processed.', 200);
     }

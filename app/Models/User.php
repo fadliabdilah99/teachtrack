@@ -122,4 +122,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(buyMateri::class);
     }
+    public function wallet()
+    {
+        return $this->hasMany(wallet::class);
+    }
 }

@@ -3,6 +3,30 @@
 @section('title', 'Siswa-Market')
 
 @push('style')
+<style>
+    .popup {
+        position: fixed;
+        bottom: 4rem;
+        right: 4rem;
+        background-color: white;
+        padding: 1rem;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        border-radius: 0.5rem;
+        transform: translateX(100%); /* Awalnya di luar layar */
+        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+        opacity: 0;
+    }
+
+    .popup.show {
+        transform: translateX(0); /* Muncul dari kanan ke posisi normal */
+        opacity: 1;
+    }
+
+    .popup.hide {
+        transform: translateX(-100%); /* Keluar ke kiri layar */
+        opacity: 0;
+    }
+</style>
 @endpush
 
 @section('content')
@@ -21,21 +45,32 @@
                         <form action="#" id="donation_form">
                             <input type="number" name="pembayaran" id="pembayaran" value="{{ $product->harga }}" hidden>
                             <input type="number" name="sell_id" id="sell_id" value="{{ $product->id }}" hidden>
-                            @if ($product->pembeli->where('user_id', Auth::user()->id)->count() > 0)
+                            @if ($product->pembeli->where('status', 'payment')->where('user_id', Auth::user()->id)->count() > 0)
                                 <p class="text-sm text-green-500"> <i class="bi bi-check-circle"></i> Sudah di beli</p>
                             @else
-                                <button class="btn btn-success" type="submit">Bayar</button>
+                                <button class="btn btn-success" type="submit">Beli</button>
                             @endif
                         </form>
                         <div class="flex items-center text-sm text-gray-500">
                             <i class="bi bi-people-fill mr-1"></i>
-                            <span>{{ $product->pembeli->count() }} terjual</span>
+                            <span>{{ $product->pembeli->where('status', 'payment')->count() }} terjual</span>
                         </div>
                     </div>
 
                 </div>
             </div>
         @endforeach
+
+
+        <div id="popup1" class="popup hidden">
+            <p>Popup 1</p>
+        </div>
+        <div id="popup2" class="popup hidden">
+            <p>Popup 2</p>
+        </div>
+
+
+
     @endSection
 
     @push('script')
@@ -113,4 +148,33 @@
                     });
             });
         </script>
+
+        {{-- popup --}}
+        <script>
+            let currentPopup = 0; // Start from the first popup
+            const popups = ['popup1', 'popup2'];
+        
+            function showPopup() {
+                // Loop through all popups
+                popups.forEach((id, index) => {
+                    const popup = document.getElementById(id);
+                    if (index === currentPopup) {
+                        popup.classList.add('show');
+                        popup.classList.remove('hide', 'hidden');
+                    } else {
+                        popup.classList.add('hide'); // Add slide-out animation
+                        setTimeout(() => popup.classList.add('hidden'), 500); // Hide after animation ends
+                        popup.classList.remove('show');
+                    }
+                });
+        
+                // Move to the next popup
+                currentPopup = (currentPopup + 1) % popups.length; // Cycle through popups
+            }
+        
+            // Change popups every 3 seconds
+            setInterval(showPopup, 3000);
+        </script>
+        
+        
     @endpush
