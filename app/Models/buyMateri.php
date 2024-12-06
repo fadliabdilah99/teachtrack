@@ -14,7 +14,7 @@ class buyMateri extends Model
 
     public function materiGuru()
     {
-        return $this->belongsTo(materiGuru::class, 'sell_materi_id');
+        return $this->belongsTo(materiGuru::class, 'materi_guru_id');
     }
 
     public function sell(){

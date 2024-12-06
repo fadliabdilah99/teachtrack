@@ -1,4 +1,4 @@
-    <!-- Main Content Area -->
+    <!-- Kelas -->
     <div class="card h-full" id="kelastable">
         <div class="card-body">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">kelas</h4>
@@ -58,6 +58,8 @@
         </div>
     </div>
 
+
+    <!-- jadwal -->
     <div class="card h-full" id="materitable">
         <div class="card-body p-6">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">Materi</h4>
@@ -115,6 +117,121 @@
             @else
                 <p class="text-lg font-semibold text-center">Belum Ada Materi</p>
             @endif
+
+        </div>
+    </div>
+
+    <!-- materi -->
+    <div class="card h-full" id="listmateritable">
+        <div class="card-body p-6">
+
+            <div class="flex gap-4">
+                <button class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded" onclick="dibeli()">
+                    Materi di beli
+                </button>
+                <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"
+                    onclick="materiall()">
+                    Materi kelas
+                </button>
+            </div>
+            <hr class="my-4" />
+
+
+
+            {{-- materi di beli --}}
+            <div id="dibeli">
+                <h4 class="text-gray-500 text-lg font-semibold mt-5 mb-3">Materi di Beli</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach ($dibeli as $dibelis)
+                        <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                            <!-- Gambar -->
+                            <img class="w-full h-48 object-cover" src="{{ $dibelis->materiGuru->image_url }}"
+                                alt="Course Image">
+                            <div class="p-4">
+                                <div class="text-sm text-gray-500 flex items-center">
+                                    <span>By {{ $dibelis->materiGuru->user->name }}</span>
+                                </div>
+
+                                <h3 class="mt-2 font-bold text-lg text-gray-800">
+                                    {{ $dibelis->materiGuru->judul }}
+                                </h3>
+
+                                <div class="flex items-center mt-2 text-gray-500 text-sm">
+                                    <span class="flex items-center">
+                                        <i class="bi bi-journal-text mr-1"></i>
+                                        {{ $dibelis->materiGuru->struktur->count() }} Modul
+                                    </span>
+                                </div>
+
+                                <!-- Penilaian -->
+                                <div class="flex items-center mt-2">
+                                    <i class="bi bi-star text-yellow-500"></i>
+                                    <span class="ml-1 font-semibold text-yellow-500">0.0</span>
+                                    <span class="ml-1 text-gray-500">(0) Penilaian</span>
+                                </div>
+
+                                <!-- Tombol -->
+
+
+
+                                <div class="border-t border-gray-200 p-4 flex justify-between items-center">
+                                    <a href="{{ route($link, $dibelis->id) }}"
+                                        class="bg-teal-500 text-white px-4 py-2 rounded-md">
+                                        <i class="bi bi-book"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    @endforeach
+                </div>
+            </div>
+
+            <div id="materiall">
+                {{-- materi kelas yang dimiliki --}}
+                <h4 class="text-gray-500 text-lg font-semibold mt-5 mb-3">Materi Kelas yang Dimiliki</h4>
+                <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+                    @foreach ($allmaterimurid as $alls)
+                            <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
+                                <!-- Gambar -->
+                                <img class="w-full h-48 object-cover" src="{{ $alls->materi->image_url }}"
+                                    alt="Course Image">
+                                <div class="p-4">
+                                    <div class="text-sm text-gray-500 flex items-center">
+                                        <span>By {{ $alls->materi->user->name }}</span>
+                                    </div>
+
+                                    <h3 class="mt-2 font-bold text-lg text-gray-800">
+                                        {{ $alls->materi->judul }}
+                                    </h3>
+
+                                    <div class="flex items-center mt-2 text-gray-500 text-sm">
+                                        <span class="flex items-center">
+                                            <i class="bi bi-journal-text mr-1"></i>
+                                            {{ $alls->materi->struktur->count() }} Modul
+                                        </span>
+                                    </div>
+
+                                    <!-- Penilaian -->
+                                    <div class="flex items-center mt-2">
+                                        <i class="bi bi-star text-yellow-500"></i>
+                                        <span class="ml-1 font-semibold text-yellow-500">0.0</span>
+                                        <span class="ml-1 text-gray-500">(0) Penilaian</span>
+                                    </div>
+
+
+                                    <div class="border-t border-gray-200 p-4 flex justify-between items-center">
+                                        <a href="{{ route($link, $alls->id) }}"
+                                            class="bg-teal-500 text-white px-4 py-2 rounded-md">
+                                            <i class="bi bi-book"></i>
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                    @endforeach
+                </div>
+            </div>
+
+
 
         </div>
     </div>

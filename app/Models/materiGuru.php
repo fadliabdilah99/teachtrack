@@ -49,4 +49,9 @@ class materiGuru extends Model
     {
         return $this->hasMany(buyMateri::class, 'sell_materi_id');
     }
+
+    public function materi_rombels()
+    {
+        return $this->hasMany(materi_rombel::class);
+    }
 }

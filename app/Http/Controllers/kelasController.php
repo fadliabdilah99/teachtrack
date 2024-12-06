@@ -2,6 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\buyMateri;
+use App\Models\materi_rombel;
+use App\Models\materiGuru;
 use App\Models\rombel;
 use App\Models\User;
 use Carbon\Carbon;
@@ -45,8 +48,12 @@ class kelasController extends Controller
         $data['currentLesson'] = $currentLesson;
 
 
-
-
+        // materi kelas yang dimiliki
+        $data['allmaterimurid'] = materi_rombel::where('rombel_id', Auth::user()->rombel_id)->distinct('materi_guru_id')->with('materi')->get();
+    //    dd($data['materiall']->materi);
+       
+        // data list materi
+        $data['dibeli'] = buyMateri::where('status', 'payment')->where('user_id', Auth::user()->id)->with('materiGuru')->get();
         return view('siswa.kelas.index')->with($data);
     }
 

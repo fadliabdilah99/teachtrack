@@ -22,10 +22,10 @@
                 <span class="font-semibold text-lg">Belum Ada Jadwal</span>
             @endif
         </button>
-        <div class="bg-yellow-400 rounded-lg p-4 flex items-center text-white">
-            <i class="ti ti-star text-3xl mr-3"></i>
-            <span class="font-semibold text-lg">Leaderboard</span>
-        </div>
+        <button onclick="modallistkelas()" class="bg-yellow-400 rounded-lg p-4 flex items-center text-white">
+            <i class="ti ti-book text-3xl mr-3"></i>
+            <span class="font-semibold text-lg">Materi</span>
+        </button>
     </div>
 
     {{-- content --}}
@@ -105,6 +105,7 @@
     <script>
         document.getElementById("kelastable").classList.remove("hidden");
         document.getElementById("materitable").classList.add("hidden");
+        document.getElementById("listmateritable").classList.add("hidden");
 
         function modalguru() {
             document.getElementById("modalguru").classList.remove("hidden");
@@ -117,11 +118,30 @@
         function modalkelas() {
             document.getElementById("kelastable").classList.remove("hidden");
             document.getElementById("materitable").classList.add("hidden");
+            document.getElementById("listmateritable").classList.add("hidden");
         }
 
         function modalmapel() {
             document.getElementById("materitable").classList.remove("hidden");
             document.getElementById("kelastable").classList.add("hidden");
+            document.getElementById("listmateritable").classList.add("hidden");
+        }
+
+        function modallistkelas() {
+            document.getElementById("dibeli").classList.add("hidden");
+            document.getElementById("listmateritable").classList.remove("hidden");
+            document.getElementById("kelastable").classList.add("hidden");
+            document.getElementById("materitable").classList.add("hidden");
+        }
+        
+        function dibeli() {
+            document.getElementById("dibeli").classList.remove("hidden");
+            document.getElementById("materiall").classList.add("hidden");
+        }
+        
+        function materiall() {
+            document.getElementById("dibeli").classList.add("hidden");
+            document.getElementById("materiall").classList.remove("hidden");
         }
     </script>
 @endpush

@@ -131,7 +131,7 @@
                                     <td class="p-4 text-sm">
                                         <div class="flex gap-6 items-center">
                                             <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class="font-bold">{{ $jual->buy ? $jual->buy->count() : 0 }}</h3>
+                                                <h3 class="font-bold">{{ $jual->pembeli ? $jual->pembeli->count() : 0 }}</h3>
                                             </div>
                                         </div>
                                     </td>
@@ -139,7 +139,7 @@
                                         <div class="flex gap-6 items-center">
                                             <div class="flex flex-col gap-1 text-gray-500">
                                                 <h3 class="font-bold">
-                                                    {{ $jual->buy ? $jual->buy->count() * $jual->harga : 0 }}</h3>
+                                                    {{ $jual->pembeli ? $jual->pembeli->count() * $jual->harga : 0 }}</h3>
                                             </div>
                                         </div>
                                     </td>
@@ -152,9 +152,6 @@
             </div>
         </div>
     </div>
-
-
-
     @include('guru.materi.modal')
 @endsection
 
