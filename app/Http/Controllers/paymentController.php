@@ -4,11 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\buyMateri;
 use App\Models\chart;
+use App\Models\materiStrukture;
 use App\Models\penjualan;
 use App\Models\sellMateri;
 use App\Models\shop;
 use App\Models\size;
 use App\Models\so;
+use App\Models\user_materi_guru;
 use App\Models\wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -47,13 +49,12 @@ class paymentController extends Controller
 
                 $payload = [
                     'transaction_details' => [
-                        'order_id'      => $donation->id,
+                        'order_id'      => $donation->id . '-' . Auth::user()->id,
                         'gross_amount'  => $request->pembayaran,
                     ],
                     'customer_details' => [
                         'first_name'    => Auth::user()->name,
                         'email'         => Auth::user()->email,
-                        // 'phone'         => '08888888888',
                         // 'address'       => '',
                     ],
                     'item_details' => [
@@ -95,6 +96,8 @@ class paymentController extends Controller
         $id = $notification->order_id;
         $fraudStatus = $notification->fraud_status;
         $amout = $notification->gross_amount;
+        $parts = explode('-', $id);
+        $user_id = $parts[1];
 
         $pesanan = buyMateri::where('id', $id)->with('materiGuru')->first();
 
@@ -138,12 +141,20 @@ class paymentController extends Controller
                     'jenis' => 'uang masuk'
                 ]);
             }
+
+            $materiStrukture = materiStrukture::where('materiGuru_id', $pesanan->materi_guru_id)->get();
+
+            foreach ($materiStrukture as $strukture) {
+                if (user_materi_guru::where('materiStrukture_id', $strukture->id)->first() == null) {
+                    user_materi_guru::create([
+                        'user_id' => $user_id,
+                        'materiStrukture_id' => $strukture->id,
+                        'materi_guru_id' => $pesanan->materi_guru_id,
+                        'progres' => 2,
+                    ]);
+                }
+            }
         }
-
-
-
-
-
         return response('Notification processed.', 200);
     }
 }

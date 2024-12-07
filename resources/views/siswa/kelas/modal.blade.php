@@ -122,7 +122,7 @@
     </div>
 
     <!-- materi -->
-    <div class="card h-full" id="listmateritable">
+    <div class="card h-full" id="listmateritable">  
         <div class="card-body p-6">
 
             <div class="flex gap-4">
@@ -171,11 +171,8 @@
                                 </div>
 
                                 <!-- Tombol -->
-
-
-
                                 <div class="border-t border-gray-200 p-4 flex justify-between items-center">
-                                    <a href="{{ route($link, $dibelis->id) }}"
+                                    <a href="{{ route($link, $dibelis->materiGuru->id) }}"
                                         class="bg-teal-500 text-white px-4 py-2 rounded-md">
                                         <i class="bi bi-book"></i>
                                     </a>
@@ -220,7 +217,7 @@
 
 
                                     <div class="border-t border-gray-200 p-4 flex justify-between items-center">
-                                        <a href="{{ route($link, $alls->id) }}"
+                                        <a href="{{ route($link, $alls->materi->id) }}"
                                             class="bg-teal-500 text-white px-4 py-2 rounded-md">
                                             <i class="bi bi-book"></i>
                                         </a>

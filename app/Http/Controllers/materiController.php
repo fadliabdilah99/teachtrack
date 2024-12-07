@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\buyMateri;
 use App\Models\diskusi;
 use App\Models\guru_mapel;
 use App\Models\materi_rombel;
@@ -98,14 +99,18 @@ class materiController extends Controller
 
     public function strukturMapel($id)
     {
-        if (materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->first() == null) {
+        if (!(materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->exists() || buyMateri::where(['materi_guru_id' => $id, 'user_id' => Auth::user()->id])->exists())) {
+
             return redirect()->back()->with('error', 'materi ini bukan milikmu');
         }
 
-        $data['materiFirst'] = user_materi_guru::where('user_id', Auth::id())
+
+        $materiFirst = user_materi_guru::where('user_id', Auth::id())
             ->where('materi_guru_id', $id)
             ->where('progres', '2')
-            ->first()->materiStrukture_id;
+            ->first();
+
+        $data['materiFirst'] = $materiFirst ? $materiFirst->materiStrukture_id : null;
 
 
 

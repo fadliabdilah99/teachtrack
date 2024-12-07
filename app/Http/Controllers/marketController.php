@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\buyMateri;
 use App\Models\sellMateri;
 use Illuminate\Http\Request;
 
@@ -24,7 +25,8 @@ class marketController extends Controller
     // siswa------------------------------------------------
     public function index(){
         $data['sell'] = sellMateri::with(['materiGuru', 'pembeli'])->inRandomOrder()->limit(10)->get();
-        
+        $data['terjual'] = buyMateri::orderBy('created_at', 'desc')->where('status', 'payment')->limit(5)->get();
+
         return view('siswa.market.index')->with($data);
     }
 }

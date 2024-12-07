@@ -3,30 +3,33 @@
 @section('title', 'Siswa-Market')
 
 @push('style')
-<style>
-    .popup {
-        position: fixed;
-        bottom: 4rem;
-        right: 4rem;
-        background-color: white;
-        padding: 1rem;
-        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-        border-radius: 0.5rem;
-        transform: translateX(100%); /* Awalnya di luar layar */
-        transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
-        opacity: 0;
-    }
+    <style>
+        .popup {
+            position: fixed;
+            bottom: 4rem;
+            right: 4rem;
+            background-color: white;
+            padding: 1rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            border-radius: 0.5rem;
+            transform: translateX(100%);
+            /* Awalnya di luar layar */
+            transition: transform 0.5s ease-in-out, opacity 0.5s ease-in-out;
+            opacity: 0;
+        }
 
-    .popup.show {
-        transform: translateX(0); /* Muncul dari kanan ke posisi normal */
-        opacity: 1;
-    }
+        .popup.show {
+            transform: translateX(0);
+            /* Muncul dari kanan ke posisi normal */
+            opacity: 1;
+        }
 
-    .popup.hide {
-        transform: translateX(-100%); /* Keluar ke kiri layar */
-        opacity: 0;
-    }
-</style>
+        .popup.hide {
+            transform: translateX(-100%);
+            /* Keluar ke kiri layar */
+            opacity: 0;
+        }
+    </style>
 @endpush
 
 @section('content')
@@ -40,11 +43,12 @@
                     <p class="text-sm text-gray-500">pelajaran {{ $product->materiGuru->gurumapel->mapel->pelajaran }}</p>
                     <p class="text-sm text-gray-500">Dibuat oleh: {{ $product->materiGuru->user->name }}</p>
                     <p class="text-lg font-bold">Rp. {{ number_format($product->harga) }}</p>
-
                     <div class="flex justify-between space-x-4">
-                        <form action="#" id="donation_form">
-                            <input type="number" name="pembayaran" id="pembayaran" value="{{ $product->harga }}" hidden>
-                            <input type="number" name="sell_id" id="sell_id" value="{{ $product->id }}" hidden>
+                        <form action="#" id="donation_form_{{ $loop->index }}">
+                            <input type="number" name="pembayaran" id="pembayaran_{{ $loop->index }}"
+                                value="{{ $product->harga }}" hidden>
+                            <input type="number" name="sell_id" id="sell_id_{{ $loop->index }}"
+                                value="{{ $product->id }}" hidden>
                             @if ($product->pembeli->where('status', 'payment')->where('user_id', Auth::user()->id)->count() > 0)
                                 <p class="text-sm text-green-500"> <i class="bi bi-check-circle"></i> Sudah di beli</p>
                             @else
@@ -62,12 +66,13 @@
         @endforeach
 
 
-        <div id="popup1" class="popup hidden">
-            <p>Popup 1</p>
-        </div>
-        <div id="popup2" class="popup hidden">
-            <p>Popup 2</p>
-        </div>
+        @foreach ($terjual as $history)
+            <div id="popup{{ $history->id }}" class="popup hidden">
+                <p>{{$history->user->name}}</p>
+                <p>Membeli {{$history->materiGuru->judul}}</p>
+            </div>
+        @endforeach
+
 
 
 
@@ -86,33 +91,37 @@
 
 
         <script>
-            $("#donation_form").submit(function(event) {
-                console.log("Form submitted");
+            $('form[id^="donation_form_"]').submit(function(event) {
                 event.preventDefault();
-                console.log("Pembayaran:", $('#pembayaran').val());
-                console.log("Sell ID:", $('#sell_id').val());
+
+                // Ambil indeks dari ID form
+                const formIndex = $(this).attr('id').split('_')[2];
+
+                const pembayaran = $(`#pembayaran_${formIndex}`).val();
+                const sellId = $(`#sell_id_${formIndex}`).val();
+
+                console.log("Form submitted");
+                console.log("Pembayaran:", pembayaran);
+                console.log("Sell ID:", sellId);
 
                 $.post("/donation", {
                         _method: 'POST',
                         _token: '{{ csrf_token() }}',
-                        pembayaran: $('#pembayaran').val(),
-                        sell_id: $('#sell_id').val(),
+                        pembayaran: pembayaran,
+                        sell_id: sellId,
                     },
                     function(data, status) {
                         console.log("Response Data:", data);
                         console.log("Status:", status);
                         snap.pay(data.snap_token, {
-                            // Optional
                             onSuccess: function(result) {
                                 console.log("Payment Success:", result);
                                 location.reload();
                             },
-                            // Optional
                             onPending: function(result) {
                                 console.log("Payment Pending:", result);
                                 location.reload();
                             },
-                            // Optional
                             onError: function(result) {
                                 console.log("Payment Error:", result);
                                 location.reload();
@@ -122,6 +131,7 @@
                     }
                 );
             });
+
 
             $('.delete-data').click(function(e) {
                 e.preventDefault();
@@ -151,30 +161,30 @@
 
         {{-- popup --}}
         <script>
-            let currentPopup = 0; // Start from the first popup
-            const popups = ['popup1', 'popup2'];
-        
+            let currentPopup = 0; 
+            const popups = [];
+
+            document.querySelectorAll('.popup').forEach((popup) => {
+                popups.push(popup.id);
+            });
+
             function showPopup() {
-                // Loop through all popups
                 popups.forEach((id, index) => {
                     const popup = document.getElementById(id);
                     if (index === currentPopup) {
                         popup.classList.add('show');
                         popup.classList.remove('hide', 'hidden');
                     } else {
-                        popup.classList.add('hide'); // Add slide-out animation
-                        setTimeout(() => popup.classList.add('hidden'), 500); // Hide after animation ends
+                        popup.classList.add('hide'); 
+                        setTimeout(() => popup.classList.add('hidden'), 500); 
                         popup.classList.remove('show');
                     }
                 });
-        
-                // Move to the next popup
+
                 currentPopup = (currentPopup + 1) % popups.length; // Cycle through popups
             }
-        
+
             // Change popups every 3 seconds
             setInterval(showPopup, 3000);
         </script>
-        
-        
     @endpush

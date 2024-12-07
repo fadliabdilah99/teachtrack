@@ -115,10 +115,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
 
     // shop
     Route::get('shop', [marketController::class, 'index'])->name('shop');
-
-    // market
     Route::post('/donation', [paymentController::class, 'store']);
 });
+
 
 
 
