@@ -65,7 +65,6 @@
             </div>
         @endforeach
 
-
         @foreach ($terjual as $history)
             <div id="popup{{ $history->id }}" class="popup hidden">
                 <p>{{$history->user->name}}</p>

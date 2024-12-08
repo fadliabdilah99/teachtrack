@@ -21,7 +21,7 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $user = Auth::user();
 
-        if ($user->role === 'admin') {
+        if ($user->role == 'admin' || $user->role == 'konseling') {
             $this->redirect(route('admin'), navigate: true);
         } elseif ($user->role === 'siswa' || $user->role === 'KM') {
             $this->redirect(route('siswa'), navigate: true);

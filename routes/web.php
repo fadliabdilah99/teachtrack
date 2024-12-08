@@ -16,6 +16,7 @@ use App\Http\Controllers\ujianController;
 use App\Http\Controllers\userController;
 use App\Livewire\Admin\User;
 use App\Livewire\AdminComponent;
+use App\Livewire\Chat;
 use App\Models\materiGuru;
 use App\Models\rombelMateri;
 use Illuminate\Support\Facades\Route;
@@ -60,7 +61,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 
 
 // hanya guru yang bisa akses
-Route::group(['middleware' => ['role:guru']], function () {
+Route::group(['middleware' => ['role:guru,konseling']], function () {
     // dashboard
     Route::get('guru', [guruController::class, 'index'])->name('guru');
 
@@ -118,7 +119,7 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     Route::post('/donation', [paymentController::class, 'store']);
 });
 
-
+Route::get('chat/{user}', Chat::class)->name('chat');
 
 
 
