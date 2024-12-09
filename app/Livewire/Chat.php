@@ -17,10 +17,15 @@ class Chat extends Component
         return view(
             'livewire.chat',
             [
-                'messages' => Message::where('from_user_id', Auth::user()->id)
-                    ->orWhere('from_user_id', $this->user->id)
-                    ->orWhere('to_user_id', Auth::user()->id)
-                    ->orWhere('to_user_id', $this->user->id)
+                'messages' => Message::where(function ($query) {
+                    $query->where('from_user_id', Auth::user()->id)
+                        ->where('to_user_id', $this->user->id);
+                })
+                    ->orWhere(function ($query) {
+                        $query->where('from_user_id', $this->user->id)
+                            ->where('to_user_id', Auth::user()->id);
+                    })
+                    ->orderBy('created_at', 'asc') // Urutkan pesan berdasarkan waktu
                     ->get(),
             ]
         );
