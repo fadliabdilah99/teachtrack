@@ -4,6 +4,7 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
+use App\Http\Controllers\konselingController;
 use App\Http\Controllers\mapelController;
 use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
@@ -17,6 +18,8 @@ use App\Http\Controllers\userController;
 use App\Livewire\Admin\User;
 use App\Livewire\AdminComponent;
 use App\Livewire\Chat;
+use App\Livewire\GuruChat;
+use App\Livewire\ReplyGuru;
 use App\Models\materiGuru;
 use App\Models\rombelMateri;
 use Illuminate\Support\Facades\Route;
@@ -65,6 +68,7 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
     // dashboard
     Route::get('guru', [guruController::class, 'index'])->name('guru');
 
+
     // halaman materi
     Route::get('guru/materi', [materiController::class, 'index'])->name('materi');
     Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
@@ -85,6 +89,12 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
     // jual materi
     Route::post('guru/materi/jual', [marketController::class, 'jual'])->name('jualmateri');
     Route::delete('guru/materi/stopsell/{id}', [marketController::class, 'stopsell'])->name('stopsell');
+
+
+    // konseling
+    // Route::get('konseling', [konselingController::class, 'index'])->name('konseling');
+    Route::get('konseling', GuruChat::class)->name('konseling');
+    Route::get('konseling/reply/{user}', ReplyGuru::class)->name('reply');
 });
 
 
@@ -117,9 +127,11 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     // shop
     Route::get('shop', [marketController::class, 'index'])->name('shop');
     Route::post('/donation', [paymentController::class, 'store']);
+    
+    // bimbingan konseling
+    Route::get('konseling/{user}', Chat::class)->name('chat');
 });
 
-Route::get('chat/{user}', Chat::class)->name('chat');
 
 
 

@@ -46,9 +46,11 @@
 
     <!-- Bottom Buttons -->
     <div class="mt-8 px-4">
-        <button class="w-full py-2.5 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition">
-            Gabung Komunitas
-        </button>
+        <a href="{{url('konseling/1')}}">
+            <button class="w-full py-2.5 bg-blue-500 text-white rounded-md font-semibold hover:bg-blue-600 transition">
+                Bimbingan Konseling
+            </button>
+        </a>
         <button
             class="w-full mt-4 py-2.5 bg-gray-200 text-gray-600 rounded-md font-semibold hover:bg-gray-300 transition">
             Butuh Bantuan?

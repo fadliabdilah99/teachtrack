@@ -20,6 +20,9 @@
                         <i class="bi bi-person-circle text-gray-400 text-3xl"></i>
                         <div class="ml-2 py-3 px-4 bg-gray-400 rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white">
                             {{ $message->message }}
+                            <div class="text-xs text-white-500">
+                                {{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}
+                            </div>
                         </div>
                     </div>
                 @else
@@ -28,6 +31,9 @@
                         <div>
                             <div class="mr-2 py-3 px-4 bg-blue-400 rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white">
                                 {{ $message->message }}
+                                <div class="text-white-500 text-sm text-right">
+                                    {{ \Carbon\Carbon::parse($message->created_at)->diffForHumans() }}
+                                </div>
                             </div>
                         </div>
                         <i class="bi bi-person-circle text-gray-400 text-3xl"></i>
@@ -40,10 +46,15 @@
     <!-- Input Area -->
     <div class="bg-white border-t border-gray-300 p-5 flex items-center space-x-4">
         <form wire:submit.prevent="sendMessage" class="flex w-full items-center space-x-4">
-            <input type="text" placeholder="Tulis pesan..." wire:model="message"
-                class="flex-1 px-5 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-300">
+            <div class="flex-1 relative">
+                <input type="text" placeholder="Tulis pesan..." wire:model="message"
+                    class="w-full px-5 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-300">
+                <span class="absolute right-0 top-0 h-full flex items-center px-3 text-gray-400">
+                    <i class="bi bi-chat-left-text"></i>
+                </span>
+            </div>
             <button type="submit" class="bg-blue-600 text-white px-5 py-3 rounded-md hover:bg-blue-700 transition duration-300">
-                Kirim
+                <i class="bi bi-send"></i>
             </button>
         </form>
     </div>

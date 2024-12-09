@@ -21,11 +21,11 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $user = Auth::user();
 
-        if ($user->role == 'admin' || $user->role == 'konseling') {
+        if ($user->role == 'admin') {
             $this->redirect(route('admin'), navigate: true);
         } elseif ($user->role === 'siswa' || $user->role === 'KM') {
             $this->redirect(route('siswa'), navigate: true);
-        } elseif ($user->role === 'siswa' || $user->role === 'guru') {
+        } elseif ($user->role === 'guru' || $user->role == 'konseling') {
             $this->redirect(route('guru'), navigate: true);
         } else {
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);

@@ -35,7 +35,5 @@ class Chat extends Component
         ]);
 
         $this->reset('message');
-
-        // $this->emit('messageSent');
     }
 }

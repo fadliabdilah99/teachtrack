@@ -126,5 +126,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(wallet::class);
     }
-    
+
+    public function message(){
+        return $this->hasMany(message::class, 'from_user_id');
+    }
 }

@@ -22,10 +22,19 @@
                         <span>Dashboard</span> </a>
                 </li>
 
+                @if (Auth::user()->role == 'konseling')
+                    <li class="sidebar-item">
+                        <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
+                            href="{{ route('konseling') }}"> <i class="bi bi-chat-left-heart ps-2 text-2xl"></i>
+                            <span>Bimbingan Konseling</span> </a>
+                    </li>
+                @endif
+
                 <li class="text-xs font-bold mb-4 mt-6">
                     <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-                    <span class="text-xs text-gray-400 font-semibold">UI COMPONENTS</span>
+                    <span class="text-xs text-gray-400 font-semibold">Lainnya</span>
                 </li>
+
 
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
