@@ -69,3 +69,15 @@
     </div>
     <!-- Input Area -->
 </div>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const chatArea = document.getElementById('chatArea');
+        chatArea.scrollTop = chatArea.scrollHeight;
+    });
+
+    Livewire.on('messageSent', () => {
+        const chatArea = document.getElementById('chatArea');
+        chatArea.scrollTop = chatArea.scrollHeight;
+    });
+</script> 

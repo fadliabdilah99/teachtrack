@@ -4,26 +4,20 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
-use App\Http\Controllers\konselingController;
 use App\Http\Controllers\mapelController;
 use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
 use App\Http\Controllers\paymentController;
 use App\Http\Controllers\rombelController;
-use App\Http\Controllers\siswa;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\sosmedController;
 use App\Http\Controllers\ujianController;
 use App\Http\Controllers\userController;
-use App\Livewire\Admin\User;
-use App\Livewire\AdminComponent;
 use App\Livewire\Chat;
+use App\Livewire\ChatKelas;
 use App\Livewire\GuruChat;
 use App\Livewire\ReplyGuru;
-use App\Models\materiGuru;
-use App\Models\rombelMateri;
 use Illuminate\Support\Facades\Route;
-use Livewire\Volt\Volt;
 
 
 Route::view('/', 'welcome');
@@ -130,6 +124,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     
     // bimbingan konseling
     Route::get('konseling/{user}', Chat::class)->name('chat');
+
+    // chat kelas
+    Route::get('siswa/chat-kelas', ChatKelas::class)->name('chat-kelas');
 });
 
 
