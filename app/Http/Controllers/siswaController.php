@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Absensi;
 use App\Models\nilai;
 use App\Models\post;
 use App\Models\rombel;
