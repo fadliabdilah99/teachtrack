@@ -10,7 +10,7 @@
         <h4 class="text-lg font-bold text-center text-gray-800">{{Auth::user()->role}}</h4>
         <p class="text-center font-semibold text-lg">{{Auth::user()->name}}</p>
         <div class="flex items-center mt-2 text-pink-500 font-semibold">
-            <i class="ti ti-flame mr-1"></i> 198 Exp
+            <i class="ti ti-flame mr-1"></i> {{Auth::user()->skor->sum('skor')}} Exp
         </div>
     </div>
 

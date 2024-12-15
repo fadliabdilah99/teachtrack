@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\absensi;
+use App\Models\skor;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -16,7 +17,7 @@ class absensiController extends Controller
     {
         // Debug: Menampilkan data request yang diterima
         Log::info($request->all());
-    
+
         // Validasi data
         $validated = $request->validate([
             'user_id' => 'required|exists:users,id',
@@ -24,11 +25,11 @@ class absensiController extends Controller
             'longitude' => 'required|numeric',
             'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
         ]);
-    
+
         try {
             // Debug: Cek apakah foto tersedia
             Log::info('Foto tersedia: ' . $request->hasFile('foto'));
-    
+
             if ($request->hasFile('foto')) {
                 // Menyimpan foto
                 $file = $request->file('foto');
@@ -39,7 +40,7 @@ class absensiController extends Controller
             } else {
                 throw new \Exception('Foto tidak ditemukan');
             }
-    
+
             // Menyimpan absensi
             $absensi = Absensi::create([
                 'user_id' => $validated['user_id'],
@@ -49,19 +50,34 @@ class absensiController extends Controller
                 'longitude' => $validated['longitude'],
                 'foto' => $fotoPath,
             ]);
-    
+
+            if ($absensi->created_at->format('H:i:s') >= '06:00:00' && $absensi->created_at->format('H:i:s') < '06:40:00') {
+                $skor = 5;
+            } elseif ($absensi->created_at->format('H:i:s') >= '06:40:00' && $absensi->created_at->format('H:i:s') < '07:00:00') {
+                $skor = 3;
+            } elseif ($absensi->created_at->format('H:i:s') <= '07:00:00') {
+                $skor = 1;
+            } else {
+                $skor = -5;
+            }
+
+            skor::create([
+                'user_id' => $validated['user_id'],
+                'skor' => $skor,
+            ]);
+
+
             return response()->json([
                 'message' => 'Absensi berhasil disimpan!',
                 'data' => $absensi,
             ], 201);
         } catch (\Exception $e) {
             Log::error('Error menyimpan absensi: ' . $e->getMessage());
-    
+
             return response()->json([
                 'message' => 'Terjadi kesalahan saat menyimpan absensi!',
                 'error' => $e->getMessage(),
             ], 500);
         }
     }
-    
 }

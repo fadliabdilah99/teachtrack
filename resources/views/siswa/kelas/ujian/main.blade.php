@@ -211,9 +211,9 @@
                                         </div>
 
                                         <div class="flex justify-end">
-                                            <a href="{{ route('dashboard') }}"
+                                            <a href="{{ route('kelas') }}"
                                                 class="bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 transition">
-                                                Kembali ke Dashboard
+                                                Kembali ke Kelas
                                             </a>
                                         </div>
                                     </div>

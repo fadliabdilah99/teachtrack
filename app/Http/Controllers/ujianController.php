@@ -72,15 +72,15 @@ class ujianController extends Controller
             'question_id' => 'required',
         ]);
 
-            $soal = optionQuestion::where('id', $id)->first();
-            $status = $request->status == 'benar' ? 'salah' : 'benar';
-            optionQuestion::where('question_id', $soal->question_id)->update([
-                'status' => $status
-            ]);
+        $soal = optionQuestion::where('id', $id)->first();
+        $status = $request->status == 'benar' ? 'salah' : 'benar';
+        optionQuestion::where('question_id', $soal->question_id)->update([
+            'status' => $status
+        ]);
 
-            optionQuestion::where('id', $id)->update([
-                'status' => $request->status,
-            ]);
+        optionQuestion::where('id', $id)->update([
+            'status' => $request->status,
+        ]);
 
         return redirect()->back()->with(['soal_id' => $request->question_id])->with('success', 'opsi berhasil di ubah');
     }
@@ -124,10 +124,14 @@ class ujianController extends Controller
         $userMateriGurus = user_materi_guru::where('materi_guru_id', $id)
             ->where('user_id', Auth::id())
             ->get();
+
+        // menghitung nilai
         foreach ($userMateriGurus as $userMateriGuru) {
             $userSelectOption = user_select_option::where('user_materi_guru_id', $userMateriGuru->id)->first();
-            if ($userSelectOption->option->status == 'benar') {
-                $totalBenar++;
+            if ($userSelectOption) {
+                if ($userSelectOption->option->status == 'benar') {
+                    $totalBenar++;
+                }
             }
         }
         $data['totalBenar'] = $totalBenar;
@@ -148,8 +152,6 @@ class ujianController extends Controller
                 'nilai' => $data['nilai'],
             ]);
         }
-
-
         $data['materi'] = materiGuru::where('id', $id)->first();
         $data['soals'] = questions::where('materi_guru_id', $id)->with('options')->with(['userMateri' => function ($query) {
             $query->where('user_id', Auth::user()->id);

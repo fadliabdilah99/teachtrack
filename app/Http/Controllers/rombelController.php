@@ -16,6 +16,8 @@ use Illuminate\Support\Facades\Auth;
 
 class rombelController extends Controller
 {
+
+    // menambah jadwal guru di kelas tertentu akses admin
     public function mapelRombel(Request $request)
     {
         $request->validate([
@@ -44,14 +46,16 @@ class rombelController extends Controller
 
 
 
+    // halaman kelas guru
     public function gurumateri()
     {
         $data['mapel'] = guru_mapel::where('user_id', Auth::user()->id)->get();
+
+        // mengambil jadwal guru berdasarkan mapel
         $data['jadwal'] = rombel_mapel_guru::whereIn('guru_mapel_id', $data['mapel']->pluck('id'))
             ->with('guruMapel', 'rombel', 'materiGuru')
             ->orderByRaw("FIELD(hari, 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu')")
             ->get();
-
 
         $data['rombel'] = $data['jadwal']->pluck('rombel')->unique('id');
 
@@ -62,6 +66,8 @@ class rombelController extends Controller
     }
 
 
+
+    // fungsi untuk menambahkan materi ke rombel dan ke siswa
     public function addmateri(Request $request)
     {
         $request->validate([
@@ -78,13 +84,11 @@ class rombelController extends Controller
             }
         }
 
-
-
         $materiGuru = materiGuru::where('id', $request->materi_guru_id)->first();
 
         if ($materiGuru->jenis == 'materi') {
             $materi = materiStrukture::where('materiGuru_id', $request->materi_guru_id)->get();
-        } elseif ($materiGuru->jenis == 'ujian') {
+        } elseif ($materiGuru->jenis == 'ujian(fixed)') {
             $materi = questions::where('materi_guru_id', $request->materi_guru_id)->get();
         }
 

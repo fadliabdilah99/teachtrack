@@ -162,7 +162,6 @@
                                         {{ $dibelis->materiGuru->struktur->count() }} Modul
                                     </span>
                                 </div>
-
                                 <!-- Penilaian -->
                                 <div class="flex items-center mt-2">
                                     <i class="bi bi-star text-yellow-500"></i>

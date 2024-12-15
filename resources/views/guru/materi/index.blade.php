@@ -52,7 +52,7 @@
                                     </div>
                                 </td>
                                 <td class="p-4">
-                                    @if ($mapel->jenis == 'ujian(fixed)')
+                                    @if ($mapel->jenis == 'ujian(fixed)' || $mapel->jenis == 'ujian')
                                         <a href="{{ url('guru/materi/ujian/' . $mapel->id) }}"
                                             class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
                                             <i class="bi bi-eye font-bold"></i>

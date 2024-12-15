@@ -20,9 +20,14 @@ class Absensi extends Model
         'foto',
     ];
 
-    // Jika foto disimpan di storage, Anda bisa menambahkan accessor untuk mendapatkan URL file
+
     public function getFotoUrlAttribute()
     {
-        return Storage::url($this->foto); // Menghasilkan URL untuk foto yang tersimpan
+        return Storage::url($this->foto); 
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
     }
 }

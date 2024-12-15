@@ -13,6 +13,7 @@ use App\Http\Controllers\siswaController;
 use App\Http\Controllers\sosmedController;
 use App\Http\Controllers\ujianController;
 use App\Http\Controllers\userController;
+use App\Http\Controllers\walikelasController;
 use App\Livewire\Chat;
 use App\Livewire\ChatKelas;
 use App\Livewire\GuruChat;
@@ -89,6 +90,9 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
     // Route::get('konseling', [konselingController::class, 'index'])->name('konseling');
     Route::get('konseling', GuruChat::class)->name('konseling');
     Route::get('konseling/reply/{user}', ReplyGuru::class)->name('reply');
+
+    // walikelas
+    Route::get('guru/walikelas', [walikelasController::class, 'index'])->name('walikelas');
 });
 
 
@@ -102,7 +106,7 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
     Route::post('siswa/kelas/structure/done', [materiController::class, 'done'])->name('paham');
     Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
-    
+
     // ujian
     Route::get('siswa/kelas/ujian/{id}', [ujianController::class, 'ujian'])->name('ujian');
     Route::post('siswa/kelas/ujian/select', [ujianController::class, 'select'])->name('select');
@@ -121,7 +125,7 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
     // shop
     Route::get('shop', [marketController::class, 'index'])->name('shop');
     Route::post('/donation', [paymentController::class, 'store']);
-    
+
     // bimbingan konseling
     Route::get('konseling/{user}', Chat::class)->name('chat');
 
