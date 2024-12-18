@@ -80,4 +80,16 @@ class absensiController extends Controller
             ], 500);
         }
     }
+
+
+    // absensi dari sekertaris
+    public function absensi(Request $request)
+    {
+        // dd($request->all());
+        $edit = absensi::create([
+            'user_id' => Auth::user()->id,
+            'status' => $request->status,
+        ]);
+        return redirect()->back()->with('success', 'berhasil menambahkan absensi');
+    }
 }

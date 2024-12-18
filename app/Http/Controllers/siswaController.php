@@ -24,6 +24,7 @@ class siswaController extends Controller
 
         // postingan
         $data['postingan'] = post::with(['user', 'comments', 'likes', 'fotoPost'])->latest()->get();
+        
 
 
         // mencari kelas dengan rata rata nilai tertinggi

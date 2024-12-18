@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\skor;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -32,5 +33,11 @@ class walikelasController extends Controller
             ->get();
 
         return view('guru.walikelas.index')->with($data);
+    }
+
+    public function skor(Request $request){
+        skor::create($request->all());
+
+        return redirect()->back()->with('success', 'Berhasil menambahkan skor');
     }
 }

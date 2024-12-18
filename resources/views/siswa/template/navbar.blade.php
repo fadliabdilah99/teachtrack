@@ -74,8 +74,12 @@
                </li>
            </ul>
            <div class="flex items-center gap-4">
-               <a href="#" class="btn text-base font-medium hover:bg-blue-700" aria-current="page">Upgrade to
-                   Pros</a>
+               <div class="mx-4 relative grid">
+                   <form action="{{ url('logout') }}" method="POST">
+                       @csrf
+                       <button class="text-base font-semibold hover:bg-blue-700 btn" type="submit">Logout</button>
+                   </form>
+               </div>
                <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
                    <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
                        <img class="object-cover w-9 h-9 rounded-full" src="./assets/images/profile/user-1.jpg"

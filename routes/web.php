@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\absensiController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
@@ -93,11 +94,12 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
 
     // walikelas
     Route::get('guru/walikelas', [walikelasController::class, 'index'])->name('walikelas');
+    Route::post('guru/walikelas/addskor', [walikelasController::class, 'skor'])->name('skor');
 });
 
 
 // hanya murid yang bisa akses
-Route::group(['middleware' => ['role:siswa,KM']], function () {
+Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     // dashboard
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
 
@@ -131,6 +133,9 @@ Route::group(['middleware' => ['role:siswa,KM']], function () {
 
     // chat kelas
     Route::get('siswa/chat-kelas', ChatKelas::class)->name('chat-kelas');
+
+    // absensi
+    Route::post('siswa/absensi', [absensiController::class, 'absensi'])->name('absensiSekertaris');
 });
 
 

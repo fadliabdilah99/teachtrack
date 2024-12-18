@@ -17,6 +17,7 @@ class Absensi extends Model
         'user_id',
         'latitude',
         'longitude',
+        'status',
         'foto',
     ];
 

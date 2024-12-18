@@ -58,8 +58,9 @@
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
                                             <h3 class="font-bold">
-                                                <p>{{ $user->skor->sum('skor') }}
-                                                </p>
+                                                <button onclick="skor({{ $user->id }})"
+                                                    class="inline-flex
+                                                items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">{{ $user->skor->sum('skor') }}</button>
                                             </h3>
                                         </div>
                                     </div>
@@ -68,7 +69,7 @@
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
                                             <h3 class="font-bold">
-                                                <p>{{ $user->absen->sum('skor') }}
+                                                <p>{{ $user->absen->count() }}
                                                 </p>
                                             </h3>
                                         </div>
@@ -124,8 +125,10 @@
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
                                             <h3 class="font-bold">
-                                                <p>{{ $murid->nilai->sum('nilai') ?? 0 }}
-                                                </p>
+                                                <button onclick="anulir({{ $murid->id }} )"
+                                                    class="inline-flex
+                                                items-center py-2 px-4 rounded-3xl font-semibold bg-red-400 text-white"><i
+                                                        class="bi bi-slash font-bold "></i></button>
                                             </h3>
                                         </div>
                                     </div>
@@ -142,4 +145,25 @@
 @endsection
 
 @push('script')
+    <script>
+        // anulir absen
+        function anulir(userID) {
+            document.getElementById(`anulir`).classList.remove("hidden");
+        }
+
+        function closeanulir(id) {
+            document.getElementById(`anulir`).classList.add("hidden");
+        }
+    </script>
+    <script>
+        // skor
+        function skor(userID) {
+            document.getElementById(`skor`).classList.remove("hidden");
+            document.getElementById(`user_id`).value = userID;
+        }
+
+        function closeskor(id) {
+            document.getElementById(`skor`).classList.add("hidden");
+        }
+    </script>
 @endpush
