@@ -13,7 +13,7 @@
     <meta name="author" content="" />
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css" />
     <!--Replace with your tailwind.css once created-->
-    <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:400,700" rel="stylesheet" />
+    @vite('resources/css/app.css')
     <!-- Define your gradient here - use online tools to find a gradient matching your branding-->
     <style>
         .gradient {
@@ -30,12 +30,7 @@
                 <a class="toggleColour text-white no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
                     href="#">
                     <!--Icon from: http://www.potlabicons.com/ -->
-                    <svg class="inline" xmlns="http://www.w3.org/2000/svg" width="32" height="32" fill="currentColor" class="bi bi-vector-pen" viewBox="0 0 16 16">
-                        <path fill-rule="evenodd" d="M10.646.646a.5.5 0 0 1 .708 0l4 4a.5.5 0 0 1 0 .708l-1.902 1.902-.829 3.313a1.5 1.5 0 0 1-1.024 1.073L1.254 14.746 4.358 4.4A1.5 1.5 0 0 1 5.43 3.377l3.313-.828zm-1.8 2.908-3.173.793a.5.5 0 0 0-.358.342l-2.57 8.565 8.567-2.57a.5.5 0 0 0 .34-.357l.794-3.174-3.6-3.6z"/>
-                        <path fill-rule="evenodd" d="M2.832 13.228 8 9a1 1 0 1 0-1-1l-4.228 5.168-.026.086z"/>
-                    </svg>
-
-                    TeachTrack
+                    <img class="inline" width="200" src="{{ asset('assets/TEACHTRACK.png') }}" alt="logo">
                 </a>
             </div>
             <div class="block lg:hidden pr-4">
@@ -51,15 +46,16 @@
                 id="nav-content">
                 <ul class="list-reset lg:flex justify-end flex-1 items-center">
                     <li class="mr-3">
-                        <a class="inline-block py-2 px-4 text-black font-bold no-underline" href="#">Active</a>
+                        <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
+                            href="#about">About Aps</a>
                     </li>
                     <li class="mr-3">
                         <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
-                            href="#">link</a>
+                            href="#features">Fitur</a>
                     </li>
                     <li class="mr-3">
                         <a class="inline-block text-black no-underline hover:text-gray-800 hover:text-underline py-2 px-4"
-                            href="#">link</a>
+                            href="#download">Download</a>
                     </li>
                 </ul>
                 <a href="register"
@@ -77,22 +73,24 @@
             <div
                 class="flex flex-col w-full md:w-1/2 lg:w-2/5 justify-center items-start text-center md:text-left space-y-4 md:space-y-6 lg:space-y-8">
                 <h1 class="text-4xl md:text-5xl lg:text-6xl font-bold leading-snug md:leading-tight lg:leading-tight">
-                    Main Hero Message to sell yourself!
+                    Selamat Datang Di <span class="bg-pink-500">Teach</span><span class="text-pink-500">Track</span>
                 </h1>
                 <p
-                    class="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-normal lg:leading-normal text-gray-700">
-                    Sub-hero message, not too long and not too short. Make it just right!
+                    class="text-lg md:text-xl lg:text-2xl leading-relaxed md:leading-normal lg:leading-normal text-gray-500">
+                    Sosial media pendidikan & managemen pendidikan berbasis online
                 </p>
-                <a href="login"
-                    class="mx-auto md:mx-0 hover:underline bg-blue-600 text-white font-semibold rounded-full my-8 py-3  px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    Login
-                </a>
+                @if (Auth::check() == false)
+                    <a href="login"
+                        class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                        Login
+                    </a>
+                @endif
             </div>
 
             <!--Right Col-->
             <div class="w-full md:w-1/2 lg:w-5/5 flex justify-center md:justify-end">
-                <img class="w-10/12 md:w-11/12 lg:w-10/12 xl:w-8/12 rounded-b-lg "
-                    src="{{ asset('assets/hero.png') }}" alt="Hero Image" />
+                <img class="w-10/12 md:w-11/12 lg:w-10/12 xl:w-8/12 rounded-b-lg " src="{{ asset('assets/hero.png') }}"
+                    alt="Hero Image" />
             </div>
         </div>
     </div>
@@ -120,10 +118,10 @@
             </g>
         </svg>
     </div>
-    <section class="bg-white border-b py-8">
+    <section id="about" class="bg-white border-b py-8">
         <div class="container max-w-5xl mx-auto m-8">
             <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-                Title
+                Tentang Aplikasi
             </h2>
             <div class="w-full mb-4">
                 <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -131,11 +129,11 @@
             <div class="flex flex-wrap">
                 <div class="w-5/6 sm:w-1/2 p-6">
                     <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
-                        Lorem ipsum dolor sit amet
+                        Apa itu TeachTrack
                     </h3>
                     <p class="text-gray-600 mb-8">
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo
-                        posuere et sit amet ligula.
+                        TeachTrack merupakan aplikasi untuk mendukung pembelajaran dan aktifitas siswa disekolah, dengan
+                        beberapa fitur yang mendukung siswa baik di dalam akademik, sosial, hingga kegiatan sekolah.
                         <br />
                         <br />
 
@@ -371,11 +369,11 @@
                 <div class="w-full sm:w-1/2 p-6 mt-6">
                     <div class="align-middle">
                         <h3 class="text-3xl text-gray-800 font-bold leading-none mb-3">
-                            Lorem ipsum dolor sit amet
+                            Kenapa harus menggunakan <span class="text-pink-500">TeachTrack</span>
                         </h3>
                         <p class="text-gray-600 mb-8">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo
-                            posuere et sit amet ligula.
+                            TeachTrack dirancang untuk mempermudah pembelajaran dan mendukung aktifitas siswa, dengan
+                            kombinasi fitur yang diperlukan di sekolah menengah dan keperluan remaja sekolah.
                             <br />
                             <br />
                             Images from:
@@ -387,10 +385,10 @@
             </div>
         </div>
     </section>
-    <section class="bg-white border-b py-8">
+    <section id="features" class="bg-white border-b py-8">
         <div class="container mx-auto flex flex-wrap pt-4 pb-12">
             <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-                Title
+                Fitur Unggulan
             </h2>
             <div class="w-full mb-4">
                 <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
@@ -398,15 +396,12 @@
             <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
                 <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
                     <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <p class="w-full text-gray-600 text-xs md:text-sm px-6">
-                            xGETTING STARTED
-                        </p>
                         <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Lorem ipsum dolor sit amet.
+                            pendataan kelas, siswa, dan guru
                         </div>
                         <p class="text-gray-800 text-base px-6 mb-5">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo
-                            posuere et sit amet ligula.
+                            kelas, guru, dan siswa terdata dengan mudah, selain untuk keperluan fitur yang di buat data
+                            ini juga di perlukan untuk pendataan sekolah
                         </p>
                     </a>
                 </div>
@@ -422,132 +417,218 @@
             <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
                 <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
                     <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <p class="w-full text-gray-600 text-xs md:text-sm px-6">
-                            xGETTING STARTED
-                        </p>
                         <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Lorem ipsum dolor sit amet.
+                            managemen jadwal pembelajaran
                         </div>
                         <p class="text-gray-800 text-base px-6 mb-5">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo
-                            posuere et sit amet ligula.
+                            jadwal pembelajaran terdata dengan dengan rapih dan mudah untuk di atur, dimana pihak
+                            kurikulum(Admin) dapat mengatur jadwal pembelajaran secara fleksible.
                         </p>
                     </a>
                 </div>
                 <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-center">
-                        <button
+                    <div class="flex items-center justify-start">
+                        <a href=""
                             class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                             Action
-                        </button>
+                        </a>
                     </div>
                 </div>
             </div>
             <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
                 <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
                     <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <p class="w-full text-gray-600 text-xs md:text-sm px-6">
-                            xGETTING STARTED
-                        </p>
                         <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Lorem ipsum dolor sit amet.
+                            Materi & ujian
                         </div>
                         <p class="text-gray-800 text-base px-6 mb-5">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam at ipsum eu nunc commodo
-                            posuere et sit amet ligula.
+                            Setelah kelas mendapatkan jadwal masing masing, siswa dapat menerima materi dan ujian yang
+                            telah di buat oleh guru.
                         </p>
                     </a>
                 </div>
                 <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-end">
-                        <button
+                    <div class="flex items-center justify-start">
+                        <a href=""
                             class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
                             Action
-                        </button>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                        <div class="w-full font-bold text-xl text-gray-800 px-6">
+                            Ruang diskusi
+                        </div>
+                        <p class="text-gray-800 text-base px-6 mb-5">
+                            Ruang diskusi terdapat pada halaman materi, siswa dapat melontarkan atau menjawab pertanyaan
+                            sesama, selain itu guru juga di harapkan dapat memberikan penjelasan ketika siswa bertanya.
+                        </p>
+                    </a>
+                </div>
+                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                    <div class="flex items-center justify-start">
+                        <a href=""
+                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                            Action
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                        <div class="w-full font-bold text-xl text-gray-800 px-6">
+                            Jual beli materi
+                        </div>
+                        <p class="text-gray-800 text-base px-6 mb-5">
+                            Guru dapat membuat materi sebanyak mungkin baik itu untuk materi kelas ataupun untuk di
+                            perjual belikan, untuk siswa dari jurusan berbeda dapat mempelajari jurusan lain.
+                        </p>
+                    </a>
+                </div>
+                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                    <div class="flex items-center justify-start">
+                        <a href=""
+                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                            Action
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                        <div class="w-full font-bold text-xl text-gray-800 px-6">
+                            Private konseling
+                        </div>
+                        <p class="text-gray-800 text-base px-6 mb-5">
+                            Kami menemukan bahwa siswa sangat jarang sekali untuk melakukan bimbingan konseling di
+                            tengah isu mental helt yang di alami Gen Z, untuk itu kami membuat layanan ini untuk
+                            bimbingan yang lebih terbuka, dan menjadi solusi yang baik.
+                        </p>
+                    </a>
+                </div>
+                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                    <div class="flex items-center justify-start">
+                        <a href=""
+                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                            Action
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                        <div class="w-full font-bold text-xl text-gray-800 px-6">
+                            Chat kelas
+                        </div>
+                        <p class="text-gray-800 text-base px-6 mb-5">
+                            Kami membuat Chat kelas untuk mempermudah dalam komunikasi dan interaksi antar siswa satu
+                            kelas .
+                        </p>
+                    </a>
+                </div>
+                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                    <div class="flex items-center justify-start">
+                        <a href=""
+                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                            Action
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                        <div class="w-full font-bold text-xl text-gray-800 px-6">
+                            Sosial media
+                        </div>
+                        <p class="text-gray-800 text-base px-6 mb-5">
+                            Sosial media tentunya sangat penting untuk siswa, kami mendukung interaksi semua siswa,
+                            sehingga dapat menjadi tempat promosi produk lokal dan sosialisi sekolah.
+                        </p>
+                    </a>
+                </div>
+                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                    <div class="flex items-center justify-start">
+                        <a href=""
+                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                            Action
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
+                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
+                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
+                        <div class="w-full font-bold text-xl text-gray-800 px-6">
+                            Absensi Mobile apss
+                        </div>
+                        <p class="text-gray-800 text-base px-6 mb-5">
+                            Kemudahan absensi pastinya menjadi hal yang sangat penting untuk pendataan kehadiran, kami
+                            membuat absensi mobile apss dengan take foto dan get lokasi, untuk meminimalisir kecurangan.
+                        </p>
+                    </a>
+                </div>
+                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
+                    <div class="flex items-center justify-start">
+                        <a href=""
+                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
+                            Action
+                        </a>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <section class="bg-gray-100 py-8">
+    <section id="download" class="bg-white py-8">
         <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
             <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
-                Pricing
+                Get Aps
             </h2>
             <div class="w-full mb-4">
                 <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
             </div>
-            <div class="flex flex-col sm:flex-row justify-center pt-12 my-12 sm:my-4">
-                <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
-                    <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
-                        <div class="p-8 text-3xl font-bold text-center border-b-4">
-                            Free
+            <div class="min-h-screen flex items-center justify-center">
+                <div class="container mx-auto px-4">
+                    <div class="flex flex-col md:flex-row items-center bg-white p-8 md:p-12">
+                        <!-- Bagian Kiri -->
+                        <div class="md:w-1/2 text-center md:text-left">
+                            <h1 class="text-3xl font-bold text-gray-900 mb-4">Download Aplikasi Absen</h1>
+                            <p class="text-gray-600 mb-6">
+                                siswa di wajibkan menggunakan aplikasi absen ini, untuk melakukan absen berbasis foto dan lokasi
+                            </p>
+                            <div
+                                class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
+                                <!-- Tombol Google Play -->
+                                <a href="#"
+                                    class="flex items-center px-4 py-2 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600">
+                                    <div class="mr-3 ">
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z"/>
+                                            <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
+                                          </svg>
+                                    </div>
+                                    <span>Download on Google Drive</span>
+                                </a>
+                            </div>
+                            <!-- QR Code -->
+
                         </div>
-                        <ul class="w-full text-center text-sm">
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                        </ul>
-                    </div>
-                    <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                        <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center">
-                            £0
-                            <span class="text-base">for one user</span>
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <button
-                                class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                Sign Up
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div
-                    class="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-white mt-4 sm:-mt-6 shadow-lg z-10">
-                    <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                        <div class="w-full p-8 text-3xl font-bold text-center">Basic</div>
-                        <div class="h-1 w-full gradient my-0 py-0 rounded-t"></div>
-                        <ul class="w-full text-center text-base font-bold">
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                        </ul>
-                    </div>
-                    <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                        <div class="w-full pt-6 text-4xl font-bold text-center">
-                            £x.99
-                            <span class="text-base">/ per user</span>
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <button
-                                class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                Sign Up
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
-                    <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
-                        <div class="p-8 text-3xl font-bold text-center border-b-4">
-                            Pro
-                        </div>
-                        <ul class="w-full text-center text-sm">
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                            <li class="border-b py-4">Thing</li>
-                        </ul>
-                    </div>
-                    <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                        <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center">
-                            £x.99
-                            <span class="text-base">/ per user</span>
-                        </div>
-                        <div class="flex items-center justify-center">
-                            <button
-                                class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                                Sign Up
-                            </button>
+
+                        <!-- Bagian Kanan -->
+                        <div class="md:w-1/2 mt-8 md:mt-0 flex justify-center">
+                            <div class="relative">
+                                <!-- Lingkaran -->
+                                <div class="absolute -top-10 -left-10 w-64 h-64 bg-blue-200 rounded-full"></div>
+                                <!-- Gambar Ponsel -->
+                                <img src="https://via.placeholder.com/200x400" alt="Phone Mockup"
+                                    class="relative w-40 md:w-56">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -601,17 +682,9 @@
         <div class="container mx-auto px-8">
             <div class="w-full flex flex-col md:flex-row py-6">
                 <div class="flex-1 mb-6 text-black">
-                    <a class="text-pink-600 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
+                    <a class="text-pink-500 no-underline hover:no-underline font-bold text-2xl lg:text-4xl"
                         href="#">
-                        <!--Icon from: http://www.potlabicons.com/ -->
-                        <svg class="h-8 fill-current inline" xmlns="http://www.w3.org/2000/svg"
-                            viewBox="0 0 512.005 512.005">
-                            <rect fill="#2a2a31" x="16.539" y="425.626" width="479.767" height="50.502"
-                                transform="matrix(1,0,0,1,0,0)" />
-                            <path class="plane-take-off"
-                                d=" M 510.7 189.151 C 505.271 168.95 484.565 156.956 464.365 162.385 L 330.156 198.367 L 155.924 35.878 L 107.19 49.008 L 211.729 230.183 L 86.232 263.767 L 36.614 224.754 L 0 234.603 L 45.957 314.27 L 65.274 347.727 L 105.802 336.869 L 240.011 300.886 L 349.726 271.469 L 483.935 235.486 C 504.134 230.057 516.129 209.352 510.7 189.151 Z " />
-                        </svg>
-                        LANDING
+                        TEACHTRACK
                     </a>
                 </div>
                 <div class="flex-1">
@@ -681,8 +754,6 @@
                 </div>
             </div>
         </div>
-        <a href="https://www.freepik.com/free-photos-vectors/background" class="text-gray-500">Background vector
-            created by freepik - www.freepik.com</a>
     </footer>
     <!-- jQuery if you need it
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>

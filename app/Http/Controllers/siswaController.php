@@ -24,7 +24,7 @@ class siswaController extends Controller
 
         // postingan
         $data['postingan'] = post::with(['user', 'comments', 'likes', 'fotoPost'])->latest()->get();
-        
+
 
 
         // mencari kelas dengan rata rata nilai tertinggi
@@ -85,5 +85,12 @@ class siswaController extends Controller
             'email' => 'OT' . $request->NoUnik . '@gmail.com',
         ]);
         return redirect()->back()->with('success', 'berhasil menambahkan Ketua Murid & akun Orang Tua');
+    }
+
+
+    // profile
+    public function profile($id) {
+        $data['user'] = User::find($id);
+        return view('siswa.profile.index')->with($data);
     }
 }

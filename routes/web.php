@@ -9,6 +9,7 @@ use App\Http\Controllers\mapelController;
 use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
 use App\Http\Controllers\paymentController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\sosmedController;
@@ -102,6 +103,9 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
 Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     // dashboard
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
+
+    // profile
+    Route::get('siswa/profile/{id}', [siswaController::class, 'profile'])->name('profile');
 
     // kelas
     Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');

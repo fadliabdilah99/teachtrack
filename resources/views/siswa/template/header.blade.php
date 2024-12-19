@@ -29,7 +29,7 @@
             </li>
             <!-- Profile Link -->
             <li>
-                <a href="{{ url('profile') }}"
+                <a href="{{ route('profile', Auth::user()->id) }}"
                     class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
                     <i class="ti ti-user text-2xl"></i> Profil Saya
                 </a>
