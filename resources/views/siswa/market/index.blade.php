@@ -33,6 +33,17 @@
 @endpush
 
 @section('content')
+    <div class="grid grid-cols-2 gap-4 mb-6">
+        <div class="bg-blue-500 rounded-lg p-4 flex items-center text-white">
+            <i class="bi bi-journals text-3xl mr-3"></i>
+            <span class="font-semibold text-lg">Materi</span>
+        </div>
+        <div class="bg-blue-400 rounded-lg p-4 flex items-center text-white">
+            <i class="bi bi-bag text-3xl mr-3"></i>
+            <span class="font-semibold text-lg">Produk</span>
+        </div>
+    </div>
+
     <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3">
         @foreach ($sell as $product)
             <div class="card">
@@ -67,8 +78,8 @@
 
         @foreach ($terjual as $history)
             <div id="popup{{ $history->id }}" class="popup hidden">
-                <p>{{$history->user->name}}</p>
-                <p>Membeli {{$history->materiGuru->judul}}</p>
+                <p>{{ $history->user->name }}</p>
+                <p>Membeli {{ $history->materiGuru->judul }}</p>
             </div>
         @endforeach
 
@@ -160,7 +171,7 @@
 
         {{-- popup --}}
         <script>
-            let currentPopup = 0; 
+            let currentPopup = 0;
             const popups = [];
 
             document.querySelectorAll('.popup').forEach((popup) => {
@@ -174,8 +185,8 @@
                         popup.classList.add('show');
                         popup.classList.remove('hide', 'hidden');
                     } else {
-                        popup.classList.add('hide'); 
-                        setTimeout(() => popup.classList.add('hidden'), 500); 
+                        popup.classList.add('hide');
+                        setTimeout(() => popup.classList.add('hidden'), 500);
                         popup.classList.remove('show');
                     }
                 });

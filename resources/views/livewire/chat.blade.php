@@ -1,8 +1,8 @@
 <div class="h-screen flex flex-col bg-gray-50">
     <!-- Header -->
     <div class="bg-gray-800 text-white px-8 py-5 shadow-lg flex justify-between items-center">
-        <div class="">
-            <h1 class="text-2xl font-semibold tracking-wide">
+        <div>
+            <h1 class="text-2xl font-semibold tracking-wide flex items-center">
                 <i class="bi bi-incognito mr-2"></i>
                 <span class="hidden sm:inline">Anonymous Chat</span> 
             </h1>
@@ -37,15 +37,15 @@
                             </div>
                         </div>
                         <i class="bi bi-person-circle text-gray-400 text-3xl"></i>
-
                     </div>
                 @endif
             @endforeach
+        </div>
     </div>
 
     <!-- Input Area -->
-    <div class="bg-white border-t border-gray-300 p-5 flex items-center space-x-4">
-        <form wire:submit.prevent="sendMessage" class="flex w-full items-center space-x-4">
+    <div class="bg-white border-t border-gray-300 p-5">
+        <form wire:submit.prevent="sendMessage" class="flex items-center space-x-4">
             <div class="flex-1 relative">
                 <input type="text" placeholder="Tulis pesan..." wire:model="message"
                     class="w-full px-5 py-3 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-blue-300 focus:border-blue-400 transition duration-300">

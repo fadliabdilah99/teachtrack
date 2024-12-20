@@ -91,8 +91,10 @@
                         <div class="bg-white rounded-lg shadow-lg p-4">
                             <!-- Informasi Post -->
                             <div class="flex items-center mb-4">
-                                <img src="https://via.placeholder.com/40" alt="User Avatar"
-                                    class="w-10 h-10 rounded-full mr-3">
+                                <img @if ($post->user->fotoProfile == null) src="https://via.placeholder.com/40"
+                                @else
+                                src="{{ asset('file/profile/' . $post->user->fotoProfile) }}" @endif
+                                    alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
                                 <div>
                                     <h3 class="font-semibold">{{ $post->user->name }}</h3>
                                     <p class="text-sm text-gray-500">
@@ -149,8 +151,10 @@
                                     <!-- Tampilkan Komentar Teratas -->
                                     @if ($post->comments->count() > 0)
                                         <div class="flex items-start">
-                                            <img src="https://via.placeholder.com/30" alt="User Avatar"
-                                                class="w-8 h-8 rounded-full mr-3">
+                                            <img @if ($post->user->fotoProfile == null) src="https://via.placeholder.com/40"
+                                            @else
+                                            src="{{ asset('file/profile/' . $post->user->fotoProfile) }}" @endif
+                                                alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
                                             <div>
                                                 <p class="text-sm text-gray-800">
                                                     <span
@@ -172,8 +176,10 @@
                                     <div id="all-comments-{{ $post->id }}" class="hidden space-y-4">
                                         @foreach ($post->comments as $comment)
                                             <div class="flex items-start">
-                                                <img src="https://via.placeholder.com/30" alt="User Avatar"
-                                                    class="w-8 h-8 rounded-full mr-3">
+                                                <img @if ($comment->user->fotoProfile == null) src="https://via.placeholder.com/40"
+                                                @else
+                                                src="{{ asset('file/profile/' . $comment->user->fotoProfile) }}" @endif
+                                                    alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
                                                 <div>
                                                     <p class="text-sm text-gray-800">
                                                         <span class="font-semibold">{{ $comment->user->name }}</span>

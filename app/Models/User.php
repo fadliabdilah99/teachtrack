@@ -25,6 +25,8 @@ class User extends Authenticatable
         'role',
         'rombel_id',
         'NoUnik',
+        'saldo',
+        'fotoProfile',
     ];
 
     /**
@@ -140,5 +142,9 @@ class User extends Authenticatable
     public function skor()
     {
         return $this->hasMany(skor::class);
+    }
+
+    public function seller(){
+        return $this->hasOne(seller::class);
     }
 }

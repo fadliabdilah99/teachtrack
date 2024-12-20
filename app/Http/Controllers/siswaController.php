@@ -88,9 +88,5 @@ class siswaController extends Controller
     }
 
 
-    // profile
-    public function profile($id) {
-        $data['user'] = User::find($id);
-        return view('siswa.profile.index')->with($data);
-    }
+
 }

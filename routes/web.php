@@ -10,6 +10,7 @@ use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
 use App\Http\Controllers\paymentController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\profileController as ControllersProfileController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\sosmedController;
@@ -105,7 +106,53 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
 
     // profile
-    Route::get('siswa/profile/{id}', [siswaController::class, 'profile'])->name('profile');
+    Route::get('siswa/profile/{id}', [ControllersProfileController::class, 'profile'])->name('profile');
+    Route::post('siswa/profile-update', [ControllersProfileController::class, 'update'])->name('update-profile');
+
+    // kelas
+    Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');
+    Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
+    Route::post('siswa/kelas/structure/done', [materiController::class, 'done'])->name('paham');
+    Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
+
+    // ujian
+    Route::get('siswa/kelas/ujian/{id}', [ujianController::class, 'ujian'])->name('ujian');
+    Route::post('siswa/kelas/ujian/select', [ujianController::class, 'select'])->name('select');
+    Route::post('siswa/kelas/ujian/pending', [ujianController::class, 'pending'])->name('pending');
+    Route::post('siswa/kelas/ujian/kirim', [ujianController::class, 'done'])->name('kirim-jawaban');
+
+    // diskusi kelas
+    Route::post('siswa/kelas/diskusi/', [diskusiController::class, 'create'])->name('diskusi');
+
+    // sosial media
+    Route::post('siswa/posting', [sosmedController::class, 'posting'])->name('posting');
+    Route::post('/post/{post}/like', [sosmedController::class, 'like'])->name('like');
+    Route::post('/comments/{post}', [sosmedController::class, 'store']);
+
+
+    // shop
+    Route::get('shop', [marketController::class, 'index'])->name('shop');
+    Route::post('/donation', [paymentController::class, 'store']);
+
+    // bimbingan konseling
+    Route::get('konseling/{user}', Chat::class)->name('chat');
+
+    // chat kelas
+    Route::get('siswa/chat-kelas', ChatKelas::class)->name('chat-kelas');
+
+    // absensi
+    Route::post('siswa/absensi', [absensiController::class, 'absensi'])->name('absensiSekertaris');
+});
+
+
+// hanya seller & sekertaris yang bisa akses
+Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
+    // dashboard
+    Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
+
+    // profile
+    Route::get('siswa/profile/{id}', [ControllersProfileController::class, 'profile'])->name('profile');
+    Route::post('siswa/profile-update', [ControllersProfileController::class, 'update'])->name('update-profile');
 
     // kelas
     Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');

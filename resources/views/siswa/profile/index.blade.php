@@ -1,14 +1,15 @@
 @extends('siswa.template.main')
 
 @section('title', 'Siswa-Profile')
-
 @push('style')
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 @endpush
 
 @section('content')
     <!-- component -->
-
-
+    
     <main class="profile-page">
         <section class="relative block h-500-px">
             <div class="absolute top-0 w-full h-full bg-center bg-cover"
@@ -28,15 +29,26 @@
         <section class="relative py-16 bg-blueGray-200">
             <div class="container mx-auto px-4">
                 <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                    <div class="px-6">
+                    <div class="">
                         <div class="flex flex-wrap justify-center">
                             <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                                 <div class="relative">
                                     <img alt="..."
-                                        src="https://demos.creative-tim.com/notus-js/assets/img/team-2-800x800.jpg"
+                                        @if (Auth::user()->fotoProfile == null) src="https://via.placeholder.com/150"
+                                        @else
+                                        src="{{ asset('file/profile/' . Auth::user()->fotoProfile) }}"
+                                         @endif
                                         class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
+                                    @if ($id == auth()->id())
+                                        <button onclick="showmodalprofile()"
+                                            class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full absolute right-0 top-0 mt-9 mr-5"
+                                            type="button">
+                                            <i class="bi bi-pen-fill"></i>
+                                        </button>
+                                    @endif
                                 </div>
                             </div>
+
                             <div class="w-full lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
                                 <div class="py-6 px-3 mt-32 sm:mt-0">
                                     <button
@@ -68,7 +80,7 @@
                         </div>
                         <div class="text-center mt-12">
                             <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
-                              {{ $user->name }}
+                                {{ $user->name }}
                             </h3>
                             <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
                                 {{ $user->rombel->kelas . ' ' . $user->rombel->jurusan->jurusan . ' ' . $user->rombel->jurusan->no }}
@@ -83,7 +95,9 @@
                                     <div class="bg-white rounded-lg shadow-lg p-4">
                                         <!-- Informasi Post -->
                                         <div class="flex items-center mb-4">
-                                            <img src="https://via.placeholder.com/40" alt="User Avatar"
+                                            <img     @if ($post->user->fotoProfile == null) src="https://via.placeholder.com/40"
+                                            @else
+                                            src="{{ asset('file/profile/' . $post->user->fotoProfile) }}" @endif alt="User Avatar"
                                                 class="w-10 h-10 rounded-full mr-3">
                                             <div>
                                                 <h3 class="font-semibold">{{ $post->user->name }}</h3>
@@ -98,113 +112,104 @@
                                         <h4 class="text-xl text-gray-800 mb-2">{{ $post->konten }}</h4>
                                         @foreach ($post->fotopost as $foto)
                                             <img src="{{ asset('file/sosmed/' . $foto->foto) }}" alt="Thread Image"
-                                                class="w-full h-60 object-cover rounded-lg mb-4">
-                                        @endforeach
+                                                class="w-full h-60 object-cover rounded-lg mb-4"> @endforeach
 
                                         <!-- Likes, Comments, and Save Actions -->
-                                        <div class="flex items-center text-gray-500 text-sm">
-                                            <div class="flex items-center mr-4" id="post-{{ $post->id }}">
-                                                <span class="likes-count">{{ $post->likes->count() }}</span>
-                                                <button class="like-btn" data-post-id="{{ $post->id }}"
-                                                    data-liked="{{ $post->likes->contains('user_id', auth()->id()) ? 'true' : 'false' }}">
-                                                    <i
-                                                        class="{{ $post->likes->contains('user_id', auth()->id()) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up' }}"></i>
-                                                </button>
-                                            </div>
-                                            <span class="flex items-center mr-4">
-                                                <i class="ti ti-message mr-1"></i> {{ $post->comments->count() }} Komentar
-                                            </span>
-                                            <span class="flex items-center">
-                                                <i class="ti ti-bookmark mr-1"></i> Simpan
-                                            </span>
-                                        </div>
+                                        <div class="flex
+        items-center text-gray-500 text-sm">
+    <div class="flex items-center mr-4" id="post-{{ $post->id }}">
+        <span class="likes-count">{{ $post->likes->count() }}</span>
+        <button class="like-btn" data-post-id="{{ $post->id }}"
+            data-liked="{{ $post->likes->contains('user_id', auth()->id()) ? 'true' : 'false' }}">
+            <i
+                class="{{ $post->likes->contains('user_id', auth()->id()) ? 'bi-hand-thumbs-up-fill' : 'bi-hand-thumbs-up' }}"></i>
+        </button>
+    </div>
+    <span class="flex items-center mr-4">
+        <i class="ti ti-message mr-1"></i> {{ $post->comments->count() }} Komentar
+    </span>
+    <span class="flex items-center">
+        <i class="ti ti-bookmark mr-1"></i> Simpan
+    </span>
+    </div>
 
-                                        <!-- Komentar -->
-                                        <!-- Komentar -->
-                                        <div class="mt-4">
-                                            <h5 class="text-gray-700 font-semibold mb-2">Komentar</h5>
+    <!-- Komentar -->
+    <!-- Komentar -->
+    <div class="mt-4">
+        <h5 class="text-gray-700 font-semibold mb-2">Komentar</h5>
 
-                                            <!-- Form Tambah Komentar -->
-                                            <form action="#" method="POST" class="flex items-center mb-4 comment-form"
-                                                data-post-id="{{ $post->id }}">
-                                                <input type="text" name="komentar" placeholder="Tulis komentar..."
-                                                    class="flex-grow px-4 py-2 border rounded-l-lg focus:outline-none focus:ring focus:ring-blue-300"
-                                                    required>
-                                                <button type="submit"
-                                                    class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 transition">
-                                                    Kirim
-                                                </button>
-                                            </form>
+        <!-- Form Tambah Komentar -->
+        <form action="#" method="POST" class="flex items-center mb-4 comment-form" data-post-id="{{ $post->id }}">
+            <input type="text" name="komentar" placeholder="Tulis komentar..."
+                class="flex-grow px-4 py-2 border rounded-l-lg focus:outline-none focus:ring focus:ring-blue-300" required>
+            <button type="submit" class="bg-blue-500 text-white px-4 py-2 rounded-r-lg hover:bg-blue-600 transition">
+                Kirim
+            </button>
+        </form>
 
-                                            <!-- List Komentar -->
-                                            <div id="comments-list-{{ $post->id }}" class="space-y-4">
-                                                <!-- Tampilkan Komentar Teratas -->
-                                                @if ($post->comments->count() > 0)
-                                                    <div class="flex items-start">
-                                                        <img src="https://via.placeholder.com/30" alt="User Avatar"
-                                                            class="w-8 h-8 rounded-full mr-3">
-                                                        <div>
-                                                            <p class="text-sm text-gray-800">
-                                                                <span
-                                                                    class="font-semibold">{{ $post->comments->first()->user->name }}</span>
-                                                                {{ $post->comments->first()->created_at->diffForHumans() }}
-                                                            </p>
-                                                            <p class="text-gray-600">
-                                                                {{ $post->comments->first()->content }}</p>
-                                                        </div>
-                                                    </div>
-                                                @endif
-
-                                                <!-- Tombol Tampilkan Semua Komentar -->
-                                                <button onclick="toggleComments('{{ $post->id }}')"
-                                                    class="text-blue-500 hover:underline">
-                                                    Tampilkan Semua Komentar
-                                                </button>
-
-                                                <!-- Semua Komentar (Dropdown) -->
-                                                <div id="all-comments-{{ $post->id }}" class="hidden space-y-4">
-                                                    @foreach ($post->comments as $comment)
-                                                        <div class="flex items-start">
-                                                            <img src="https://via.placeholder.com/30" alt="User Avatar"
-                                                                class="w-8 h-8 rounded-full mr-3">
-                                                            <div>
-                                                                <p class="text-sm text-gray-800">
-                                                                    <span
-                                                                        class="font-semibold">{{ $comment->user->name }}</span>
-                                                                    {{ $comment->created_at->diffForHumans() }}
-                                                                </p>
-                                                                <p class="text-gray-600">{{ $comment->content }}</p>
-                                                            </div>
-                                                        </div>
-                                                    @endforeach
-                                                </div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            @endforeach
-                        </div>
+        <!-- List Komentar -->
+        <div id="comments-list-{{ $post->id }}" class="space-y-4">
+            <!-- Tampilkan Komentar Teratas -->
+            @if ($post->comments->count() > 0)
+                <div class="flex items-start">
+                    <img @if ($post->user->fotoProfile == null) src="https://via.placeholder.com/40"
+                                                        @else
+                                                        src="{{ asset('file/profile/' . $post->user->fotoProfile) }}" @endif
+                        alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
+                    <div>
+                        <p class="text-sm text-gray-800">
+                            <span class="font-semibold">{{ $post->comments->first()->user->name }}</span>
+                            {{ $post->comments->first()->created_at->diffForHumans() }}
+                        </p>
+                        <p class="text-gray-600">
+                            {{ $post->comments->first()->content }}</p>
                     </div>
                 </div>
+            @endif
+
+            <!-- Tombol Tampilkan Semua Komentar -->
+            <button onclick="toggleComments('{{ $post->id }}')" class="text-blue-500 hover:underline">
+                Tampilkan Semua Komentar
+            </button>
+
+            <!-- Semua Komentar (Dropdown) -->
+            <div id="all-comments-{{ $post->id }}" class="hidden space-y-4">
+                @foreach ($post->comments as $comment)
+                    <div class="flex items-start">
+                        <img src="https://via.placeholder.com/30" alt="User Avatar" class="w-8 h-8 rounded-full mr-3">
+                        <div>
+                            <p class="text-sm text-gray-800">
+                                <span class="font-semibold">{{ $comment->user->name }}</span>
+                                {{ $comment->created_at->diffForHumans() }}
+                            </p>
+                            <p class="text-gray-600">{{ $comment->content }}</p>
+                        </div>
+                    </div>
+                @endforeach
             </div>
-            <footer class="relative bg-blueGray-200 pt-8 pb-6 mt-8">
-                <div class="container mx-auto px-4">
-                    <div class="flex flex-wrap items-center md:justify-between justify-center">
-                        <div class="w-full md:w-6/12 px-4 mx-auto text-center">
-                            <div class="text-sm text-blueGray-500 font-semibold py-1">
-                                Made with <a href="https://www.creative-tim.com/product/notus-js"
-                                    class="text-blueGray-500 hover:text-gray-800" target="_blank">Notus JS</a> by <a
-                                    href="https://www.creative-tim.com" class="text-blueGray-500 hover:text-blueGray-800"
-                                    target="_blank"> Creative Tim</a>.
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </footer>
-        </section>
+        </div>
+    </div>
+    </div>
+    </div>
+    @endforeach
+    </div>
+    </div>
+    </div>
+    </div>
+    </section>
     </main>
-
+    @include('siswa.profile.modal')
 @endsection
 
 @push('script')
+    <script>
+        // modal profile
+        function showmodalprofile() {
+            document.getElementById("modalprofile").classList.remove("hidden");
+        }
+
+        function closeModalprofile() {
+            document.getElementById("modalprofile").classList.add("hidden");
+        }
+    </script>
 @endpush
