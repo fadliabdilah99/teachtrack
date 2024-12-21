@@ -6,16 +6,16 @@
     <meta charset="UTF-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    
+
     @stack('style')
-    
+
     {{-- sweetalert --}}
     <link href="https://cdn.jsdelivr.net/npm/sweetalert2@11.14.5/dist/sweetalert2.min.css" rel="stylesheet">
-    
+
     <!-- Favicon icon-->
     <link rel="shortcut icon" type="image/png" href="{{ asset('assets') }}/images/logos/favicon.png" />
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap"
-    rel="stylesheet" />
+        rel="stylesheet" />
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@2.44.0/tabler-icons.min.css" />
     <!-- Core Css -->
 
@@ -25,11 +25,14 @@
     </title>
     @vite('resources/css/app.css')
     @livewireStyles
-    
+
 
 </head>
 
 <body class="bg-surface h-screen container">
+    {{-- add siswa --}}
+
+
     <main>
         <!--start the project-->
         <div id="main-wrapper" class="flex p-5 xl:pr-0">
@@ -40,6 +43,53 @@
                     <div class="container full-container p-0 flex flex-col gap-6">
                         @include('siswa.template.navbar')
                         @yield('content')
+                        <div id="modalpengajuan"
+                            class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden">
+                            <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">
+                                <!-- Header Modal -->
+                                <div class="flex justify-between items-center mb-4">
+                                    <h2 class="text-xl font-bold">Pengajuan Akun Penjual</h2>
+                                    <button onclick="closemodalpengajuan()"
+                                        class="text-gray-400 hover:text-gray-600">&times;</button>
+                                </div>
+                                <div class="card">
+                                    <div class="card-body">
+                                        <form action="{{ route('pengajuan') }}" method="POST"
+                                            enctype="multipart/form-data">
+                                            @csrf
+                                            <div class="mb-6">
+                                                <label for="input-label-with-helper-text"
+                                                    class="block text-sm mb-2 text-gray-400">Nama Toko</label>
+                                                <input type="text" name="namaToko" id="namaToko"
+                                                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+                                                    placeholder="" aria-describedby="hs-input-helper-text">
+                                            </div>
+                                            <div class="mb-6">
+                                                <label for="input-label-with-helper-text"
+                                                    class="block text-sm mb-2 text-gray-400">deskripsi</label>
+                                                <textarea name="deskripsi" id="deskripsi"
+                                                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0 "
+                                                    placeholder="" aria-describedby="hs-input-helper-text"></textarea>
+                                            </div>
+                                            <div class="mb-6">
+                                                <label for="input-label-with-helper-text"
+                                                    class="block text-sm mb-2 text-gray-400">Kartu Pelajar/KTP</label>
+                                                <input type="file" name="foto"
+                                                    class="block w-full px-4 py-3 text-gray-500 border border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"
+                                                    placeholder="" aria-describedby="hs-input-helper-text">
+                                            </div>
+                                            <div class="flex justify-end">
+                                                <button type="button" onclick="closemodalpost()"
+                                                    class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
+                                                <button
+                                                    class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
+                                                    type="submit">Confirm</button>
+                                            </div>
+                                        </form>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
                 </main>
                 <!-- Main Content End -->
@@ -101,8 +151,18 @@
                 html: '<ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li> @endforeach</ul>',
             });
         </script>
-     @endif
+    @endif
 
-    </body>
+    <script>
+        function modalpengajuan() {
+            document.getElementById('modalpengajuan').classList.remove('hidden');
+        }
+
+        function closemodalpengajuan() {
+            document.getElementById('modalpengajuan').classList.add('hidden');
+        }
+    </script>
+
+</body>
 
 </html>

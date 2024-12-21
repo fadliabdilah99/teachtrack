@@ -27,46 +27,19 @@
                                <h3 class="text-gray-500 font-semibold text-base px-6 py-3">
                                    Notification</h3>
                                <ul class="list-none flex flex-col">
-                                   <li>
-                                       <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                           <p class="text-sm text-gray-500 font-medium">Roman
-                                               Joined the Team!</p>
-                                           <p class="text-xs text-gray-400 font-medium">
-                                               Congratulate him</p>
-                                       </a>
-                                   </li>
-                                   <li>
-                                       <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                           <p class="text-sm text-gray-500 font-medium">New
-                                               message received</p>
-                                           <p class="text-xs text-gray-400 font-medium">Salma sent
-                                               you new message</p>
-                                       </a>
-                                   </li>
-                                   <li>
-                                       <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                           <p class="text-sm text-gray-500 font-medium">New
-                                               Payment received</p>
-                                           <p class="text-xs text-gray-400 font-medium">Check your
-                                               earnings</p>
-                                       </a>
-                                   </li>
-                                   <li>
-                                       <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                           <p class="text-sm text-gray-500 font-medium">Jolly
-                                               completed tasks</p>
-                                           <p class="text-xs text-gray-400 font-medium">Assign her
-                                               new tasks</p>
-                                       </a>
-                                   </li>
-                                   <li>
-                                       <a href="#" class="py-3 px-6 block hover:bg-gray-200">
-                                           <p class="text-sm text-gray-500 font-medium">Roman
-                                               Joined the Team!</p>
-                                           <p class="text-xs text-gray-400 font-medium">
-                                               Congratulate him</p>
-                                       </a>
-                                   </li>
+                                   @foreach (Auth::user()->notif()->orderByDesc('id')->limit(10)->get() as $notifc)
+                                       <li class="">
+                                           <a href="#" class="py-3 px-6 block hover:bg-gray-200">
+                                               <p
+                                                   class=" font-medium {{ $notifc->status == 'unread' ? 'text-blue-600 ' : 'text-gray-400' }}">
+                                                   {{ $notifc->title }}
+                                               </p>
+                                               <p class="text-xs text-gray-400 font-medium">
+                                                   {{ Str::limit($notifc->message, 20) }}
+                                               </p>
+                                           </a>
+                                       </li>
+                                   @endforeach
                                </ul>
                            </div>
                        </div>
@@ -87,12 +60,12 @@
                    <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max w-[200px] hidden z-[12]"
                        aria-labelledby="hs-dropdown-custom-icon-trigger">
                        <div class="card-body p-0 py-2">
-                           <a href="javscript:void(0)"
+                           <button onclick="modalpengajuan()"
                                class="flex gap-2 items-center font-medium px-4 py-1.5 hover:bg-gray-200 text-gray-400">
                                <i class="ti ti-user text-xl"></i>
                                <p class="text-sm">Pengajuan Akun Seller</p>
-                           </a>
-            
+                           </button>
+
                            <div class="px-4 mt-[7px] grid">
                                <a href="../../pages/authentication-login.html"
                                    class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">Logout</a>

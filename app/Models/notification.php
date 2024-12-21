@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 
-class seller extends Model
+class notification extends Model
 {
     protected $guarded = [];
 
@@ -12,8 +12,4 @@ class seller extends Model
     {
         return $this->belongsTo(User::class);
     }
-
-   public function owner(){
-       return $this->belongsTo(User::class, 'owner_id');
-   }
 }

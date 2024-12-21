@@ -144,7 +144,13 @@ class User extends Authenticatable
         return $this->hasMany(skor::class);
     }
 
-    public function seller(){
+    public function seller()
+    {
         return $this->hasOne(seller::class);
+    }
+
+    public function notif()
+    {
+        return $this->hasMany(notification::class);
     }
 }

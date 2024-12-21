@@ -99,7 +99,7 @@
         </div>
     </div>
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">
-        <div class="card">
+        {{-- <div class="card">
             <div class="card-body">
                 <h4 class="text-gray-500 text-lg font-semibold mb-5">Upcoming Schedules</h4>
                 <ul class="timeline-widget relative">
@@ -196,121 +196,88 @@
                     </li>
                 </ul>
             </div>
-        </div>
-        <div class="col-span-2">
+        </div> --}}
+        <div class="col-span-3">
             <div class="card h-full">
                 <div class="card-body">
-                    <h4 class="text-gray-500 text-lg font-semibold mb-5">Top Paying Clients</h4>
+                    <h4 class="text-gray-500 text-lg font-semibold mb-5">Permohonan akun penjualan</h4>
                     <div class="relative overflow-x-auto">
                         <!-- table -->
                         <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                             <thead>
                                 <tr class="text-sm">
                                     <th scope="col" class="p-4 font-semibold">Profile</th>
-                                    <th scope="col" class="p-4 font-semibold">Hour Rate</th>
-                                    <th scope="col" class="p-4 font-semibold">Extra classes
+                                    <th scope="col" class="p-4 font-semibold">nama toko</th>
+                                    <th scope="col" class="p-4 font-semibold">Dokumen
                                     </th>
-                                    <th scope="col" class="p-4 font-semibold">Status</th>
+                                    <th scope="col" class="p-4 font-semibold">aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-1.jpg" alt=""
-                                                    class="rounded-full w-100" />
+                                @if ($pemohon->count() == 0)
+                                    <tr>
+                                        <td colspan="4" class="p-4 text-center text-sm text-gray-500">
+                                            belum ada pengaju
+                                        </td>
+                                    </tr>
+                                @endif
+                                @foreach ($pemohon as $waiting)
+                                    <tr>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex gap-6 items-center">
+                                                <div class="h-12 w-12 inline-block"><img
+                                                        src="./assets/images/profile/user-1.jpg" alt=""
+                                                        class="rounded-full w-100" />
+                                                </div>
+                                                <div class="flex flex-col gap-1 text-gray-500">
+                                                    <h3 class="font-bold">{{ $waiting->seller->owner->name }}</h3>
+                                                    <span
+                                                        class="font-normal">{{ $waiting->seller->owner->rombel->kelas . ' ' . $waiting->seller->owner->rombel->jurusan->jurusan . ' ' . $waiting->seller->owner->rombel->jurusan->no }}</span>
+                                                </div>
                                             </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class="font-bold">Mark J. Freeman</h3>
-                                                <span class="font-normal">Prof. English</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+53</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-teal-500">Available</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-2.jpg" alt=""
-                                                    class="rounded-full w-100" />
-                                            </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class="font-bold">Nina R. Oldman</h3>
-                                                <span class="font-normal">Prof. History</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+68</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-blue-500 text-blue-600">In
-                                            Class</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-3.jpg" alt=""
-                                                    class="rounded-full w-100" />
-                                            </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class="font-bold">Arya H. Shah</h3>
-                                                <span class="font-normal">Prof. Maths</span>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $waiting->seller->namaToko }}</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <button class="font-medium text-teal-500">
+                                                <img width="100"
+                                                    src="{{ asset('file/identitas/' . $waiting->seller->identitas) }}"
+                                                    alt=""
+                                                    onclick="modalFoto('{{ asset('file/identitas/' . $waiting->seller->identitas) }}')">
+                                            </button>
+                                        </td>
+                                        <div id="modal-foto"
+                                            class="fixed inset-0 flex justify-center items-center bg-black bg-opacity-50 hidden">
+                                            <div class="bg-white rounded-lg shadow-lg w-1/2 p-6">
+                                                <img id="foto" src="" alt="foto" class="w-full">
+                                                <p>deskripsi toko : {{ $waiting->seller->deskripsi }}</p>
+                                                <button onclick="closeModalFoto()"
+                                                    class="text-gray-400 hover:text-gray-600 float-right">&times;</button>
                                             </div>
                                         </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+94</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-red-400 text-red-500">Absent</span>
-                                    </td>
-                                </tr>
-                                <tr>
-                                    <td class="p-4 text-sm">
-                                        <div class="flex gap-6 items-center">
-                                            <div class="h-12 w-12 inline-block"><img
-                                                    src="./assets/images/profile/user-4.jpg" alt=""
-                                                    class="rounded-full w-100" />
-                                            </div>
-                                            <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class="font-bold">June R. Smith</h3>
-                                                <span class="font-normal">Prof. Arts</span>
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">$150/hour</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium text-teal-500">+27</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <span
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-yellow-400 text-yellow-500">Absent</span>
-                                    </td>
-                                </tr>
+                                        <td class="p-4 flex ">
+                                            <form class="mr-1" id="konfirmasiForm{{ $waiting->id }}"
+                                                action="{{ route('konfirmasi') }}" method="POST">
+                                                @csrf
+                                                <input type="number" value="{{ $waiting->id }}" hidden name="user_id"
+                                                    id="">
+                                                <button type="button"
+                                                    onclick="confirmAction('konfirmasiForm{{ $waiting->id }}', 'Konfirmasi')"
+                                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">konfirm</button>
+                                            </form>
+                                            <form id="tolakForm{{ $waiting->id }}" action="{{ route('tolak') }}"
+                                                method="POST">
+                                                @csrf
+                                                <input type="number" value="{{ $waiting->id }}" hidden name="user_id"
+                                                    id="">
+                                                <button type="button"
+                                                    onclick="confirmAction('tolakForm{{ $waiting->id }}', 'Tolak')"
+                                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-red-400 text-white">tolak</button>
+                                            </form>
+                                        </td>
+                                    </tr>
+                                @endforeach
                             </tbody>
                         </table>
                     </div>
@@ -521,4 +488,40 @@
                 href="https://www.wrappixel.com/" target="_blank"
                 class="text-blue-600 underline hover:text-blue-700">wrappixel.com</a></p>
     </footer>
+
+    @push('script')
+        {{-- modal foto --}}
+        <script>
+            function modalFoto(url) {
+                var modal = document.getElementById("modal-foto");
+                var img = document.getElementById("foto");
+                img.src = url;
+                modal.classList.remove("hidden");
+            }
+
+            function closeModalFoto() {
+                var modal = document.getElementById("modal-foto");
+                modal.classList.add("hidden");
+            }
+        </script>
+
+        {{-- sweet alert konfirmasi --}}
+        <script>
+            function confirmAction(formId, actionName) {
+                Swal.fire({
+                    title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
+                    icon: 'warning',
+                    showCancelButton: true,
+                    confirmButtonColor: '#3085d6',
+                    cancelButtonColor: '#d33',
+                    confirmButtonText: 'Yes, ' + actionName,
+                    cancelButtonText: 'Cancel'
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        document.getElementById(formId).submit();
+                    }
+                });
+            }
+        </script>
+    @endpush
 @endsection

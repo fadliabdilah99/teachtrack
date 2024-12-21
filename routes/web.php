@@ -38,6 +38,7 @@ Route::view('profile', 'profile')
 // harus login terlebih dahulu
 Route::middleware('auth')->group(function () {
     // auth
+    Route::post('user/pengajuan', [userController::class, 'pengajuan'])->name('pengajuan');
 });
 
 
@@ -53,6 +54,10 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     // rombel
     Route::post('admin/addrombel', [rombelController::class, 'mapelRombel'])->name('addrombelmapel');
+
+    // pengajuan akun seller
+    Route::post('admin/seller/konfir', [userController::class, 'konfirseller'])->name('konfirmasi');
+    Route::post('admin/seller/tolak', [userController::class, 'tolakseller'])->name('tolak');
 
     // mapel
     Route::get('admin/mapel', [mapelController::class, 'index'])->name('mapel');
@@ -97,6 +102,8 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
     // walikelas
     Route::get('guru/walikelas', [walikelasController::class, 'index'])->name('walikelas');
     Route::post('guru/walikelas/addskor', [walikelasController::class, 'skor'])->name('skor');
+
+    
 });
 
 
@@ -187,6 +194,8 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
 
     // absensi
     Route::post('siswa/absensi', [absensiController::class, 'absensi'])->name('absensiSekertaris');
+
+    // 
 });
 
 

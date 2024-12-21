@@ -65,6 +65,7 @@
                                     class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
                                     <option value="siswa">siswa</option>
                                     <option value="WAKM">WAKM</option>
+                                    <option value="sekertaris">sekertaris</option>
                                 </select>
                             </div>
                         </div>
