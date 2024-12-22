@@ -27,6 +27,8 @@ new #[Layout('layouts.guest')] class extends Component {
             $this->redirect(route('siswa'), navigate: true);
         } elseif (Auth::user()->role === 'guru' || Auth::user()->role == 'konseling') {
             $this->redirect(route('guru'), navigate: true);
+        } elseif (Auth::user()->role === 'penjual' ) {
+            $this->redirect(route('seller'), navigate: true);
         } else {
             $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
         }

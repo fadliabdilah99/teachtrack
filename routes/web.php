@@ -13,6 +13,7 @@ use App\Http\Controllers\paymentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\profileController as ControllersProfileController;
 use App\Http\Controllers\rombelController;
+use App\Http\Controllers\sellerController;
 use App\Http\Controllers\siswaController;
 use App\Http\Controllers\sosmedController;
 use App\Http\Controllers\ujianController;
@@ -156,7 +157,7 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
 });
 
 
-// hanya seller & sekertaris yang bisa akses
+// hanya murid yang bisa akses
 Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     // dashboard
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
@@ -203,6 +204,20 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
 });
 
 
+// hanya seller yang bisa akses
+Route::group(['middleware' => ['role:penjual']], function () {
+    // dashboard
+    Route::get('seller', [sellerController::class, 'index'])->name('seller');
+
+    // keuangan
+    Route::get('seller/keuangan', [sellerController::class, 'keuangan'])->name('keuangan');
+    
+    // profile toko
+    Route::get('seller/profile', [sellerController::class, 'profile'])->name('profile.toko');
+    
+    // profile toko
+    Route::get('seller/produk', [sellerController::class, 'produk'])->name('produk');
+});
 
 
 
