@@ -19,7 +19,7 @@ class Chat extends Component
     public function render()
     {
         return view(
-            'livewire.chat',
+            'livewire.chat.chat',
             [
                 'messages' => Message::where(function ($query) {
                     $query->where('from_user_id', Auth::user()->id)

@@ -20,7 +20,7 @@ class ReplyGuru extends Component
     public function render()
     {
         return view(
-            'livewire.reply-guru',
+            'livewire.chat.reply-guru',
             [
                 // Pesan hanya antara pengguna login dan pengguna target
                 'pesans' => Message::where(function ($query) {
@@ -36,9 +36,6 @@ class ReplyGuru extends Component
                 'chats' => message::select('from_user_id')->distinct()->where('from_user_id', '!=', Auth::user()->id)->with('fromUser')->get(),
             ]
         );
-
-
-        
     }
 
     public function sendMessageGuru()
@@ -48,10 +45,9 @@ class ReplyGuru extends Component
             'to_user_id' => $this->user->id,
             'message' => $this->pesan,
         ]);
-    
+
         $this->pesan = '';
         $this->reset('pesan'); // Reset properti Livewire
-    
+
     }
-    
 }

@@ -57,6 +57,8 @@ class userController extends Controller
             return redirect()->back()->with('error', 'sudah terdaftar');
         };
 
+        
+
 
         if ($request->hasFile('foto')) {
             $file = $request->file('foto');
@@ -91,7 +93,7 @@ class userController extends Controller
         notification::create([
             'user_id' => $user->seller->owner_id,
             'title' => 'Akun Penjualan telah dikonfirmasi',
-            'message' => 'akun Penjual ' . $user->name . ' telah dikonfirmasi, dengan email ' . $user->email . ' dan password sama dengan NIS, segera lakukan penggantian password!',
+            'message' => 'akun Penjual ' . $user->name . ' telah dikonfirmasi, dengan email ' . $user->email . ' dan password sama *NIS, segera lakukan penggantian password!',
             'status' => 'unread',
         ]);
 
@@ -110,6 +112,8 @@ class userController extends Controller
             'message' => 'pengajuan akun penjualan di tolak, mohon menghubungi admin untuk informasi lebih lanjut',
             'status' => 'unread',
         ]);
+
+
 
         $user->seller->delete();
         $user->delete();

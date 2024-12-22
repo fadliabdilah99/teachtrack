@@ -14,7 +14,7 @@ class GuruChat extends Component
     public function render()
     {
         $data['chats'] = message::select('from_user_id')->distinct()->where('from_user_id', '!=', FacadesAuth::user()->id)->with('fromUser')->get();
-        return view('livewire.guru-chat')->with($data);
+        return view('livewire.chat.guru-chat')->with($data);
     }
 
     

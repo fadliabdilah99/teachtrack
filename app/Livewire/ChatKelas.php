@@ -22,7 +22,7 @@ class ChatKelas extends Component
         $rombel = User::where('rombel_id', Auth::user()->rombel_id)->pluck('id');
 
         return view(
-            'livewire.chat-kelas',
+            'livewire.chat.chat-kelas',
             [
                 'messages' => Message::where(function ($query) use ($rombel) {
                     $query->whereIn('from_user_id', $rombel) // Pesan yang dikirim oleh anggota grup

@@ -40,6 +40,8 @@
                                            </a>
                                        </li>
                                    @endforeach
+                                   <a href="{{ route('mailsiswa')}}" class="py-3 bg-gray-100 px-6 block hover:bg-gray-200">
+                                    Lihat semua Notifikasi</a>
                                </ul>
                            </div>
                        </div>

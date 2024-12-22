@@ -5,6 +5,7 @@ use App\Http\Controllers\adminController;
 use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
 use App\Http\Controllers\kelasController;
+use App\Http\Controllers\mailController;
 use App\Http\Controllers\mapelController;
 use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
@@ -115,6 +116,9 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     // profile
     Route::get('siswa/profile/{id}', [ControllersProfileController::class, 'profile'])->name('profile');
     Route::post('siswa/profile-update', [ControllersProfileController::class, 'update'])->name('update-profile');
+
+    // mail
+    Route::get('siswa/mail', [mailController::class, 'mailSiswa'])->name('mailsiswa');
 
     // kelas
     Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');
