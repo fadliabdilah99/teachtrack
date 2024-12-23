@@ -1,474 +1,106 @@
 @extends('seller.template.main')
 
 @section('title', 'seller-Home')
+@push('style')
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+@endpush
 
 @section('content')
-    <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">
-        <div class="col-span-2">
-            <div class="card h-full">
-                <div class="card-body">
-                    <h4 class="text-gray-500 text-lg font-semibold mb-5">Pesanan</h4>
-                    <div class="relative overflow-x-auto">
-                        <!-- table -->
-                        <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
-                            <thead>
-                                <tr class="text-sm">
-                                    <th scope="col" class="p-4 font-semibold">Profile</th>
-                                    <th scope="col" class="p-4 font-semibold">nama toko</th>
-                                    <th scope="col" class="p-4 font-semibold">Dokumen
-                                    </th>
-                                    <th scope="col" class="p-4 font-semibold">aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                <tr>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                </tr>
-
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
+<main class="profile-page">
+    <section class="relative block h-500-px">
+        <div class="absolute top-0 w-full h-full bg-center bg-cover"
+            style="background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');">
+            <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
         </div>
-        <div class="card">
-            <div class="card-body">
-                <h4 class="text-gray-500 text-lg font-semibold mb-5">Dalam Proses</h4>
-                <ul class="timeline-widget relative">
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            9:30 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-600 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
+        <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
+            style="transform: translateZ(0px)">
+            <svg class="absolute bottom-0 overflow-hidden" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="none"
+                version="1.1" viewBox="0 0 2560 100" x="0" y="0">
+                <polygon class="text-blueGray-200 fill-current" points="2560 0 2560 100 0 100"></polygon>
+            </svg>
+        </div>
+    </section>
+    <section class="relative py-16 bg-blueGray-200">
+        <div class="container mx-auto px-4">
+            <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
+                <div class="">
+                    <div class="flex flex-wrap justify-center">
+                        <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
+                            <div class="relative">
+                                <img alt="..."
+                                    @if (Auth::user()->fotoProfile == null) src="https://via.placeholder.com/150"
+                                @else
+                                src="{{ asset('file/profile/' . Auth::user()->fotoProfile) }}" @endif
+                                    class="shadow-xl rounded-full h-auto align-middle border-none absolute -m-16 -ml-20 lg:-ml-16 max-w-150-px">
+                                @if ($id == Auth::user()->id)
+                                    <button onclick="showmodalprofile()"
+                                        class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full absolute right-0 top-0 mt-9 mr-5"
+                                        type="button">
+                                        <i class="bi bi-pen-fill"></i>
+                                    </button> @endif
                             </div>
                         </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment received from John
-                                Doe of $385.90</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] py-[6px] text-sm pr-4 text-end">
-                            10:00 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-300 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4 text-sm">
-                            <p class="text-gray-500 font-semibold">New sale recorded</p>
-                            <a href="javascript:void('')" class="text-blue-600">#ML-3467</a>
-                        </div>
-                    </li>
 
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] text-sm py-[6px] pr-4 text-end">
-                            12:00 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-teal-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment was made of $64.95
-                                to Michael</p>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] text-sm py-[6px] pr-4 text-end">
-                            9:30 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-yellow-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4 text-sm">
-                            <p class="text-gray-500 font-semibold">New sale recorded</p>
-                            <a href="javascript:void('')" class="text-blue-600">#ML-3467</a>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            9:30 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-red-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-semibold">New arrival recorded</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item flex relative overflow-hidden">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            12:00 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-teal-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment Done</p>
-                        </div>
-                    </li>
-                </ul>
+                        <div class="w-full
+        lg:w-4/12 px-4 lg:order-3 lg:text-right lg:self-center">
+    <div class="py-6 px-3 mt-32 sm:mt-0">
+        <button
+            class="bg-pink-500 active:bg-pink-600 uppercase text-white font-bold hover:shadow-md shadow text-xs px-4 py-2 rounded outline-none focus:outline-none sm:mr-2 mb-1 ease-linear transition-all duration-150"
+            type="button">
+            Connect
+        </button>
+    </div>
+    </div>
+    <div class="w-full lg:w-4/12 px-4 lg:order-1">
+        <div class="flex justify-center py-4 lg:pt-4 pt-8">
+            <div class="mr-4 p-3 text-center">
+                <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">22</span><span
+                    class="text-sm text-blueGray-400">Produk</span>
+            </div>
+            <div class="mr-4 p-3 text-center">
+                <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">10</span><span
+                    class="text-sm text-blueGray-400">Kategori</span>
+            </div>
+            <div class="lg:mr-4 p-3 text-center">
+                <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">89</span><span
+                    class="text-sm text-blueGray-400">Penjualan</span>
             </div>
         </div>
     </div>
-    <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">
-        <div class="col-span-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="flex justify-between mb-5">
-                        <h4 class="text-gray-500 text-lg font-semibold sm:mb-0 mb-2">Profit &
-                            Expenses</h4>
-                        <div class="hs-dropdown relative inline-flex [--placement:bottom-right] sm:[--trigger:hover]">
-                            <a class="relative hs-dropdown-toggle cursor-pointer align-middle rounded-full">
-                                <i class="ti ti-dots-vertical text-2xl text-gray-400"></i>
-                            </a>
-                            <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max w-[150px] hidden z-[12]"
-                                aria-labelledby="hs-dropdown-custom-icon-trigger">
-                                <div class="card-body p-0 py-2">
-                                    <a href="javscript:void(0)"
-                                        class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                        <p class="text-sm">Action</p>
-                                    </a>
-                                    <a href="javscript:void(0)"
-                                        class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                        <p class="text-sm">Another Action</p>
-                                    </a>
-                                    <a href="javscript:void(0)"
-                                        class="flex gap-2 items-center font-medium px-4 py-2.5 hover:bg-gray-200 text-gray-400">
-                                        <p class="text-sm">Something else here</p>
-                                    </a>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div id="profit"></div>
-                </div>
-            </div>
+    </div>
+    <div class="text-center mt-12">
+        <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
+            {{ $user->seller->namaToko }}
+        </h3>
+        <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+            owner of {{ $user->seller->owner->name }}
         </div>
-
-        <div class="flex flex-col gap-6">
-            <div class="card">
-                <div class="card-body">
-                    <h4 class="text-gray-500 text-lg font-semibold mb-4">Traffic Distribution</h4>
-                    <div class="flex items-center justify-between gap-12">
-                        <div>
-                            <h3 class="text-[22px] font-semibold text-gray-500 mb-4">$36,358</h3>
-                            <div class="flex items-center gap-1 mb-3">
-                                <span class="flex items-center justify-center w-5 h-5 rounded-full bg-teal-400">
-                                    <i class="ti ti-arrow-up-left text-teal-500"></i>
-                                </span>
-                                <p class="text-gray-500 text-sm font-normal">+9%</p>
-                                <p class="text-gray-400 text-sm font-normal text-nowrap">last year
-                                </p>
-                            </div>
-                            <div class="flex gap-4">
-                                <div class="flex gap-2 items-center">
-                                    <span class="w-2 h-2 rounded-full bg-blue-600"></span>
-                                    <p class="text-gray-400 font-normal text-xs">Oragnic</p>
-                                </div>
-                                <div class="flex gap-2 items-center">
-                                    <span class="w-2 h-2 rounded-full bg-red-500"></span>
-                                    <p class="text-gray-400 font-normal text-xs">Refferal</p>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="flex items-center">
-                            <div id="grade"></div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="card">
-                <div class="card-body">
-                    <div class="flex gap-6 items-center justify-between">
-                        <div class="flex flex-col gap-4">
-                            <h4 class="text-gray-500 text-lg font-semibold">Product Sales</h4>
-                            <div class="flex flex-col gap-4">
-                                <h3 class="text-[22px] font-semibold text-gray-500">$6,820</h3>
-                                <div class="flex items-center gap-1">
-                                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-red-400">
-                                        <i class="ti ti-arrow-down-right text-red-500"></i>
-                                    </span>
-                                    <p class="text-gray-500 text-sm font-normal">+9%</p>
-                                    <p class="text-gray-400 text-sm font-normal text-nowrap">last
-                                        year</p>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div
-                            class="w-11 h-11 flex justify-center items-center rounded-full bg-red-500 text-white self-start">
-                            <i class="ti ti-currency-dollar text-xl"></i>
-                        </div>
-                    </div>
-                </div>
-                <div id="earning"></div>
-            </div>
+        <div class="text-sm leading-normal mt-0 mb-2 text-blueGray-400 font-bold uppercase">
+            {{ $user->seller->deskripsi }}
+        </div>
+        <div class="mb-2 text-blueGray-600 mt-10">
+            Postingan
         </div>
     </div>
-
-    <div class="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 gap-6">
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-1.jpg" alt="product_img" class="w-full" />
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">Boat Headphone</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-gray-500 font-semibold text-base">$50</h6>
-                        <span class="text-gray-400 font-medium text-sm opacity-80">
-                            <del>$65</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-2.jpg" alt="product_img" class="w-full" />
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">MacBook Air Pro</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-base text-gray-500 font-semibold">$650</h6>
-                        <span class="text-gray-400 text-sm opacity-80">
-                            <del>$900</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-3.jpg" alt="product_img" class="w-full" />
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">Red Valvet Dress</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-base text-gray-500 font-semibold">$150</h6>
-                        <span class="text-gray-400 text-sm opacity-80">
-                            <del>$200</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-        <div class="card overflow-hidden">
-            <div class="relative">
-                <a href="javascript:void(0)">
-                    <img src="./assets/images/products/product-4.jpg" alt="product_img" class="w-full" />
-                </a>
-                <a href="javascript:void(0)"
-                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                    <i class="ti ti-basket text-base"></i>
-                </a>
-            </div>
-            <div class="card-body">
-                <h6 class="text-base font-semibold text-gray-500 mb-1">Cute Soft Teddybear</h6>
-                <div class="flex justify-between">
-                    <div class="flex gap-2 items-center">
-                        <h6 class="text-base text-gray-500 font-semibold">$285</h6>
-                        <span class="text-gray-400 text-sm">
-                            <del>$345</del>
-                        </span>
-                    </div>
-                    <ul class="list-none flex gap-1">
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="javascript:void(0)">
-                                <i class="ti ti-star text-yellow-500 text-sm"></i>
-                            </a>
-                        </li>
-                    </ul>
-                </div>
-            </div>
-        </div>
     </div>
-
-    @push('script')
-        {{-- modal foto --}}
-        <script>
-            function modalFoto(url) {
-                var modal = document.getElementById("modal-foto");
-                var img = document.getElementById("foto");
-                img.src = url;
-                modal.classList.remove("hidden");
-            }
-
-            function closeModalFoto() {
-                var modal = document.getElementById("modal-foto");
-                modal.classList.add("hidden");
-            }
-        </script>
-
-        {{-- sweet alert konfirmasi --}}
-        <script>
-            function confirmAction(formId, actionName) {
-                Swal.fire({
-                    title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, ' + actionName,
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById(formId).submit();
-                    }
-                });
-            }
-        </script>
-    @endpush
+    </div>
+    </div>
+    </section>
+    </main>
+    @include('seller.profile.modal')
 @endsection
+
+@push('script')
+    <script>
+        // modal profile
+        function showmodalprofile() {
+            document.getElementById("modalprofile").classList.remove("hidden");
+        }
+
+        function closeModalprofile() {
+            document.getElementById("modalprofile").classList.add("hidden");
+        }
+    </script>
+@endpush

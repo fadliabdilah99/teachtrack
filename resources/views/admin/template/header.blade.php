@@ -41,56 +41,8 @@
 
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./components/cards.html"> <i class="ti ti-cards ps-2 text-2xl"></i>
-                        <span>Card</span> </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./components/forms.html"> <i class="ti ti-file-description ps-2 text-2xl"></i>
-                        <span>Forms</span> </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./components/typography.html">
-                        <i class="ti ti-typography ps-2 text-2xl"></i> <span>Typography</span>
-                    </a>
-                </li>
-
-                <li class="text-xs font-bold mb-4 mt-8">
-                    <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-                    <span class="text-xs text-gray-400 font-semibold">AUTH</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./pages/authentication-login.html"> <i class="ti ti-login ps-2 text-2xl"></i>
-                        <span>Login</span> </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./pages/authentication-register.html">
-                        <i class="ti ti-user-plus ps-2 text-2xl"></i> <span>Register</span>
-                    </a>
-                </li>
-
-                <li class="text-xs font-bold mb-4 mt-8">
-                    <i class="ti ti-dots nav-small-cap-icon text-lg hidden text-center"></i>
-                    <span class="text-xs text-gray-400 font-semibold">EXTRA</span>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./pages/icons.html"> <i class="ti ti-mood-happy ps-2 text-2xl"></i>
-                        <span>Icons</span> </a>
-                </li>
-
-                <li class="sidebar-item">
-                    <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="./pages/sample-page.html"> <i class="ti ti-aperture ps-2 text-2xl"></i>
-                        <span>Sample Page</span> </a>
+                        href="{{ route('admin-kategori') }}"> <i class="ti ti-cards ps-2 text-2xl"></i>
+                        <span>Wira Usaha</span> </a>
                 </li>
             </ul>
         </nav>

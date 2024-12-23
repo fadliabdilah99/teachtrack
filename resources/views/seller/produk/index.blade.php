@@ -1,8 +1,9 @@
 @extends('seller.template.main')
 
-@section('title', 'seller-Home')
+@section('title', 'seller-Produk')
 
 @section('content')
+<button onclick="modalproduk()" class="btn text-base py-2.5 text-white font-medium w-fit  hover:bg-blue-700"><i class="ti ti-plus "></i></button>
     <div class="grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 gap-6">
         <div class="card overflow-hidden">
             <div class="relative">
@@ -55,39 +56,19 @@
         </div>
     </div>
 
+    @include('seller.produk.modal')
     @push('script')
-        {{-- modal foto --}}
+        {{-- modal add produk --}}
         <script>
-            function modalFoto(url) {
-                var modal = document.getElementById("modal-foto");
-                var img = document.getElementById("foto");
-                img.src = url;
-                modal.classList.remove("hidden");
-            }
+                function modalproduk() {
+                    console.log('modalproduk');
+                    document.getElementById("modalproduk").classList.remove("hidden");
+                }
+                function closemodalproduk() {
+                    document.getElementById("modalproduk").classList.add("hidden");
+                }
 
-            function closeModalFoto() {
-                var modal = document.getElementById("modal-foto");
-                modal.classList.add("hidden");
-            }
         </script>
 
-        {{-- sweet alert konfirmasi --}}
-        <script>
-            function confirmAction(formId, actionName) {
-                Swal.fire({
-                    title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, ' + actionName,
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById(formId).submit();
-                    }
-                });
-            }
-        </script>
     @endpush
 @endsection

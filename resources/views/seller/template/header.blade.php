@@ -21,7 +21,7 @@
                 </li>
                 <li class="sidebar-item">
                     <a class="sidebar-link gap-3 py-2.5 my-1 text-base flex items-center relative rounded-md text-gray-500 w-full"
-                        href="{{ route('profile.toko') }}"> <i class="bi bi-shop ps-2 text-2xl"></i>
+                        href="{{ url('seller/profile/' . Auth::user()->id) }}"> <i class="bi bi-shop ps-2 text-2xl"></i>
                         <span>Tampilan Toko</span> </a>
                 </li>
                 <li class="sidebar-item">

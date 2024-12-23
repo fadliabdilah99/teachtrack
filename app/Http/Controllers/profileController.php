@@ -17,7 +17,7 @@ class profileController extends Controller
         return view('siswa.profile.index')->with($data);
     }
 
-    public function update(Request $request)
+    public function updateFoto(Request $request)
     {
         $user = User::find(Auth::user()->id);
         if ($user->fotoProfile != null) {
