@@ -153,4 +153,8 @@ class User extends Authenticatable
     {
         return $this->hasMany(notification::class);
     }
+
+    public function produk(){
+        return $this->hasMany(produk::class);
+    }
 }

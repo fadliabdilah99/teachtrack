@@ -11,15 +11,18 @@ class produkController extends Controller
     public function addproduk(Request $request)
     {
 
-        // dd($request->all());
+        if ($request->hasFile('foto') == null) {
+            return redirect()->back()->with('error', 'Tambahkan Foto Produk minimal 1');
+        }
         $produk = $request->validate([
             'user_id' => 'required|integer',
             'judul' => 'required|string|max:255',
             'harga' => 'required|integer',
             'kategori_id' => 'required|string|max:255',
             'deskripsi' => 'required|string',
+            'kode' => 'required|string',
+            'stok' => 'required|string',
         ]);
-
         produk::create($produk);
 
         foreach ($request->file('foto') as $file) {

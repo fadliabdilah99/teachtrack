@@ -3,12 +3,11 @@
 @section('title', 'seller-Home')
 @push('style')
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
-    <link rel="stylesheet"
-        href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 @endpush
 
 @section('content')
-<main class="profile-page">
+<main class="profile-page ">
     <section class="relative block h-500-px">
         <div class="absolute top-0 w-full h-full bg-center bg-cover"
             style="background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');">
@@ -25,7 +24,7 @@
     <section class="relative py-16 bg-blueGray-200">
         <div class="container mx-auto px-4">
             <div class="relative flex flex-col min-w-0 break-words bg-white w-full mb-6 shadow-xl rounded-lg -mt-64">
-                <div class="">
+                <div class="bg-gray-100">
                     <div class="flex flex-wrap justify-center">
                         <div class="w-full lg:w-3/12 px-4 lg:order-2 flex justify-center">
                             <div class="relative">
@@ -53,7 +52,7 @@
         </button>
     </div>
     </div>
-    <div class="w-full lg:w-4/12 px-4 lg:order-1">
+    <div class="w-full lg:w-4/12 px-4 lg:order-1 ">
         <div class="flex justify-center py-4 lg:pt-4 pt-8">
             <div class="mr-4 p-3 text-center">
                 <span class="text-xl font-bold block uppercase tracking-wide text-blueGray-600">22</span><span
@@ -70,7 +69,7 @@
         </div>
     </div>
     </div>
-    <div class="text-center mt-12">
+    <div class="text-center mt-12 bg-gray-100">
         <h3 class="text-4xl font-semibold leading-normal mb-2 text-blueGray-700 mb-2">
             {{ $user->seller->namaToko }}
         </h3>
@@ -83,24 +82,112 @@
         <div class="mb-2 text-blueGray-600 mt-10">
             Postingan
         </div>
-    </div>
-    </div>
-    </div>
-    </div>
-    </section>
-    </main>
-    @include('seller.profile.modal')
+        <div class="p-10 bg-blue-100 grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 gap-6">
+            @foreach ($user->produk as $prod)
+                <div class="card overflow-hidden">
+                    <div class="relative">
+                        <a href="javascript:void(0)">
+                            <img src="{{ asset('file/produk/' . $prod->foto[0]->foto) }}" alt="product_img" class="w-full">
+                        </a>
+                        <a href="javascript:void(0)"
+                            class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
+                            <i class="ti ti-basket text-base"></i>
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        <h6 class="text-base font-semibold text-gray-500 mb-1">Boat Headphone</h6>
+                        <div class="flex justify-between">
+                            <div class="flex gap-2 items-center">
+                                <h6 class="text-gray-500 font-semibold text-base">$50</h6>
+                                <span class="text-gray-400 font-medium text-sm opacity-80">
+                                    <del>$65</del>
+                                </span>
+                            </div>
+                            <ul class="list-none flex gap-1">
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti ti-star text-yellow-500 text-sm"></i>
+                                    </a>
+                                </li>
+                                <li>
+                                    <a href="javascript:void(0)">
+                                        <i class="ti ti-star text-yellow-500 text-sm"></i>
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div> @endforeach
+                </div>
+            </div>
+            @include('seller.profile.card')
+            </div>
+            </div>
+            </div>
+            </section>
+            </main>
+            @include('seller.profile.modal')
 @endsection
 
 @push('script')
-    <script>
-        // modal profile
-        function showmodalprofile() {
-            document.getElementById("modalprofile").classList.remove("hidden");
-        }
+            <script>
+                // modal profile
+                function showmodalprofile() {
+                    document.getElementById("modalprofile").classList.remove("hidden");
+                }
 
-        function closeModalprofile() {
-            document.getElementById("modalprofile").classList.add("hidden");
-        }
+                function closeModalprofile() {
+                    document.getElementById("modalprofile").classList.add("hidden");
+                }
+            </script>
+
+
+    {{-- sortir data sesuai kategori --}}
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            // Ambil semua tombol filter
+            const filterButtons = document.querySelectorAll('.filter-button');
+
+            // Tambahkan event listener ke setiap tombol filter
+            filterButtons.forEach(button => {
+                button.addEventListener('click', function() {
+                    const filter = this.getAttribute('data-filter'); // Dapatkan kategori filter
+                    const cards = document.querySelectorAll('.filter-card'); // Ambil semua kartu
+                    console.log(filter);
+                    // Tampilkan atau sembunyikan kartu berdasarkan filter
+                    cards.forEach(card => {
+                        if (filter === 'all') {
+                            card.style.display = 'block'; // Tampilkan semua kartu
+                        } else {
+                            if (card.classList.contains(filter)) {
+                                card.style.display = 'block'; // Tampilkan kartu yang sesuai
+                            } else {
+                                card.style.display = 'none'; // Sembunyikan kartu lainnya
+                            }
+                        }
+                    });
+
+                    // Ubah gaya tombol aktif
+                    filterButtons.forEach(btn => btn.classList.remove('bg-blue-700'));
+                    this.classList.add('bg-blue-700');
+                });
+            });
+        });
     </script>
+
 @endpush

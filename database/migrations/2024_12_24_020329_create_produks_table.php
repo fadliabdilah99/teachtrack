@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->bigInteger('user_id');
             $table->bigInteger('kategori_id');
+            $table->bigInteger('stok')->nullable();
             $table->string('judul');
             $table->text('deskripsi');
             $table->string('harga');
+            $table->string('kode')->nullable();
             $table->timestamps();
         });
     }
