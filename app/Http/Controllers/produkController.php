@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\fotoProduk;
 use App\Models\produk;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class produkController extends Controller
 {
@@ -35,5 +36,20 @@ class produkController extends Controller
         }
 
         return redirect()->back()->with('success', 'Produk berhasil ditambahkan');
+    }
+
+    public function pin($id)
+    {
+        // memastikan hanya 5 produk yang di pin
+        $produk = produk::where('user_id', Auth::user()->id)->where('pin', '1')->orderBy('created_at', 'asc')->get();
+        if ($produk->count() >= 5) {
+            $produk[0]->update(['pin' => '0']);
+        }
+        if (produk::where('id', $id)->first()->pin != '1') {
+            produk::where('id', $id)->update(['pin' => '1']);
+        } else {
+            produk::where('id', $id)->update(['pin' => '0']);
+        }
+        return redirect()->back()->with('success', 'Produk berhasil di pin');
     }
 }

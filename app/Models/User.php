@@ -157,4 +157,12 @@ class User extends Authenticatable
     public function produk(){
         return $this->hasMany(produk::class);
     }
+
+    public function pesanan(){
+        return $this->hasMany(pesanan::class);
+    }
+
+    public function cart(){
+        return $this->hasMany(cart::class);
+    }
 }

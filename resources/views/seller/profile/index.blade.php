@@ -3,15 +3,16 @@
 @section('title', 'seller-Home')
 @push('style')
     <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/styles/tailwind.css">
-    <link rel="stylesheet" href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
+    <link rel="stylesheet"
+        href="https://demos.creative-tim.com/notus-js/assets/vendor/@fortawesome/fontawesome-free/css/all.min.css">
 @endpush
 
 @section('content')
 <main class="profile-page ">
+    <button class="bg-teal-500 text-white px-4 py-2 m-2 rounded-md" onclick="sampul()"><i class="bi bi-pen-fill"></i></button>
     <section class="relative block h-500-px">
         <div class="absolute top-0 w-full h-full bg-center bg-cover"
-            style="background-image: url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=crop&amp;w=2710&amp;q=80');">
-            <span id="blackOverlay" class="w-full h-full absolute opacity-50 bg-black"></span>
+        style="background: {{ $user->seller->sampul ? "url('" . asset('file/seller/' . $user->seller->sampul) . "') center/cover no-repeat" : "url('https://images.unsplash.com/photo-1499336315816-097655dcfbda?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=2710&q=80')" }};">
         </div>
         <div class="top-auto bottom-0 left-0 right-0 w-full absolute pointer-events-none overflow-hidden h-70-px"
             style="transform: translateZ(0px)">
@@ -82,79 +83,128 @@
         <div class="mb-2 text-blueGray-600 mt-10">
             Postingan
         </div>
-        <div class="p-10 bg-blue-100 grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 gap-6">
-            @foreach ($user->produk as $prod)
-                <div class="card overflow-hidden">
-                    <div class="relative">
-                        <a href="javascript:void(0)">
-                            <img src="{{ asset('file/produk/' . $prod->foto[0]->foto) }}" alt="product_img" class="w-full">
-                        </a>
-                        <a href="javascript:void(0)"
-                            class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
-                            <i class="ti ti-basket text-base"></i>
-                        </a>
-                    </div>
-                    <div class="card-body">
-                        <h6 class="text-base font-semibold text-gray-500 mb-1">Boat Headphone</h6>
-                        <div class="flex justify-between">
-                            <div class="flex gap-2 items-center">
-                                <h6 class="text-gray-500 font-semibold text-base">$50</h6>
-                                <span class="text-gray-400 font-medium text-sm opacity-80">
-                                    <del>$65</del>
-                                </span>
+        @if ($user->produk->where('pin', 1)->count() != 0)
+            <div style="background: {{ $user->seller->pinPict ? "url('" . asset('file/seller/' . $user->seller->pinPict) . "') center/cover no-repeat" : 'rgb(229 231 235)' }};">
+                <h1 class="text-2xl font-semibold leading-normal text-blueGray-700  text-start pt-4 px-10 flex items-center">
+                    {{ $user->seller->title }}
+                    <button class="bg-teal-500 text-white px-2 py-1 rounded-md ml-2" onclick="edittitle()"><i class="bi bi-pen-fill text-sm"></i></button>
+                </h1>
+                <div class="px-10 pb-10 grid grid-cols-1 xl:grid-cols-4 lg:grid-cols-2 gap-6">
+                    @foreach ($user->produk->where('pin', 1) as $prod)
+                        <div class="card overflow-hidden">
+                            <div class="relative">
+                                <a href="javascript:void(0)">
+                                    <img src="{{ asset('file/produk/' . $prod->foto[0]->foto) }}" alt="product_img" class="w-full">
+                                </a>
+                                <a href="javascript:void(0)"
+                                    class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3">
+                                    <i class="ti ti-basket text-base"></i>
+                                </a>
                             </div>
-                            <ul class="list-none flex gap-1">
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="ti ti-star text-yellow-500 text-sm"></i>
-                                    </a>
-                                </li>
-                                <li>
-                                    <a href="javascript:void(0)">
-                                        <i class="ti ti-star text-yellow-500 text-sm"></i>
-                                    </a>
-                                </li>
-                            </ul>
-                        </div>
-                    </div>
-                </div> @endforeach
-                </div>
-            </div>
-            @include('seller.profile.card')
-            </div>
-            </div>
-            </div>
-            </section>
-            </main>
-            @include('seller.profile.modal')
+                            <div class="card-body">
+                                <h6 class="text-base font-semibold text-gray-500 mb-1">{{ $prod->judul }}</h6>
+                                <div class="flex justify-between">
+                                    <div class="flex gap-2 items-center">
+                                        <h6 class="text-gray-500 font-semibold text-base">Rp {{ number_format($prod->harga) }}</h6>
+                                        {{-- <span class="text-gray-400 font-medium text-sm opacity-80">
+                                            <del>$65</del>
+                                        </span> --}}
+                                    </div>
+                                    <ul class="list-none flex gap-1">
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <i class="ti ti-star-filled text-yellow-500 text-sm"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <i class="ti ti-star text-yellow-500 text-sm"></i>
+                                            </a>
+                                        </li>
+                                        <li>
+                                            <a href="javascript:void(0)">
+                                                <i class="ti ti-star text-yellow-500 text-sm"></i>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                        </div> @endforeach
+                                                </div>
+                                                @if (Auth::user()->id == $user->id)
+                                                    
+                                                <div class="text-end
+        pb-5 pr-5">
+    <button class="bg-teal-500 text-white px-4 py-2 rounded-md" onclick="pinPict()"><i class="bi bi-pen-fill"></i></button>
+    </div>
+    @endif
+    </div>
+    @endif
+
+    </div>
+    @include('seller.profile.card')
+    </div>
+    </div>
+    </div>
+    </section>
+    </main>
+    @include('seller.profile.modal')
 @endsection
 
 @push('script')
-            <script>
-                // modal profile
-                function showmodalprofile() {
-                    document.getElementById("modalprofile").classList.remove("hidden");
-                }
+    {{-- modal profile --}}
+    <script>
+        function showmodalprofile() {
+            document.getElementById("modalprofile").classList.remove("hidden");
+        }
 
-                function closeModalprofile() {
-                    document.getElementById("modalprofile").classList.add("hidden");
-                }
-            </script>
+        function closeModalprofile() {
+            document.getElementById("modalprofile").classList.add("hidden");
+        }
+    </script>
+
+    {{-- modal profile --}}
+    <script>
+        function edittitle() {
+            document.getElementById("modaltitle").classList.remove("hidden");
+        }
+
+        function edittitleclose() {
+            document.getElementById("modaltitle").classList.add("hidden");
+        }
+    </script>
+
+    {{-- modal bg pin --}}
+    <script>
+        function pinPict() {
+            document.getElementById("modalpinpict").classList.remove("hidden");
+        }
+
+        function pinPictclose() {
+            document.getElementById("modalpinpict").classList.add("hidden");
+        }
+    </script>
+
+    {{-- modal bg sampul --}}
+    <script>
+        function sampul() {
+            document.getElementById("modalsampul").classList.remove("hidden");
+        }
+
+        function sampulclose() {
+            document.getElementById("modalsampul").classList.add("hidden");
+        }
+    </script>
 
 
     {{-- sortir data sesuai kategori --}}
@@ -190,4 +240,25 @@
         });
     </script>
 
+    {{-- konfirmasi pin --}}
+    <script>
+        function confirmPin(button) {
+            Swal.fire({
+                title: 'Apakah Anda yakin?',
+                text: "Produk ini akan dijadikan produk utama",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, saya yakin'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    const form = button.closest('form');
+                    if (form) {
+                        form.submit();
+                    }
+                }
+            });
+        }
+    </script>
 @endpush

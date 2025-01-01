@@ -10,6 +10,7 @@ use App\Http\Controllers\mapelController;
 use App\Http\Controllers\marketController;
 use App\Http\Controllers\materiController;
 use App\Http\Controllers\paymentController;
+use App\Http\Controllers\pesananController;
 use App\Http\Controllers\produkController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\profileController as ControllersProfileController;
@@ -41,16 +42,18 @@ Route::view('profile', 'profile')
 // harus login terlebih dahulu
 Route::middleware('auth')->group(function () {
     // profile siswa
-    Route::get('siswa/profile/{id}', [ControllersProfileController::class, 'profile'])->name('profile');
+    Route::get('siswa/profile/{id}', [ControllersProfileController::class, 'profile'])->name('profile-siswa');
 
     Route::post('siswa/profile-update', [ControllersProfileController::class, 'updateFoto'])->name('update-profile');
-
 
     // profile penjual
     Route::get('seller/profile/{id}', [sellerController::class, 'profile'])->name('profile.seller');
 
     // auth
     Route::post('user/pengajuan', [userController::class, 'pengajuan'])->name('pengajuan');
+
+    // proses pemesanan
+    Route::post('add-to-cart/{id}', [pesananController::class, 'addcart'])->name('add-to-cart');
 });
 
 
@@ -126,8 +129,6 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     // dashboard
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
 
-    // profile
-
     // mail
     Route::get('siswa/mail', [mailController::class, 'mailSiswa'])->name('mailsiswa');
 
@@ -150,7 +151,6 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     Route::post('siswa/posting', [sosmedController::class, 'posting'])->name('posting');
     Route::post('/post/{post}/like', [sosmedController::class, 'like'])->name('like');
     Route::post('/comments/{post}', [sosmedController::class, 'store']);
-
 
     // shop
     Route::get('shop', [marketController::class, 'index'])->name('shop');
@@ -180,7 +180,13 @@ Route::group(['middleware' => ['role:penjual']], function () {
 
     // toko
     Route::get('seller/produk', [sellerController::class, 'produk'])->name('produk');
+    Route::post('seller/produk/update/title', [sellerController::class, 'title'])->name('update-title');
+    Route::post('seller/produk/update/bgPin', [sellerController::class, 'updatebg'])->name('update-bg-pin');
+    Route::post('seller/produk/update/sampul', [sellerController::class, 'updatesampul'])->name('update-sampul');
+
+    // produk
     Route::post('seller/produk/addproduk', [produkController::class, 'addproduk'])->name('addproduk');
+    Route::post('seller/produk/pin/{id}', [produkController::class, 'pin'])->name('pin');
 });
 
 

@@ -1,5 +1,5 @@
 <aside id="application-sidebar-brand"
-    class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed xl:top-5 xl:left-auto top-0 rounded-xl left-0 with-vertical h-screen z-[999] shrink-0 w-[270px] shadow-md rounded bg-white left-sidebar transition-all duration-300 overflow-y-auto">
+    class="hs-overlay hs-overlay-open:translate-x-0 -translate-x-full transform hidden xl:block xl:translate-x-0 xl:end-auto xl:bottom-0 fixed xl:top-5 xl:left-auto top-0 rounded-xl left-0 with-vertical h-screen  shrink-0 w-[270px] shadow-md rounded bg-white left-sidebar transition-all duration-300 overflow-y-auto">
     <!-- Profile Section -->
     <div class="flex flex-col items-center py-6 px-4 rounded-xl bg-gray-200">
         <!-- Profile Image -->

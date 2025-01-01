@@ -22,4 +22,9 @@ class produk extends Model
     {
         return $this->hasMany(fotoProduk::class);
     }
+
+    public function pesanan()
+    {
+        return $this->hasMany(pesanan::class);
+    }
 }
