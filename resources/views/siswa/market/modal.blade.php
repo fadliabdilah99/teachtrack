@@ -6,13 +6,15 @@
         <div class="flex flex-col md:flex-row">
             <!-- Left Side (Image) -->
             <div class="w-full md:w-1/2 h-64 md:h-auto rounded-t-lg md:rounded-t-none md:rounded-l-lg">
-                <img src="https://source.unsplash.com/400x400/?nature" id="foto" class="h-full w-full object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg" />
+                <img src="https://source.unsplash.com/400x400/?nature" id="foto"
+                    class="h-full w-full object-cover rounded-t-lg md:rounded-t-none md:rounded-l-lg" />
             </div>
 
             <!-- Right Side (Form) -->
             <div class="w-full md:w-1/2 p-6">
                 <h2 class="text-xl font-semibold text-gray-800 mb-4">Masukan Keranjang</h2>
-                <form class="space-y-4">
+                <form class="space-y-4" action="{{ route('add-to-cart') }}" method="POST">
+                    @csrf
                     <input type="number" hidden name="produk_id" id="produk_id">
                     <div class="grid grid-cols-2 gap-4">
                         <div>
@@ -38,16 +40,15 @@
                         <div>
                             <label for="qty" class="block text-sm font-medium text-gray-700">Jumlah</label>
                             <input type="number" name="qty" id="qty"
-                                class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500"
-                                placeholder="1" />
+                               value="1" class="mt-1 block w-full p-2 border border-gray-300 rounded-md shadow-sm focus:ring-blue-500 focus:border-blue-500" />
                         </div>
                     </div>
                     <div class="flex justify-end space-x-2">
-                        <button type="button"
-                            class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
+                        <button type="button" class="px-4 py-2 bg-gray-500 text-white rounded-md hover:bg-gray-600"
                             onclick="modalcart()">Cancel</button>
                         <button type="submit"
-                            class="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700">Submit</button>
+                            class="px-4 py-2 bg-green-600 text-white rounded-md hover:bg-green-700"><i
+                                class="bi bi-cart-plus"></i></button>
                     </div>
                 </form>
             </div>

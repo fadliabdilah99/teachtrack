@@ -44,7 +44,7 @@
                     <i class="ti ti-book text-2xl"></i> Kelas Saya
                 </a>
             </li>
-            <!-- Shop -->
+            <!-- chat kelas -->
             <li>
                 <a href="{{ route('chat-kelas') }}"
                     class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
@@ -56,6 +56,13 @@
                 <a href="{{ route('shop') }}"
                     class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
                     <i class="ti ti-shopping-cart text-2xl"></i> Shop
+                </a>
+            </li>
+            <!-- Shop -->
+            <li>
+                <a href="{{ route('pesanan') }}"
+                    class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
+                    <i class="bi bi-clipboard2 text-2xl"></i> Pesanan
                 </a>
             </li>
         </ul>

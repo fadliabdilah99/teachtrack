@@ -17,7 +17,7 @@ return new class extends Migration
             $table->bigInteger('produk_id');
             $table->bigInteger('pesanan_id')->nullable();
             $table->integer('qty');
-            $table->string('status')->nullable();
+            $table->string('status')->default('cart');
             $table->timestamps();
         });
     }

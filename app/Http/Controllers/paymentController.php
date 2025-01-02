@@ -3,9 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\buyMateri;
+use App\Models\cart;
 use App\Models\chart;
 use App\Models\materiStrukture;
+use App\Models\notification;
 use App\Models\penjualan;
+use App\Models\pesanan;
 use App\Models\sellMateri;
 use App\Models\shop;
 use App\Models\size;
@@ -156,5 +159,56 @@ class paymentController extends Controller
             }
         }
         return response('Notification processed.', 200);
+    }
+
+    public function COD($id)
+    {
+        // mengubah status
+        $pesanan = pesanan::where('id', $id)->first();
+        $pesanan->update([
+            'status' => 'diproses',
+        ]);
+
+        // mengurangi stok
+        $cart = cart::where('pesanan_id', $pesanan->id)->get();
+        foreach ($cart as $carts) {
+            $carts->produk->update([
+                'stok' => $carts->produk->stok - $carts->qty,
+            ]);
+        }
+
+        // membuat notifikasi
+        notification::create([
+            'user_id' => Auth::user()->id,
+            'title' => 'pesanan anda dengan id ' . $pesanan->code . ' sedang diproses',
+            'message' => 'pesanan sudah masuk ke penjual, menunggu di proses oleh penjual',
+            'status' => 'unread',
+        ]);
+
+
+        // mengirim notifikasi ke wa penjual
+        $sid    = env('TWILIO_SID');
+        $token  = env('TWILIO_TOKEN');
+        $twilio = new Client($sid, $token);
+        $message = $twilio->messages
+            ->create(
+                "whatsapp:+6281220786387", // to
+                array(
+                    "from" => "whatsapp:+14155238886",
+                    "body" => 'Ada pesanan masuk, segera proses pesanan'
+                )
+            );
+
+
+        return redirect()->route('pesanan')->with('success', 'pesanan anda sedang diproses');
+    }
+
+
+    public function selesai($id){
+        $pesanan = pesanan::where('id', $id)->first();
+        $pesanan->update([
+            'status' => 'selesai',
+        ]);
+        return redirect()->route('pesanan')->with('success', 'pesanan selesai');
     }
 }

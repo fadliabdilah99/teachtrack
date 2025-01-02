@@ -11,13 +11,8 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('pesanans', function (Blueprint $table) {
-            $table->id();
-            $table->bigInteger('kode')->unique();
-            $table->bigInteger('user_id');
-            $table->string('alamat');
-            $table->string('catatan')->nullable();
-            $table->timestamps();
+        Schema::table('pesanans', function (Blueprint $table) {
+            $table->string('status')->default('pending');
         });
     }
 
@@ -26,6 +21,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('pesanans');
+        Schema::table('pesanans', function (Blueprint $table) {
+            $table->dropColumn('status');
+        });
     }
 };

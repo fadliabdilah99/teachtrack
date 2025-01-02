@@ -34,6 +34,7 @@
 
 @section('content')
     <div style="height: 120vh">
+        {{-- button --}}
         <div class="grid grid-cols-3 gap-4 mb-6">
             <!-- materi -->
             <button onclick="materi()"
@@ -59,6 +60,9 @@
             <!-- cart -->
             <button onclick="cart()"
                 class="relative rounded-lg p-4 bg-gradient-to-r from-emerald-400 to-emerald-600 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                <div class="absolute top-0 left-0 z-10 m-1 text-white bg-red-700 rounded-full px-2 text-sm">
+                    {{ Auth::user()->cart->where('status', 'cart')->count() == 0 ? '' : Auth::user()->cart->where('status', 'cart')->count() }}
+                </div>
                 <i class="bi bi-cart3 text-4xl mr-4 transform group-hover:rotate-12 transition-transform duration-300"></i>
                 <span
                     class="font-semibold text-lg relative z-10 group-hover:tracking-wide transition-all duration-300">Cart</span>
@@ -67,6 +71,7 @@
                 </div>
             </button>
         </div>
+        {{-- produk --}}
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 hidden" id="produk">
             @foreach ($barang as $product)
                 <div class="filter-card card overflow-hidden {{ $product->kategori->kategori }}">
@@ -106,6 +111,7 @@
                 </div>
             @endforeach
         </div>
+        {{-- materi --}}
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 hidden" id="materi">
             @foreach ($sell as $materi)
                 <div class="card">
@@ -138,13 +144,111 @@
                 </div>
             @endforeach
         </div>
-    </div>
-    @foreach ($terjual as $history)
-        <div id="popup{{ $history->id }}" class="popup hidden">
-            <p>{{ $history->user->name }}</p>
-            <p>Membeli {{ $history->materiGuru->judul }}</p>
+        {{-- cart --}}
+        <div class="container mt-5 hidden" id="cart">
+            <div class="card h-full" id="kelastable">
+                <div class="card-body">
+                    <div class="relative overflow-x-auto">
+                        <h2 class="mb-4">Shopping Cart</h2>
+
+                        <form action="{{ route('checkout') }}" method="POST">
+                            @csrf
+                            <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
+                                <thead>
+                                    <tr class="text-sm">
+                                        <th scope="col" class="p-4 font-semibold">Select</th>
+                                        <th scope="col" class="p-4 font-semibold">Nama</th>
+                                        <th scope="col" class="p-4 font-semibold">Harga</th>
+                                        <th scope="col" class="p-4 font-semibold">Qty</th>
+                                        <th scope="col" class="p-4 font-semibold">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="dataTableguru">
+                                    @php
+                                        $total = 0;
+                                    @endphp
+                                    @foreach (Auth::user()->cart->where('status', 'cart') as $carts)
+                                        @php
+                                            $subtotal = $carts->qty * $carts->produk->harga;
+                                            $total += $subtotal;
+                                        @endphp
+                                        <tr>
+                                            <td class="p-4 text-sm">
+                                                <input type="checkbox" name="cart_items[]" value="{{ $carts->id }}"
+                                                    class="select-item" onchange="updateTotal()">
+                                            </td>
+                                            <td class="p-4 text-sm">
+                                                <div class="flex gap-6 items-center">
+                                                    <div class="h-20 w-20 inline-block">
+                                                        <img src="{{ asset('file/produk/' . $carts->produk->foto[0]->foto) }}"
+                                                            alt="" class="rounded-full w-100" />
+                                                    </div>
+                                                    <div class="flex flex-col gap-1 text-gray-500">
+                                                        <h3 class="font-bold">{{ $carts->produk->judul }}</h3>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-4 text-sm">
+                                                <div class="flex gap-6 items-center">
+                                                    <div class="flex flex-col gap-1 text-gray-500">
+                                                        <h3 class="font-bold">
+                                                            Rp.{{ number_format($carts->produk->harga) }}</h3>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-4 text-sm">
+                                                <div class="flex gap-6 items-center">
+                                                    <div class="flex flex-col gap-1 text-gray-500">
+                                                        <h3 class="font-bold">{{ $carts->qty }}</h3>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-4 text-sm">
+                                                <div class="flex flex-col gap-1 text-gray-500">
+                                                    <h3 class="font-bold">Rp.{{ number_format($subtotal) }}</h3>
+                                                </div>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                                <tfoot class="flex flex-col">
+                                    <tr>
+                                        <td>
+                                            <div class="mb-4">
+                                                <label for="alamat"
+                                                    class="block text-sm mb-2 text-gray-400">antar ke (lingkungan sekolah)</label>
+                                                <input type="text" name="alamat" id="alamat"
+                                                    value="{{Auth::user()->rombel->kelas . '-' . Auth::user()->rombel->jurusan->jurusan . ' ' . Auth::user()->rombel->jurusan->no}}"
+                                                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0" />
+                                            </div>
+                                            <div class="mb-4">
+                                                <label for="catatan"
+                                                    class="block text-sm mb-2 text-gray-400">catatan</label>
+                                                <textarea name="catatan" id="catatan" rows="3"
+                                                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0"></textarea>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="4" class="text-right font-bold p-4">Total:</td>
+                                        <td colspan="2" class="text-left font-bold p-4" id="totalAmount">
+                                            Rp.{{ number_format(0) }}</td>
+                                    </tr>
+                                    <tr>
+                                        <td colspan="6" class="text-center p-4">
+                                            <button type="submit" class="btn btn-primary">Checkout</button>
+
+                                        </td>
+                                    </tr>
+                                </tfoot>
+
+                            </table>
+                        </form>
+                    </div>
+                </div>
+            </div>
         </div>
-    @endforeach
+    </div>
 
     @include('siswa.market.modal')
 
@@ -162,35 +266,32 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
 
-    {{-- menampilkan card materi / produk --}}
     <script>
         // manampilkan materi saat pertama kali di buka
         document.getElementById('materi').classList.remove('hidden');
 
+        //  menampilkan card materi / produk
         function materi() {
             document.getElementById('materi').classList.remove('hidden');
             document.getElementById('produk').classList.add('hidden');
+            document.getElementById('cart').classList.add('hidden');
         }
 
+        // menampilkan halaman produk
         function produk() {
             document.getElementById('materi').classList.add('hidden');
             document.getElementById('produk').classList.remove('hidden');
+            document.getElementById('cart').classList.add('hidden');
         }
-    </script>
 
-    {{-- reload produk --}}
-    <script>
-        function reaload() {
-            // Manipulasi elemen sebelum reload (jika memang diperlukan)
+        // menampilkan halaman cart
+        function cart() {
+            document.getElementById('cart').classList.remove('hidden');
             document.getElementById('materi').classList.add('hidden');
-            document.getElementById('produk').classList.remove('hidden');
-
-            // Pastikan halaman dimuat ulang setelah semua perubahan selesai
-            setTimeout(() => {
-                location.reload();
-            }, 100); // Memberikan sedikit jeda waktu agar perubahan DOM terlihat sebelum reload
+            document.getElementById('produk').classList.add('hidden');
         }
     </script>
+
 
 
     <script>
@@ -202,10 +303,6 @@
 
             const pembayaran = $(`#pembayaran_${formIndex}`).val();
             const sellId = $(`#sell_id_${formIndex}`).val();
-
-            console.log("Form submitted");
-            console.log("Pembayaran:", pembayaran);
-            console.log("Sell ID:", sellId);
 
             $.post("/donation", {
                     _method: 'POST',
@@ -299,6 +396,7 @@
             document.getElementById('harga').value = harga;
             document.getElementById('stok').value = stok;
             document.getElementById('foto').src = foto;
+            document.getElementById('qty').max = stok;
             const modal = document.getElementById('bottomModal');
             if (modal.classList.contains('invisible')) {
                 modal.classList.remove('invisible', 'opacity-0');
@@ -311,6 +409,26 @@
                     modal.classList.add('invisible', 'opacity-0');
                 }, 300);
             }
+        }
+    </script>
+
+
+    <script>
+        // update total harga
+        function updateTotal() {
+            const checkboxes = document.querySelectorAll('.select-item');
+            let total = 0;
+
+            checkboxes.forEach(checkbox => {
+                if (checkbox.checked) {
+                    const row = checkbox.closest('tr');
+                    const subtotal = row.querySelector('td:nth-child(5) h3').innerText.replace('Rp.', '').replace(
+                        ',', '');
+                    total += parseFloat(subtotal);
+                }
+            });
+
+            document.getElementById('totalAmount').innerText = 'Rp.' + total.toLocaleString('id-ID');
         }
     </script>
 @endpush

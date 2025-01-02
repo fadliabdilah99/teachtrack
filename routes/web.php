@@ -53,7 +53,12 @@ Route::middleware('auth')->group(function () {
     Route::post('user/pengajuan', [userController::class, 'pengajuan'])->name('pengajuan');
 
     // proses pemesanan
-    Route::post('add-to-cart/{id}', [pesananController::class, 'addcart'])->name('add-to-cart');
+    Route::post('add-to-cart', [pesananController::class, 'addcart'])->name('add-to-cart');
+    Route::post('checkout', [pesananController::class, 'checkout'])->name('checkout');
+    Route::get('pesanan', [pesananController::class, 'index'])->name('pesanan');
+    Route::get('pesanan/bayar/{id}', [pesananController::class, 'bayar'])->name('bayar');
+    Route::post('pesanan/bayar/COD/{id}', [paymentController::class, 'COD'])->name('COD');
+    Route::post('pesanan/selesai/{id}', [paymentController::class, 'selesai'])->name('selesai');
 });
 
 
