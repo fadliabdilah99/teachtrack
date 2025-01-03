@@ -67,7 +67,9 @@
                             class="flex items-center px-4 py-2 rounded-md border-2 border-gray-300 cursor-pointer">
                             <form action="e" id="payment_form">
                                 <input type="number" name="pembayaran" id="pembayaran" value="{{ $bayar }}" hidden>
-                                <input type="number" name="sell_id" id="sell_id" value="{{ $pesanans->id }}" hidden>
+                                <input type="number" name="pesanan_id" id="pesanan_id" value="{{ $pesanans->id }}" hidden>
+                                <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" hidden>
+                                <input type="text" name="email" id="email" value="{{ Auth::user()->email }}" hidden>
                                 <button type="submit" class="text-sm text-gray-800 mr-2">Dompet Digital</button>
                             </form>
                             <span class="text-sm font-bold text-gray-800">Rp. {{ number_format($bayar) }}</span>
@@ -107,10 +109,13 @@
             event.preventDefault();
 
 
-            $.post("/api/donation", {
+            $.post("/api/payment", {
                     _method: 'POST',
                     _token: '{{ csrf_token() }}',
                     pembayaran: $('#pembayaran').val(),
+                    pesanan_id: $('#pesanan_id').val(),
+                    name: $('#name').val(),
+                    email: $('#email').val(),
                 },
                 function(data, status) {
                     console.log(data);

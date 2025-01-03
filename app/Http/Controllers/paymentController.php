@@ -102,7 +102,12 @@ class paymentController extends Controller
         $parts = explode('-', $id);
         $user_id = $parts[1];
 
-        $pesanan = buyMateri::where('id', $id)->with('materiGuru')->first();
+        if (pesanan::where('kode', $id)->first() != null) {
+            $pesanan = pesanan::where('kode', $id)->with('cart')->first();
+        } else {
+            $pesanan = buyMateri::where('id', $id)->with('materiGuru')->first();
+        }
+
 
 
         // Logika status transaksi
@@ -121,7 +126,7 @@ class paymentController extends Controller
         $pesanan->save();
 
 
-        if ($pesanan->status == 'payment') {
+        if ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() == null) {
             // notifikasi ke admin
             $sid    = env('TWILIO_SID');
             $token  = env('TWILIO_TOKEN');
@@ -154,6 +159,30 @@ class paymentController extends Controller
                         'materiStrukture_id' => $strukture->id,
                         'materi_guru_id' => $pesanan->materi_guru_id,
                         'progres' => 2,
+                    ]);
+                }
+            }
+        } elseif ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() != null) {
+            // notifikasi ke penjual
+            $sid    = env('TWILIO_SID');
+            $token  = env('TWILIO_TOKEN');
+            $twilio = new Client($sid, $token);
+
+            $message = $twilio->messages
+                ->create(
+                    "whatsapp:+6281220786387", // to
+                    array(
+                        "from" => "whatsapp:+14155238886",
+                        "body" => 'Ada pesanan baru, segera proses pesanan'
+                    )
+                );
+            foreach ($pesanan->cart as $carts) {
+                if (wallet::where('keterangan', 'penjualan produk ' . $carts->produk->judul)->first() == null) {
+                    wallet::create([
+                        'user_id' => $carts->produk->user_id,
+                        'nominal' => $amout,
+                        'keterangan' => 'penjualan produk ' . $carts->produk->judul,
+                        'jenis' => 'uang masuk'
                     ]);
                 }
             }
@@ -204,11 +233,68 @@ class paymentController extends Controller
     }
 
 
-    public function selesai($id){
+    public function selesai($id)
+    {
         $pesanan = pesanan::where('id', $id)->first();
         $pesanan->update([
             'status' => 'selesai',
         ]);
         return redirect()->route('pesanan')->with('success', 'pesanan selesai');
+    }
+
+
+    // payment method
+    public function payment(Request $request)
+    {
+        try {
+            // Log untuk melihat request yang masuk
+
+            // Cek data pesanan berdasarkan ID
+            $pesanan = pesanan::where('id', $request->pesanan_id)->first();
+            if (!$pesanan) {
+                return response()->json(['error' => 'Pesanan tidak ditemukan'], 404);
+            }
+
+            DB::beginTransaction();
+
+            try {
+                $payload = [
+                    'transaction_details' => [
+                        'order_id'      => $pesanan->kode,
+                        'gross_amount'  => $request->pembayaran,
+                    ],
+                    'customer_details' => [
+                        'first_name'    => $request->name,
+                        'email'         => $request->email,
+                    ],
+                    'item_details' => [
+                        [
+                            'id'       => $request->name,
+                            'price'    => $request->pembayaran,
+                            'quantity' => 1,
+                            'name'     => ucwords(str_replace('_', ' ', $request->name,))
+                        ]
+                    ]
+                ];
+
+                // Log payload sebelum diproses
+
+                // Mendapatkan Snap Token dari Midtrans
+                $snapToken = \Midtrans\Snap::getSnapToken($payload);
+
+                // Log Snap Token
+
+                $this->response['snap_token'] = $snapToken;
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                $this->response['error'] = $e->getMessage();
+            }
+        } catch (\Exception $e) {
+            $this->response['error'] = $e->getMessage();
+        }
+
+        return response()->json($this->response);
     }
 }

@@ -13,10 +13,12 @@ Route::get('/test', function () {
     return ['message' => 'Hello from API'];
 });
 
-// payment
+// payment materi
 Route::post('/donation', [paymentController::class, 'store']);
 Route::post('/notification', [paymentController::class, 'notification']);
 
+// payment shop
+Route::post('/payment', [paymentController::class, 'payment']);
 
 // auth
 Route::post('user/login', [apiController::class, 'login']);
