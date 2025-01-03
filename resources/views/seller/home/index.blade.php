@@ -13,28 +13,41 @@
                         <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                             <thead>
                                 <tr class="text-sm">
-                                    <th scope="col" class="p-4 font-semibold">Profile</th>
-                                    <th scope="col" class="p-4 font-semibold">nama toko</th>
-                                    <th scope="col" class="p-4 font-semibold">Dokumen
-                                    </th>
+                                    <th scope="col" class="p-4 font-semibold">Pemesan</th>
+                                    <th scope="col" class="p-4 font-semibold">ID pesanan</th>
+                                    <th scope="col" class="p-4 font-semibold">kirim ke</th>
                                     <th scope="col" class="p-4 font-semibold">aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                <tr>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                    <td class="p-4">
-                                        <h3 class="font-medium">nama toko</h3>
-                                    </td>
-                                </tr>
+                                @foreach ($pesanan as $pesanans)
+                                    <tr>
+                                        <td class="p-4 text-sm">
+                                            <div class="flex gap-6 items-center">
+                                                <div class="h-12 w-12 inline-block"><img
+                                                        src="{{ asset('file/profile/' . $pesanans->user->fotoProfile) }}"
+                                                        alt="" class="rounded-full w-100"></div>
+                                                <div class="flex flex-col gap-1 text-gray-500">
+                                                    <h3 class="font-bold">{{ $pesanans->user->name }} <span
+                                                            class="font-normal {{ $pesanans->status == 'payment' ? 'bg-green-100 text-green-800' : 'bg-red-100 text-red-800' }} text-green-800 text-xs mr-2 px-2.5 py-0.5 rounded">{{ $pesanans->status }}</span>
+                                                    </h3>
+
+                                                    <span
+                                                        class="font-normal">{{ $pesanans->user->rombel->kelas . ' ' . $pesanans->user->rombel->jurusan->jurusan . ' ' . $pesanans->user->rombel->jurusan->no }}</span>
+                                                </div>
+                                            </div>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $pesanans->kode }}</h3>
+                                        </td>
+                                        <td class="p-4">
+                                            <h3 class="font-medium">{{ $pesanans->alamat }}</h3>
+                                        </td>
+                                        <td class="p-4">
+                                        <button onclick="showinfo({{ $pesanans->id }})" class="btn text-base py-1 text-white w-fit hover:bg-blue-700">proses</button>
+                                        </td>
+                                    </tr>
+                                @endforeach
 
                             </tbody>
                         </table>
@@ -46,102 +59,30 @@
             <div class="card-body">
                 <h4 class="text-gray-500 text-lg font-semibold mb-5">Dalam Proses</h4>
                 <ul class="timeline-widget relative">
+                    @foreach ($proses as $prosess)
+                        
                     <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            9:30 am</div>
                         <div class="timeline-badge-wrap flex flex-col items-center">
                             <div
                                 class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-600 my-[10px]">
                             </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
+                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-400">
                             </div>
                         </div>
                         <div class="timeline-desc py-[6px] px-4">
                             <p class="text-gray-500 text-sm font-normal">Payment received from John
                                 Doe of $385.90</p>
+                                <button class="btn text-base mt-2 py-1 text-white w-fit hover:bg-blue-700">tes</button>
                         </div>
                     </li>
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] py-[6px] text-sm pr-4 text-end">
-                            10:00 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-300 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4 text-sm">
-                            <p class="text-gray-500 font-semibold">New sale recorded</p>
-                            <a href="javascript:void('')" class="text-blue-600">#ML-3467</a>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] text-sm py-[6px] pr-4 text-end">
-                            12:00 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-teal-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment was made of $64.95
-                                to Michael</p>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 min-w-[90px] text-sm py-[6px] pr-4 text-end">
-                            9:30 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-yellow-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4 text-sm">
-                            <p class="text-gray-500 font-semibold">New sale recorded</p>
-                            <a href="javascript:void('')" class="text-blue-600">#ML-3467</a>
-                        </div>
-                    </li>
-
-                    <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            9:30 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-red-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-semibold">New arrival recorded</p>
-                        </div>
-                    </li>
-                    <li class="timeline-item flex relative overflow-hidden">
-                        <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">
-                            12:00 am</div>
-                        <div class="timeline-badge-wrap flex flex-col items-center">
-                            <div
-                                class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-teal-500 my-[10px]">
-                            </div>
-                            <div class="timeline-badge-border block h-full w-[1px] bg-gray-100">
-                            </div>
-                        </div>
-                        <div class="timeline-desc py-[6px] px-4">
-                            <p class="text-gray-500 text-sm font-normal">Payment Done</p>
-                        </div>
-                    </li>
+                    @endforeach
                 </ul>
             </div>
         </div>
     </div>
 
+    @include('seller.home.modal')
+     
     @push('script')
         {{-- modal foto --}}
         <script>
@@ -176,5 +117,17 @@
                 });
             }
         </script>
+
+        {{-- show modal --}}
+        <script>
+            function showinfo(id) {
+                document.getElementById(`modalinfo${id}`).classList.remove("hidden");
+            }
+
+            function closemodalinfo(id) {
+                document.getElementById(`modalinfo${id}`).classList.add("hidden");
+            }
+        </script>
     @endpush
+    
 @endsection

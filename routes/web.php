@@ -192,6 +192,9 @@ Route::group(['middleware' => ['role:penjual']], function () {
     // produk
     Route::post('seller/produk/addproduk', [produkController::class, 'addproduk'])->name('addproduk');
     Route::post('seller/produk/pin/{id}', [produkController::class, 'pin'])->name('pin');
+
+    // transaksi
+    Route::post('seller/proses/{id}', [produkController::class, 'proses'])->name('proses');
 });
 
 

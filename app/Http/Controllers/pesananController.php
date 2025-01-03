@@ -12,8 +12,6 @@ class pesananController extends Controller
 {
     public function addcart(Request $request)
     {
-        // dd($request->all());
-
         cart::create([
             'user_id' => Auth::user()->id,
             'produk_id' => $request->produk_id,
@@ -21,7 +19,6 @@ class pesananController extends Controller
         ]);
         return redirect()->back()->with('success', 'produk ditambahkan ke keranjang');
     }
-
     public function checkout(Request $request)
     {
         $pesanan = pesanan::create([

@@ -6,22 +6,31 @@
 @endpush
 
 @section('content')
-    <div class="flex justify-center space-x-4 my-4">
+    <div class="relative flex justify-around items-center space-x-4 my-4">
+        <!-- Garis Horizontal -->
+        <div class="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-[2px] bg-gray-300"></div>
+
+        <!-- Tombol -->
         <button onclick="pesanan()"
-            class="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            class="z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
             <i class="bi bi-clock text-xl mr-2"></i> Belum di bayar
         </button>
-        <button onclick="diproses()"
-            class="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
-            <i class="bi bi-arrow-repeat text-xl mr-2"></i> Di proses
+        <button onclick="konfirmasi()"
+            class="z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-arrow-repeat text-xl mr-2"></i> Menunggu Konfirmasi
+        </button>
+        <button onclick="proses()"
+            class="z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-arrow-repeat text-xl mr-2"></i> Dalam proses
         </button>
         <button onclick="selesai()"
-            class="px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full hover:bg-gray-200 transition-colors duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
-            <i class="bi bi-check-circle text-xl mr-2 "></i> Selesai
+            class="z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-check-circle text-xl mr-2"></i> Selesai
         </button>
     </div>
+
     <div class="card h-full " id="pesanan">
-        <div class="card-body"> 
+        <div class="card-body">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">Perlu di bayar</h4>
             <div class="relative overflow-x-auto">
                 <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
@@ -66,7 +75,60 @@
             </div>
         </div>
     </div>
-    <div class="card h-full hidden" id="diproses">
+    <div class="card h-full hidden" id="konfirmasi">
+        <div class="card-body">
+            <h4 class="text-gray-500 text-lg font-semibold mb-5">Menunggu Konfirmasi</h4>
+            <div class="relative overflow-x-auto">
+                <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
+                    <thead>
+                        <tr class="text-sm">
+                            <th scope="col" class="p-4 font-semibold">Id pesanan</th>
+                            <th scope="col" class="p-4 font-semibold">Barang</th>
+                            <th scope="col" class="p-4 font-semibold">total</th>
+                            <th scope="col" class="p-4 font-semibold">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody id="dataTableguru">
+                        @foreach (Auth::user()->pesanan()->where(function ($query) {
+                $query->where('status', 'COD')->orWhere('status', 'payment');
+            })->get() as $pesanans)
+                            <tr>
+                                <td class="p-4">
+                                    <h3 class="font-medium text-teal-500">
+                                        {{ $pesanans->kode }}</h3>
+                                </td>
+                                <td class="p-4">
+                                    <h3 class="font-medium text-teal-500">
+                                        {{ $pesanans->cart->count() }} item</h3>
+                                </td>
+                                <td class="p-4">
+                                    <h3 class="font-medium text-teal-500"> Rp.
+                                        {{ number_format(
+                                            $pesanans->cart->sum(function ($harga) {
+                                                return $harga->produk->harga;
+                                            }),
+                                        ) }}
+                                    </h3>
+                                </td>
+                                <td class="p-4">
+                                    <form action="{{ route('selesai', $pesanans->id) }}" method="POST">
+                                        @csrf
+                                        <button type="button"
+                                            class="btn cancle text-base py-1 text-white w-fit hover:bg-blue-700">Batalkan
+                                        </button>
+                                    </form>
+                                </td>
+                            </tr>
+                        @endforeach
+
+                    </tbody>
+                </table>
+
+            </div>
+        </div>
+
+    </div>
+    <div class="card h-full hidden" id="proses">
         <div class="card-body">
             <h4 class="text-gray-500 text-lg font-semibold mb-5">Dalam Proses</h4>
             <div class="relative overflow-x-auto">
@@ -80,7 +142,9 @@
                         </tr>
                     </thead>
                     <tbody id="dataTableguru">
-                        @foreach (Auth::user()->pesanan->where('status', 'diproses') as $pesanans)
+                        @foreach (Auth::user()->pesanan()->where(function ($query) {
+                $query->where('status', 'COD1')->orWhere('status', 'payment1');
+            })->get() as $pesanans)
                             <tr>
                                 <td class="p-4">
                                     <h3 class="font-medium text-teal-500">
@@ -203,26 +267,62 @@
                     }
                 });
         });
+        $('.cancle').click(function(e) {
+            e.preventDefault();
+            const data = $(this).closest('tr').find('td:eq(1)').text();
+            console.log("Data to delete:", data);
+            Swal.fire({
+                    title: 'Pembatalan pesanan!',
+                    text: `Pesanan akan dibatalkan, uang akan masuk ke ZieWallet`,
+                    icon: 'warning',
+                    showDenyButton: true,
+                    confirmButtonText: 'Ya',
+                    denyButtonText: 'Tidak',
+                    confirmButtonColor: "#3085d6",
+                    denyButtonColor: "#d33",
+                    focusConfirm: false
+                })
+                .then((result) => {
+                    console.log("Delete Confirmation Result:", result);
+                    if (result.isConfirmed) {
+                        console.log("Confirmed: Submitting form");
+                        $(e.target).closest('form').submit();
+                    } else {
+                        console.log("Denied: Closing Swal");
+                        swal.close();
+                    }
+                });
+        });
     </script>
 
     {{-- menampilkan halaman --}}
     <script>
         function pesanan() {
             document.getElementById('pesanan').classList.remove('hidden');
-            document.getElementById('diproses').classList.add('hidden');
+            document.getElementById('konfirmasi').classList.add('hidden');
             document.getElementById('selesai').classList.add('hidden');
+            document.getElementById('proses').classList.add('hidden');
         }
 
-        function diproses() {
+        function konfirmasi() {
             document.getElementById('pesanan').classList.add('hidden');
-            document.getElementById('diproses').classList.remove('hidden');
+            document.getElementById('konfirmasi').classList.remove('hidden');
             document.getElementById('selesai').classList.add('hidden');
+            document.getElementById('proses').classList.add('hidden');
         }
 
         function selesai() {
             document.getElementById('pesanan').classList.add('hidden');
-            document.getElementById('diproses').classList.add('hidden');
+            document.getElementById('konfirmasi').classList.add('hidden');
             document.getElementById('selesai').classList.remove('hidden');
+            document.getElementById('proses').classList.add('hidden');
+        }
+
+        function proses() {
+            document.getElementById('proses').classList.remove('hidden');
+            document.getElementById('pesanan').classList.add('hidden');
+            document.getElementById('konfirmasi').classList.add('hidden');
+            document.getElementById('selesai').classList.add('hidden');
         }
     </script>
 @endpush

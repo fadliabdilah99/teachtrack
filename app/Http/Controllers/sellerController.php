@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\kategori;
+use App\Models\pesanan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -10,11 +11,13 @@ use Illuminate\Support\Facades\Auth;
 class sellerController extends Controller
 {
     // admin
-    public function adminkategori(){
+    public function adminkategori()
+    {
         $data['kategori'] = kategori::all();
         return view('admin.usaha.index')->with($data);
     }
-    public function addkategori(Request $request){
+    public function addkategori(Request $request)
+    {
         $validatedData = $request->validate([
             'kategori' => 'required|string|max:255',
         ]);
@@ -28,7 +31,9 @@ class sellerController extends Controller
 
     public function index()
     {
-        return view('seller.home.index');
+        $data['pesanan'] = pesanan::where('status', 'COD')->orWhere('status', 'payment')->with('cart')->whereHas('cart.produk', function ($query) { $query->where('user_id', Auth::user()->id); })->orderBy('created_at', 'asc')->get();
+        $data['proses'] = pesanan::where('status', 'COD1')->orWhere('status', 'payment1')->with('cart')->whereHas('cart.produk', function ($query) { $query->where('user_id', Auth::user()->id); })->orderBy('created_at', 'asc')->get();
+        return view('seller.home.index', $data);
     }
 
     public function keuangan()
@@ -48,8 +53,9 @@ class sellerController extends Controller
         $data['kategori'] = kategori::all();
         return view('seller.produk.index')->with($data);
     }
-    
-    public function title(Request $request){
+
+    public function title(Request $request)
+    {
         // dd($request->all());
         $user = User::where('id', Auth::user()->id)->with('seller')->first();
         $user->seller->update([
@@ -59,10 +65,11 @@ class sellerController extends Controller
     }
 
 
-    public function updatebg(Request $request){
-     
+    public function updatebg(Request $request)
+    {
+
         $user = User::where('id', Auth::user()->id)->with('seller')->first();
-        if($request->file('pinPict') == null){
+        if ($request->file('pinPict') == null) {
             if ($user->seller->pinPict != null) {
                 unlink(public_path('file/seller/' . $user->seller->pinPict));
             }
@@ -85,10 +92,11 @@ class sellerController extends Controller
     }
 
 
-    public function updatesampul(Request $request){
-     
+    public function updatesampul(Request $request)
+    {
+
         $user = User::where('id', Auth::user()->id)->with('seller')->first();
-        if($request->file('sampul') == null){
+        if ($request->file('sampul') == null) {
             if ($user->seller->sampul != null) {
                 unlink(public_path('file/seller/' . $user->seller->sampul));
             }

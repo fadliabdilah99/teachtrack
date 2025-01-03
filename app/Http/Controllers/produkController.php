@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\fotoProduk;
+use App\Models\pesanan;
 use App\Models\produk;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -51,5 +52,14 @@ class produkController extends Controller
             produk::where('id', $id)->update(['pin' => '0']);
         }
         return redirect()->back()->with('success', 'Produk berhasil di pin');
+    }
+
+    public function proses($id)
+    {
+        $produk = pesanan::where('id', $id)->first();
+        $produk->update([
+            'status' => $produk->status . '1',
+        ]);
+        return redirect()->back()->with('success', 'Produk berhasil di proses');
     }
 }

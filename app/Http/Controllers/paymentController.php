@@ -91,6 +91,8 @@ class paymentController extends Controller
         $payload = $request->getContent();
         Log::info('Midtrans Notification Received:');
         Log::info($payload);
+        Log::info('anjay mabar 1');
+
 
         $notification = json_decode($payload);
 
@@ -99,16 +101,18 @@ class paymentController extends Controller
         $id = $notification->order_id;
         $fraudStatus = $notification->fraud_status;
         $amout = $notification->gross_amount;
-        $parts = explode('-', $id);
-        $user_id = $parts[1];
-
+        
         if (pesanan::where('kode', $id)->first() != null) {
             $pesanan = pesanan::where('kode', $id)->with('cart')->first();
         } else {
             $pesanan = buyMateri::where('id', $id)->with('materiGuru')->first();
+            $parts = explode('-', $id);
+            $user_id = $parts[1];
         }
 
+        Log::info('Pesanan:', [$pesanan]);
 
+        Log::info('anjay mabar');
 
         // Logika status transaksi
         if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
@@ -127,6 +131,7 @@ class paymentController extends Controller
 
 
         if ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() == null) {
+            Log::info('masuk kedalam pembelian pelajaran');
             // notifikasi ke admin
             $sid    = env('TWILIO_SID');
             $token  = env('TWILIO_TOKEN');
@@ -163,6 +168,7 @@ class paymentController extends Controller
                 }
             }
         } elseif ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() != null) {
+            Log::info('masuk kedalam pembelian produk');
             // notifikasi ke penjual
             $sid    = env('TWILIO_SID');
             $token  = env('TWILIO_TOKEN');
@@ -178,6 +184,9 @@ class paymentController extends Controller
                 );
             foreach ($pesanan->cart as $carts) {
                 if (wallet::where('keterangan', 'penjualan produk ' . $carts->produk->judul)->first() == null) {
+                    $carts->produk->update([
+                        'stok' => $carts->produk->stok - $carts->qty
+                    ]);
                     wallet::create([
                         'user_id' => $carts->produk->user_id,
                         'nominal' => $amout,
@@ -195,7 +204,7 @@ class paymentController extends Controller
         // mengubah status
         $pesanan = pesanan::where('id', $id)->first();
         $pesanan->update([
-            'status' => 'diproses',
+            'status' => 'COD',
         ]);
 
         // mengurangi stok
