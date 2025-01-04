@@ -54,12 +54,5 @@ class produkController extends Controller
         return redirect()->back()->with('success', 'Produk berhasil di pin');
     }
 
-    public function proses($id)
-    {
-        $produk = pesanan::where('id', $id)->first();
-        $produk->update([
-            'status' => $produk->status . '1',
-        ]);
-        return redirect()->back()->with('success', 'Produk berhasil di proses');
-    }
+
 }

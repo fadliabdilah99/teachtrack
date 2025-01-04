@@ -112,7 +112,6 @@ class paymentController extends Controller
 
         Log::info('Pesanan:', [$pesanan]);
 
-        Log::info('anjay mabar');
 
         // Logika status transaksi
         if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
@@ -151,7 +150,8 @@ class paymentController extends Controller
                     'user_id' => $pesanan->materiGuru->user->id,
                     'nominal' => $amout,
                     'keterangan' => 'pembelian materi ' . $pesanan->materiGuru->judul,
-                    'jenis' => 'uang masuk'
+                    'jenis' => 'uang masuk',
+                    'unique' => $id,
                 ]);
             }
 
@@ -245,6 +245,10 @@ class paymentController extends Controller
     public function selesai($id)
     {
         $pesanan = pesanan::where('id', $id)->first();
+        // mengirimkan dana kepada penjual
+        wallet::where('unique', $pesanan->kode)->update([
+            'unique' => null
+        ]);
         $pesanan->update([
             'status' => 'selesai',
         ]);

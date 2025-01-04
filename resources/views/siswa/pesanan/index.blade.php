@@ -142,8 +142,9 @@
                         </tr>
                     </thead>
                     <tbody id="dataTableguru">
+                        {{-- memanggil data pesanan dalam proses dan selesai dari penjual menunggu konfirmasi pemesan --}}
                         @foreach (Auth::user()->pesanan()->where(function ($query) {
-                $query->where('status', 'COD1')->orWhere('status', 'payment1');
+                $query->where('status', 'COD1')->orWhere('status', 'payment1')->orWhere('status', 'COD2')->orWhere('status', 'payment2');
             })->get() as $pesanans)
                             <tr>
                                 <td class="p-4">
@@ -164,12 +165,19 @@
                                     </h3>
                                 </td>
                                 <td class="p-4">
-                                    <form action="{{ route('selesai', $pesanans->id) }}" method="POST">
-                                        @csrf
-                                        <button type="button"
-                                            class="btn confirmation text-base py-1 text-white w-fit hover:bg-blue-700">selesai
-                                        </button>
-                                    </form>
+                                    @if ($pesanans->status == 'COD1' || $pesanans->status == 'payment1')
+                                        <p type="button"
+                                            class="btn confirmation text-base py-1 text-white w-fit hover:bg-blue-700">
+                                            sedang diproses
+                                        </p>
+                                    @else
+                                        <form action="{{ route('selesai', $pesanans->id) }}" method="POST">
+                                            @csrf
+                                            <button type="button"
+                                                class="btn confirmation text-base py-1 text-white w-fit hover:bg-blue-700">selesai
+                                            </button>
+                                        </form>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -190,7 +198,7 @@
                         <tr class="text-sm">
                             <th scope="col" class="p-4 font-semibold">Id pesanan</th>
                             <th scope="col" class="p-4 font-semibold">Barang</th>
-                            <th scope="col" class="p-4 font-semibold">total</th>
+                            <th scope="col" class="p-4 font-semibold">status</th>
                             <th scope="col" class="p-4 font-semibold">Action</th>
                         </tr>
                     </thead>
@@ -221,10 +229,8 @@
                                 </td>
                             </tr>
                         @endforeach
-
                     </tbody>
                 </table>
-
             </div>
         </div>
 
