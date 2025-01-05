@@ -22,7 +22,7 @@
                                 </thead>
                                 <tbody>
                                     @foreach (Auth::user()->wallet()->whereNot('unique', '!=', null)->get() as $riwayat)
-                                        <tr>
+<tr>
                                             <td class="p-4">
                                                 <h3 class="font-medium">{{ $riwayat->created_at->format('d-m-Y') }}</h3>
                                             </td>
@@ -34,16 +34,16 @@
                                             </td>
                                             <td class="p-4 flex gap-2">
                                                 @if ($riwayat->jenis == 'uang masuk')
-                                                    <i class="bi text-green-500 bi-arrow-down-right-circle"></i>
-                                                @else
-                                                    <i class="bi text-red-500 bi-arrow-up-right-circle"></i>
-                                                @endif
+<i class="bi text-green-500 bi-arrow-down-right-circle"></i>
+@else
+<i class="bi text-red-500 bi-arrow-up-right-circle"></i>
+@endif
                                                 {{-- <p></p> --}}
                                                 <h3 class="font-medium">{{ $riwayat->jenis }}</h3>
                                             </td>
 
                                         </tr>
-                                    @endforeach
+@endforeach
 
                                 </tbody>
                             </table>
@@ -99,12 +99,11 @@
                         <div class="flex flex-col gap-4">
                             <h4 class="text-gray-500 text-lg font-semibold">Product Sales</h4>
                             <div class="flex flex-col gap-4">
-                                <h3 class="text-[22px] font-semibold text-gray-500">$6,820</h3>
+                                <h3 class="text-[22px] font-semibold text-gray-500">Rp {{ number_format($pesanan->sum('uang_masuk')) }}</h3>
                                 <div class="flex items-center gap-1">
-                                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-red-400">
-                                        <i class="ti ti-arrow-down-right text-red-500"></i>
+                                    <span class="flex items-center justify-center w-5 h-5 rounded-full bg-teal-400">
+                                        <i class="bi bi-currency-dollar text-white"></i>
                                     </span>
-                                    <p class="text-gray-500 text-sm font-normal">+9%</p>
                                     <p class="text-gray-400 text-sm font-normal text-nowrap">last
                                         year</p>
                                 </div>
@@ -124,136 +123,180 @@
 
 
     @push('script')
-        {{-- modal foto --}}
-        <script>
-            function modalFoto(url) {
-                var modal = document.getElementById("modal-foto");
-                var img = document.getElementById("foto");
-                img.src = url;
-                modal.classList.remove("hidden");
-            }
-
-            function closeModalFoto() {
-                var modal = document.getElementById("modal-foto");
-                modal.classList.add("hidden");
-            }
-        </script>
-
-        {{-- sweet alert konfirmasi --}}
-        <script>
-            function confirmAction(formId, actionName) {
-                Swal.fire({
-                    title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, ' + actionName,
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById(formId).submit();
-                    }
-                });
-            }
-        </script>
-    @endpush
-
-    {{-- chart --}}
     <script>
-        var grade = {
-            series: [
-                {{ Auth::user()->wallet()->where('jenis', 'lainnya')->sum('nominal') + Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }},
-                {{ Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') }},
-                {{ Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }}
-            ],
-            labels: ["other", "Uang Masuk", "Uang Keluar"],
-            chart: {
-                height: 170,
-                type: "donut",
-                fontFamily: "Plus Jakarta Sans', sans-serif",
-                foreColor: "#c6d1e9",
-            },
+        function modalFoto(url) {
+            var modal = document.getElementById("modal-foto");
+            var img = document.getElementById("foto");
+            img.src = url;
+            modal.classList.remove("hidden");
+        }
 
-            tooltip: {
-                theme: "dark",
-                fillSeriesColor: false,
-            },
+        function closeModalFoto() {
+            var modal = document.getElementById("modal-foto");
+            modal.classList.add("hidden");
+        }
 
-            colors: ["#e7ecf0", "#fb977d", "#0085db"],
-            dataLabels: {
-                enabled: false,
-            },
-
-            legend: {
-                show: false,
-            },
-
-            stroke: {
-                show: false,
-            },
-            responsive: [{
-                breakpoint: 991,
-                options: {
-                    chart: {
-                        width: 150,
-                    },
-                },
-            }, ],
-            plotOptions: {
-                pie: {
-                    donut: {
-                        size: '80%',
-                        background: "none",
-                        labels: {
-                            show: true,
-                            name: {
-                                show: true,
-                                fontSize: "12px",
-                                color: undefined,
-                                offsetY: 5,
-                            },
-                            value: {
-                                show: false,
-                                color: "#98aab4",
-                            },
-                        },
-                    },
-                },
-            },
-            responsive: [{
-                    breakpoint: 1476,
-                    options: {
-                        chart: {
-                            height: 120,
-                        },
-                    },
-                },
-                {
-                    breakpoint: 1280,
-                    options: {
-                        chart: {
-                            height: 170,
-                        },
-                    },
-                },
-                {
-                    breakpoint: 1166,
-                    options: {
-                        chart: {
-                            height: 120,
-                        },
-                    },
-                },
-                {
-                    breakpoint: 1024,
-                    options: {
-                        chart: {
-                            height: 170,
-                        },
-                    },
-                },
-            ],
-        };
+        // sweet alert konfirmasi
+        function confirmAction(formId, actionName) {
+            Swal.fire({
+                title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, ' + actionName,
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
     </script>
+
+
+                    <script>
+                        // {{-- chart --}}
+                        var grade = {
+                            series: [
+                                {{ Auth::user()->wallet()->where('jenis', 'lainnya')->sum('nominal') + Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }},
+                                {{ Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') }},
+                                {{ Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }}
+                            ],
+                            labels: ["other", "Uang Masuk", "Uang Keluar"],
+                            chart: {
+                                height: 170,
+                                type: "donut",
+                                fontFamily: "Plus Jakarta Sans', sans-serif",
+                                foreColor: "#c6d1e9",
+                            },
+
+                            tooltip: {
+                                theme: "dark",
+                                fillSeriesColor: false,
+                            },
+
+                            colors: ["#e7ecf0", "#fb977d", "#0085db"],
+                            dataLabels: {
+                                enabled: false,
+                            },
+
+                            legend: {
+                                show: false,
+                            },
+
+                            stroke: {
+                                show: false,
+                            },
+                            responsive: [{
+                                breakpoint: 991,
+                                options: {
+                                    chart: {
+                                        width: 150,
+                                    },
+                                },
+                            }, ],
+                            plotOptions: {
+                                pie: {
+                                    donut: {
+                                        size: '80%',
+                                        background: "none",
+                                        labels: {
+                                            show: true,
+                                            name: {
+                                                show: true,
+                                                fontSize: "12px",
+                                                color: undefined,
+                                                offsetY: 5,
+                                            },
+                                            value: {
+                                                show: false,
+                                                color: "#98aab4",
+                                            },
+                                        },
+                                    },
+                                },
+                            },
+                            responsive: [{
+                                    breakpoint: 1476,
+                                    options: {
+                                        chart: {
+                                            height: 120,
+                                        },
+                                    },
+                                },
+                                {
+                                    breakpoint: 1280,
+                                    options: {
+                                        chart: {
+                                            height: 170,
+                                        },
+                                    },
+                                },
+                                {
+                                    breakpoint: 1166,
+                                    options: {
+                                        chart: {
+                                            height: 120,
+                                        },
+                                    },
+                                },
+                                {
+                                    breakpoint: 1024,
+                                    options: {
+                                        chart: {
+                                            height: 170,
+                                        },
+                                    },
+                                },
+                            ],
+                        };
+                    </script>
+                    
+                    
+                    <script>
+                        // {{-- chart penjualan --}}
+                        var earning = {
+                            chart: {
+                                id: "sparkline3",
+                                type: "area",
+                                height: 60,
+                                sparkline: {
+                                    enabled: true,
+                                },
+                                group: "sparklines",
+                                fontFamily: "Plus Jakarta Sans', sans-serif",
+                                foreColor: "#adb0bb",
+                            },
+                            series: [{
+                                name: "Earnings",
+                                color: "#8763da",
+                                data: {{ json_encode($datapenjualan) }},
+                            }, ],
+                            stroke: {
+                                curve: "smooth",
+                                width: 2,
+                            },
+                            fill: {
+                                colors: ["#f3feff"],
+                                type: "solid",
+                                opacity: 0.05,
+                            },
+
+                            markers: {
+                                size: 0,
+                            },
+                            tooltip: {
+                                theme: "dark",
+                                fixed: {
+                                    enabled: true,
+                                    position: "right",
+                                },
+                                x: {
+                                    show: false,
+                                },
+                            },
+                        };
+                    </script>
+@endpush
 @endsection

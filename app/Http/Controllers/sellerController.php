@@ -72,7 +72,22 @@ class sellerController extends Controller
     // Halaman keuangan seller
     public function keuangan()
     {
-        return view('seller.keuangan.index');
+        $data['pesanan'] = pesanan::where('status', 'selesai')->with('cart')->whereHas('cart.produk', function ($query) {
+            $query->where('user_id', Auth::user()->id);
+        });
+
+        // Data penjualan selama 1 tahun
+        $data['datapenjualan'] = [];
+        for ($i = 1; $i <= 12; $i++) {
+            $data['datapenjualan'][] = Pesanan::where('status', 'selesai')
+                ->whereHas('cart.produk', function ($query) {
+                    $query->where('user_id', Auth::user()->id);
+                })
+                ->whereYear('created_at', date('Y'))
+                ->whereMonth('created_at', $i)
+                ->count();
+        }
+        return view('seller.keuangan.index')->with($data);
     }
 
     // Menampilkan profil seller berdasarkan ID
@@ -190,4 +205,3 @@ class sellerController extends Controller
         }
     }
 }
-

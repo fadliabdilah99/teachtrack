@@ -167,7 +167,7 @@
                                 <td class="p-4">
                                     @if ($pesanans->status == 'COD1' || $pesanans->status == 'payment1')
                                         <p type="button"
-                                            class="btn confirmation text-base py-1 text-white w-fit hover:bg-blue-700">
+                                            class="btn text-base py-1 text-white w-fit hover:bg-blue-700">
                                             sedang diproses
                                         </p>
                                     @else

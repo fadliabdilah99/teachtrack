@@ -133,11 +133,13 @@
                                         <h3 class="font-medium">{{ $riwayat->alamat }}</h3>
                                     </td>
                                     <td class="p-4">
-                                        <h3 class="font-medium">Rp {{ number_format($riwayat->cart->sum(function ($harga) { return $harga->produk->harga; })) }}</h3>
+                                        <h3 class="font-medium">Rp
+                                            {{ number_format($riwayat->cart->sum(function ($harga) {return $harga->produk->harga;})) }}
+                                        </h3>
                                     </td>
                                     <td class="p-4">
                                         <button onclick="showinfo({{ $riwayat->id }})"
-                                            class="btn text-base py-1 text-white w-fit bg {{$riwayat->status == 'selesai' ? 'bg-green-600' : 'bg-red-600'}} hover:bg-blue-700">{{ $riwayat->status }}</button>
+                                            class="btn text-base py-1 text-white w-fit bg {{ $riwayat->status == 'selesai' ? 'bg-green-600' : 'bg-red-600' }} hover:bg-blue-700">{{ $riwayat->status }}</button>
                                     </td>
                                 </tr>
                             @endforeach
