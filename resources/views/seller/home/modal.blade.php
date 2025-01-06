@@ -58,8 +58,20 @@
                                 class="btn text-base py-1 text-white w-fit hover:bg-blue-700">proses</button>
                         </form>
                     @endif
+                    @if ($proses->status == 'refundP' || $proses->status == 'refundC')
+                        <form action="{{ route('refund-konfirmasi', $proses->id) }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="btn text-base py-1 text-white w-fit hover:bg-blue-700">konfirmasi</button>
+                        </form>
+                        <form action="{{ route('refund-tolak', $proses->id) }}" method="POST">
+                            @csrf
+                            <button type="submit"
+                                class="btn text-base py-1 text-white w-fit bg-red-500 hover:bg-red-700">tolak</button>
+                        </form>
+                    @endif
                     <button onclick="closemodalinfo({{ $proses->id }})"
-                        class="btn text-base py-1 text-white w-fit hover:bg-blue-700">close</button>
+                        class="btn text-base py-1 text-white w-fit bg-gray-500 hover:bg-gray-700">close</button>
                 </div>
             </div>
         </div>

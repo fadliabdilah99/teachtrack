@@ -144,7 +144,7 @@
                     <tbody id="dataTableguru">
                         {{-- memanggil data pesanan dalam proses dan selesai dari penjual menunggu konfirmasi pemesan --}}
                         @foreach (Auth::user()->pesanan()->where(function ($query) {
-                $query->where('status', 'COD1')->orWhere('status', 'payment1')->orWhere('status', 'COD2')->orWhere('status', 'payment2');
+                $query->where('status', 'COD1')->orWhere('status', 'payment1')->orWhere('status', 'COD2')->orWhere('status', 'payment2')->orWhere('status', 'refundP')->orWhere('status', 'refundC');
             })->get() as $pesanans)
                             <tr>
                                 <td class="p-4">
@@ -164,12 +164,14 @@
                                         ) }}
                                     </h3>
                                 </td>
-                                <td class="p-4">
+                                <td class="p-4 flex gap-2">
                                     @if ($pesanans->status == 'COD1' || $pesanans->status == 'payment1')
-                                        <p type="button"
-                                            class="btn text-base py-1 text-white w-fit hover:bg-blue-700">
+                                        <p type="button" class="btn text-base py-1 text-white w-fit hover:bg-blue-700">
                                             sedang diproses
                                         </p>
+                                    @elseif($pesanans->status == 'refundP' || $pesanans->status == 'refundC')
+                                        <p type="button" class="btn text-base py-1 text-white bg-yellow-500 w-fit hover:bg-yellow-700">
+                                            menunggu konfirmasi refund</p>
                                     @else
                                         <form action="{{ route('selesai', $pesanans->id) }}" method="POST">
                                             @csrf
@@ -177,6 +179,10 @@
                                                 class="btn confirmation text-base py-1 text-white w-fit hover:bg-blue-700">selesai
                                             </button>
                                         </form>
+                                        <button type="button" onclick="refund({{ $pesanans->id }})"
+                                            class="btn text-base py-1 text-white w-fit hover:bg-blue-700">ajukan
+                                            pengembalian
+                                        </button>
                                     @endif
                                 </td>
                             </tr>
@@ -233,8 +239,8 @@
                 </table>
             </div>
         </div>
-
     </div>
+    @include('siswa.pesanan.modal')
 @endsection
 
 @push('script')
@@ -246,6 +252,8 @@
         data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+    {{-- alert konfirmasi --}}
     <script>
         $('.confirmation').click(function(e) {
             e.preventDefault();
@@ -254,6 +262,32 @@
             Swal.fire({
                     title: 'Apakah pesanan sudah sesuai!',
                     text: `pesanan akan di selesaikan dan tidak bisa dikembalikan`,
+                    icon: 'warning',
+                    showDenyButton: true,
+                    confirmButtonText: 'Ya',
+                    denyButtonText: 'Tidak',
+                    confirmButtonColor: "#3085d6",
+                    denyButtonColor: "#d33",
+                    focusConfirm: false
+                })
+                .then((result) => {
+                    console.log("Delete Confirmation Result:", result);
+                    if (result.isConfirmed) {
+                        console.log("Confirmed: Submitting form");
+                        $(e.target).closest('form').submit();
+                    } else {
+                        console.log("Denied: Closing Swal");
+                        swal.close();
+                    }
+                });
+        });
+        $('.refund').click(function(e) {
+            e.preventDefault();
+            const data = $(this).closest('tr').find('td:eq(1)').text();
+            console.log("Data to delete:", data);
+            Swal.fire({
+                    title: 'Pesanan akan di refund!',
+                    text: `pastikan barang di kembalikan dalam keadaan semula`,
                     icon: 'warning',
                     showDenyButton: true,
                     confirmButtonText: 'Ya',
@@ -329,6 +363,17 @@
             document.getElementById('pesanan').classList.add('hidden');
             document.getElementById('konfirmasi').classList.add('hidden');
             document.getElementById('selesai').classList.add('hidden');
+        }
+    </script>
+
+    {{-- modal pengajuan pengembalian --}}
+    <script>
+        function refund(id) {
+            document.getElementById('refund').classList.remove('hidden');
+            document.getElementById('id_pesanan').value = id;
+        }
+        function refundclose(){
+            document.getElementById('refund').classList.add('hidden');
         }
     </script>
 @endpush

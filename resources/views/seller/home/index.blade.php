@@ -138,8 +138,13 @@
                                         </h3>
                                     </td>
                                     <td class="p-4">
-                                        <button onclick="showinfo({{ $riwayat->id }})"
-                                            class="btn text-base py-1 text-white w-fit bg {{ $riwayat->status == 'selesai' ? 'bg-green-600' : 'bg-red-600' }} hover:bg-blue-700">{{ $riwayat->status }}</button>
+                                        @if ($riwayat->status == 'selesai' || $riwayat->status == 'refund')
+                                            <button onclick="showinfo({{ $riwayat->id }})"
+                                                class="btn text-base py-1 text-white w-fit bg {{ $riwayat->status == 'selesai' ? 'bg-green-600' : 'bg-red-600' }} hover:bg-blue-700">{{ $riwayat->status }}</button>
+                                        @else
+                                            <button onclick="showinfo({{ $riwayat->id }})"
+                                                class="btn text-base py-1 text-white w-fit bg {{ $riwayat->status == 'selesai' ? 'bg-green-600' : 'bg-red-600' }} hover:bg-blue-700">{{ substr($riwayat->status, 0, -1) }}</button>
+                                        @endif
                                     </td>
                                 </tr>
                             @endforeach

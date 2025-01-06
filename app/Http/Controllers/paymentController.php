@@ -242,26 +242,7 @@ class paymentController extends Controller
     }
 
 
-    public function selesai($id)
-    {
-        $pesanan = pesanan::where('id', $id)->with('cart')->first();
-        // mengirimkan dana kepada penjual
-        wallet::where('unique', $pesanan->kode  )->update([
-            'unique' => null
-        ]);
 
-        // menghitung total uang masuk
-        $nominal = 0;
-        foreach ($pesanan->cart as $carts) {
-            $nominal += $carts->qty * $carts->produk->harga;
-        }
-        // dd($nominal);
-        $pesanan->update([
-            'status' => 'selesai',
-            'uang_masuk' => $nominal,
-        ]);
-        return redirect()->route('pesanan')->with('success', 'pesanan selesai');
-    }
 
 
     // payment method

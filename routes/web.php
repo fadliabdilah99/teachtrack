@@ -57,8 +57,9 @@ Route::middleware('auth')->group(function () {
     Route::post('checkout', [pesananController::class, 'checkout'])->name('checkout');
     Route::get('pesanan', [pesananController::class, 'index'])->name('pesanan');
     Route::get('pesanan/bayar/{id}', [pesananController::class, 'bayar'])->name('bayar');
+    Route::post('pesanan/refund', [pesananController::class, 'refund'])->name('refund');
+    Route::post('pesanan/selesai/{id}', [pesananController::class, 'selesai'])->name('selesai');
     Route::post('pesanan/bayar/COD/{id}', [paymentController::class, 'COD'])->name('COD');
-    Route::post('pesanan/selesai/{id}', [paymentController::class, 'selesai'])->name('selesai');
 });
 
 
@@ -195,6 +196,8 @@ Route::group(['middleware' => ['role:penjual']], function () {
 
     // proses pesanan
     Route::post('seller/proses/{id}', [sellerController::class, 'proses'])->name('proses');
+    Route::post('seller/refund/konfirmasi/{id}', [sellerController::class, 'konfirmasiRefund'])->name('refund-konfirmasi');
+    Route::post('seller/refund/tolak/{id}', [sellerController::class, 'tolakRefund'])->name('refund-tolak');
 });
 
 

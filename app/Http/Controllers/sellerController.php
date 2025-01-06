@@ -3,8 +3,10 @@
 namespace App\Http\Controllers;
 
 use App\Models\kategori;
+use App\Models\notification;
 use App\Models\pesanan;
 use App\Models\User;
+use App\Models\wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -53,8 +55,8 @@ class sellerController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
-        // Mengambil data history
-        $data['history'] = pesanan::where('status', 'selesai')->orWhere('status', 'refaund')
+        // Mengambil data pesanan refund
+        $data['refund'] = pesanan::where('status', 'refundP')->orWhere('status', 'refundC')
             ->with('cart')
             ->whereHas('cart.produk', function ($query) {
                 $query->where('user_id', Auth::user()->id);
@@ -62,8 +64,17 @@ class sellerController extends Controller
             ->orderBy('created_at', 'asc')
             ->get();
 
+        // Mengambil data history
+        $data['history'] = pesanan::where('status', 'selesai')->orWhere('status', 'refundP')->orWhere('status', 'refundC')->orWhere('status', 'refund')
+            ->with('cart')
+            ->whereHas('cart.produk', function ($query) {
+                $query->where('user_id', Auth::user()->id);
+            })
+            ->orderBy('created_at', 'desc')
+            ->get();
+
         // Menggabungkan data pesanan dan proses
-        $data['modals'] = $data['pesanan']->concat($data['proses']);
+        $data['modals'] = $data['pesanan']->concat($data['proses'])->concat($data['refund']);
 
         // Mengirim data ke view seller.home.index
         return view('seller.home.index', $data);
@@ -203,5 +214,49 @@ class sellerController extends Controller
             ]);
             return redirect()->back()->with('success', 'Produk berhasil di proses');
         }
+    }
+
+    // konfirmasi refund customer
+    public function konfirmasiRefund($id)
+    {
+        $produk = pesanan::where('id', $id)->first();
+        // mengembalikan dana jika status refundPayment
+        if ($produk->status == 'refundP') {
+            foreach ($produk->cart as $cart) {
+                $nominal = $cart->qty * $cart->produk->harga;
+            }
+            wallet::create([
+                'user_id' => $produk->user_id,
+                'nominal' => $nominal,
+                'jenis' => 'uang masuk',
+                'keterangan' => 'refund pesanan ' . $produk->code,
+            ]);
+        }
+        $produk->update([
+            'status' => 'refund',
+        ]);
+
+        notification::create([
+           'user_id' => $produk->user_id,
+           'title' => 'pesanan Refund',
+           'message' => 'pesanan dengan kode ' . $produk->code . ' telah dikonfirmasi',
+           'status' => 'unread',
+        ]);
+        return redirect()->back()->with('success', 'Refund berhasil dikonfirmasi');
+    }
+
+    public function tolakRefund($id)
+    {
+        $produk = pesanan::where('id', $id)->first();
+        $produk->update([
+            'status' => 'selesai',
+        ]);
+        notification::create([
+            'user_id' => $produk->user_id,
+            'title' => 'Refund Ditolak',
+            'message' => 'pesanan dengan kode ' . $produk->code . ' telah ditolak oleh penjual',
+            'status' => 'unread',
+        ]);
+        return redirect()->back()->with('success', 'Refund berhasil ditolak');
     }
 }
