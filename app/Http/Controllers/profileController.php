@@ -19,6 +19,9 @@ class profileController extends Controller
 
     public function updateFoto(Request $request)
     {
+        if ($request->foto == null) {
+            return redirect()->back();
+        }
         $user = User::find(Auth::user()->id);
         if ($user->fotoProfile != null) {
             unlink(public_path('file/profile/' . $user->fotoProfile));

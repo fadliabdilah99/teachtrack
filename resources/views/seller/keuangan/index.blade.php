@@ -155,148 +155,149 @@
     </script>
 
 
-                    <script>
-                        // {{-- chart --}}
-                        var grade = {
-                            series: [
-                                {{ Auth::user()->wallet()->where('jenis', 'lainnya')->sum('nominal') + Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }},
-                                {{ Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') }},
-                                {{ Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }}
-                            ],
-                            labels: ["other", "Uang Masuk", "Uang Keluar"],
-                            chart: {
-                                height: 170,
-                                type: "donut",
-                                fontFamily: "Plus Jakarta Sans', sans-serif",
-                                foreColor: "#c6d1e9",
-                            },
+                                <script>
+                                    // {{-- chart --}}
+                                    var grade = {
+                                        series: [
+                                            {{ Auth::user()->wallet()->where('jenis', 'lainnya')->sum('nominal') + Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }},
+                                            {{ Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') }},
+                                            {{ Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }}
+                                        ],
+                                        labels: ["other", "Uang Masuk", "Uang Keluar"],
+                                        chart: {
+                                            height: 170,
+                                            type: "donut",
+                                            fontFamily: "Plus Jakarta Sans', sans-serif",
+                                            foreColor: "#c6d1e9",
+                                        },
 
-                            tooltip: {
-                                theme: "dark",
-                                fillSeriesColor: false,
-                            },
+                                        tooltip: {
+                                            theme: "dark",
+                                            fillSeriesColor: false,
+                                        },
 
-                            colors: ["#e7ecf0", "#fb977d", "#0085db"],
-                            dataLabels: {
-                                enabled: false,
-                            },
+                                        colors: ["#e7ecf0", "#fb977d", "#0085db"],
+                                        dataLabels: {
+                                            enabled: false,
+                                        },
 
-                            legend: {
-                                show: false,
-                            },
+                                        legend: {
+                                            show: false,
+                                        },
 
-                            stroke: {
-                                show: false,
-                            },
-                            responsive: [{
-                                breakpoint: 991,
-                                options: {
-                                    chart: {
-                                        width: 150,
-                                    },
-                                },
-                            }, ],
-                            plotOptions: {
-                                pie: {
-                                    donut: {
-                                        size: '80%',
-                                        background: "none",
-                                        labels: {
-                                            show: true,
-                                            name: {
-                                                show: true,
-                                                fontSize: "12px",
-                                                color: undefined,
-                                                offsetY: 5,
+                                        stroke: {
+                                            show: false,
+                                        },
+                                        responsive: [{
+                                            breakpoint: 991,
+                                            options: {
+                                                chart: {
+                                                    width: 150,
+                                                },
                                             },
-                                            value: {
+                                        }, ],
+                                        plotOptions: {
+                                            pie: {
+                                                donut: {
+                                                    size: '80%',
+                                                    background: "none",
+                                                    labels: {
+                                                        show: true,
+                                                        name: {
+                                                            show: true,
+                                                            fontSize: "12px",
+                                                            color: undefined,
+                                                            offsetY: 5,
+                                                        },
+                                                        value: {
+                                                            show: false,
+                                                            color: "#98aab4",
+                                                        },
+                                                    },
+                                                },
+                                            },
+                                        },
+                                        responsive: [{
+                                                breakpoint: 1476,
+                                                options: {
+                                                    chart: {
+                                                        height: 120,
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                breakpoint: 1280,
+                                                options: {
+                                                    chart: {
+                                                        height: 170,
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                breakpoint: 1166,
+                                                options: {
+                                                    chart: {
+                                                        height: 120,
+                                                    },
+                                                },
+                                            },
+                                            {
+                                                breakpoint: 1024,
+                                                options: {
+                                                    chart: {
+                                                        height: 170,
+                                                    },
+                                                },
+                                            },
+                                        ],
+                                    };
+                                </script>
+                                
+                                
+                                <script>
+                                    // {{-- chart penjualan --}}
+                                    var earning = {
+                                        chart: {
+                                            id: "sparkline3",
+                                            type: "area",
+                                            height: 60,
+                                            sparkline: {
+                                                enabled: true,
+                                            },
+                                            group: "sparklines",
+                                            fontFamily: "Plus Jakarta Sans', sans-serif",
+                                            foreColor: "#adb0bb",
+                                        },
+                                        series: [{
+                                            name: "Earnings",
+                                            color: "#8763da",
+                                            data: {{ json_encode($datapenjualan) }},
+                                        }, ],
+                                        stroke: {
+                                            curve: "smooth",
+                                            width: 2,
+                                        },
+                                        fill: {
+                                            colors: ["#f3feff"],
+                                            type: "solid",
+                                            opacity: 0.05,
+                                        },
+
+                                        markers: {
+                                            size: 0,
+                                        },
+                                        tooltip: {
+                                            theme: "dark",
+                                            fixed: {
+                                                enabled: true,
+                                                position: "right",
+                                            },
+                                            x: {
                                                 show: false,
-                                                color: "#98aab4",
                                             },
                                         },
-                                    },
-                                },
-                            },
-                            responsive: [{
-                                    breakpoint: 1476,
-                                    options: {
-                                        chart: {
-                                            height: 120,
-                                        },
-                                    },
-                                },
-                                {
-                                    breakpoint: 1280,
-                                    options: {
-                                        chart: {
-                                            height: 170,
-                                        },
-                                    },
-                                },
-                                {
-                                    breakpoint: 1166,
-                                    options: {
-                                        chart: {
-                                            height: 120,
-                                        },
-                                    },
-                                },
-                                {
-                                    breakpoint: 1024,
-                                    options: {
-                                        chart: {
-                                            height: 170,
-                                        },
-                                    },
-                                },
-                            ],
-                        };
-                    </script>
-                    
-                    
-                    <script>
-                        // {{-- chart penjualan --}}
-                        var earning = {
-                            chart: {
-                                id: "sparkline3",
-                                type: "area",
-                                height: 60,
-                                sparkline: {
-                                    enabled: true,
-                                },
-                                group: "sparklines",
-                                fontFamily: "Plus Jakarta Sans', sans-serif",
-                                foreColor: "#adb0bb",
-                            },
-                            series: [{
-                                name: "Earnings",
-                                color: "#8763da",
-                                data: {{ json_encode($datapenjualan) }},
-                            }, ],
-                            stroke: {
-                                curve: "smooth",
-                                width: 2,
-                            },
-                            fill: {
-                                colors: ["#f3feff"],
-                                type: "solid",
-                                opacity: 0.05,
-                            },
-
-                            markers: {
-                                size: 0,
-                            },
-                            tooltip: {
-                                theme: "dark",
-                                fixed: {
-                                    enabled: true,
-                                    position: "right",
-                                },
-                                x: {
-                                    show: false,
-                                },
-                            },
-                        };
-                    </script>
+                                    };
+                                </script>
 @endpush
 @endsection
+)

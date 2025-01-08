@@ -21,6 +21,7 @@ use App\Http\Controllers\sosmedController;
 use App\Http\Controllers\ujianController;
 use App\Http\Controllers\userController;
 use App\Http\Controllers\walikelasController;
+use App\Http\Controllers\walletController;
 use App\Livewire\Chat;
 use App\Livewire\ChatKelas;
 use App\Livewire\GuruChat;
@@ -60,6 +61,9 @@ Route::middleware('auth')->group(function () {
     Route::post('pesanan/refund', [pesananController::class, 'refund'])->name('refund');
     Route::post('pesanan/selesai/{id}', [pesananController::class, 'selesai'])->name('selesai');
     Route::post('pesanan/bayar/COD/{id}', [paymentController::class, 'COD'])->name('COD');
+
+    // wallet
+    Route::post('transfer', [walletController::class, 'transfer'])->name('transfer');
 });
 
 
@@ -170,6 +174,9 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
 
     // absensi
     Route::post('siswa/absensi', [absensiController::class, 'absensi'])->name('absensiSekertaris');
+    
+    // walleet
+    Route::get('siswa/wallet', [walletController::class, 'index'])->name('wallet');
 });
 
 

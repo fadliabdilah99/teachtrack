@@ -16,7 +16,6 @@ class siswaController extends Controller
 {
     public function index()
     {
-
         $data['rombels'] = rombel::with('jadwal.guruMapel.mapel')->where('id', Auth::user()->rombel_id)->get();
         $data['groupedByHari'] = $data['rombels']->flatMap(function ($rombel) {
             return $rombel->jadwal;
@@ -86,7 +85,4 @@ class siswaController extends Controller
         ]);
         return redirect()->back()->with('success', 'berhasil menambahkan Ketua Murid & akun Orang Tua');
     }
-
-
-
 }

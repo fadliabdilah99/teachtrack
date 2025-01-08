@@ -51,6 +51,13 @@
                     <i class="bi bi-chat-dots text-2xl"></i> Chat kelas
                 </a>
             </li>
+            {{-- wallet --}}
+            <li>
+                <a href="{{ route('wallet') }}"
+                    class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
+                    <i class="bi bi-wallet2 text-2xl"></i> ZIEWallet
+                </a>
+            </li>
             <!-- Shop -->
             <li>
                 <a href="{{ route('shop') }}"
@@ -58,7 +65,7 @@
                     <i class="ti ti-shopping-cart text-2xl"></i> Shop
                 </a>
             </li>
-            <!-- Shop -->
+            <!-- pesanan -->
             <li>
                 <a href="{{ route('pesanan') }}"
                     class="flex items-center gap-3 py-2.5 text-gray-500 rounded-md hover:bg-gray-100">
