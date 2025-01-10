@@ -11,13 +11,6 @@ class walletController extends Controller
 {
     public function index()
     {
-        // $wallet = User::find(Auth::user()->id)->wallet();
-
-        $seriesData = [
-            wallet::where('user_id', Auth::user()->id)->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal'),
-            wallet::where('user_id', Auth::user()->id)->where('jenis', 'uang keluar')->whereNot('unique', '!=', null)->sum('nominal'),
-            wallet::where('user_id', Auth::user()->id)->where('jenis', 'lainnya')->whereNot('unique', '!=', null)->sum('nominal'),
-        ];  
         return view('siswa.wallet.index', compact('seriesData'));
     }
 

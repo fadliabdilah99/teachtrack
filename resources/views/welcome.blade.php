@@ -385,240 +385,87 @@
             </div>
         </div>
     </section>
-    <section id="features" class="bg-white border-b py-8">
-        <div class="container mx-auto flex flex-wrap pt-4 pb-12">
-            <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
+    <section id="features" class="bg-gray-100 py-16">
+        <div class="container mx-auto">
+            <h2 class="text-4xl md:text-5xl font-extrabold text-center text-gray-800 mb-12">
                 Fitur Unggulan
             </h2>
-            <div class="w-full mb-4">
-                <div class="h-1 mx-auto gradient w-64 opacity-25 my-0 py-0 rounded-t"></div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Mendukung Usaha Lokal
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            Hampir semua sekolah menengah mengadakan program wirausaha bagi siswa siswa, kami mengembangkan fitur untuk mendukung usaha siswa
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Mendukung Usaha Lokal</h3>
+                        <p class="text-gray-600 mb-6">
+                            Hampir semua sekolah menengah mengadakan program wirausaha bagi siswa siswa, kami
+                            mengembangkan fitur untuk mendukung usaha siswa.
                         </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            pendataan kelas, siswa, dan guru
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            kelas, guru, dan siswa terdata dengan mudah, selain untuk keperluan fitur yang di buat data
-                            ini juga di perlukan untuk pendataan sekolah
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Pendataan Kelas, Siswa, dan Guru</h3>
+                        <p class="text-gray-600 mb-6">
+                            Kelas, guru, dan siswa terdata dengan mudah, selain untuk keperluan fitur yang dibuat data
+                            ini juga diperlukan untuk pendataan sekolah.
                         </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            managemen jadwal pembelajaran
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            jadwal pembelajaran terdata dengan dengan rapih dan mudah untuk di atur, dimana pihak
-                            kurikulum(Admin) dapat mengatur jadwal pembelajaran secara fleksible.
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Manajemen Jadwal Pembelajaran</h3>
+                        <p class="text-gray-600 mb-6">
+                            Jadwal pembelajaran terdata dengan rapi dan mudah untuk diatur, memungkinkan admin mengatur
+                            jadwal dengan fleksibilitas tinggi.
                         </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Materi & ujian
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Materi & Ujian</h3>
+                        <p class="text-gray-600 mb-6">
                             Setelah kelas mendapatkan jadwal masing masing, siswa dapat menerima materi dan ujian yang
                             telah di buat oleh guru.
                         </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Ruang diskusi
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Ruang Diskusi</h3>
+                        <p class="text-gray-600 mb-6">
                             Ruang diskusi terdapat pada halaman materi, siswa dapat melontarkan atau menjawab pertanyaan
                             sesama, selain itu guru juga di harapkan dapat memberikan penjelasan ketika siswa bertanya.
                         </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
                         </a>
                     </div>
                 </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Jual beli materi
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Kelas Tambahan</h3>
+                        <p class="text-gray-600 mb-6">
                             Guru dapat membuat materi sebanyak mungkin baik itu untuk materi kelas ataupun untuk di
                             perjual belikan, untuk siswa dari jurusan berbeda dapat mempelajari jurusan lain.
                         </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Private konseling
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            Kami menemukan bahwa siswa sangat jarang sekali untuk melakukan bimbingan konseling di
-                            tengah isu mental helt yang di alami Gen Z, untuk itu kami membuat layanan ini untuk
-                            bimbingan yang lebih terbuka, dan menjadi solusi yang baik.
-                        </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Chat kelas
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            Kami membuat Chat kelas untuk mempermudah dalam komunikasi dan interaksi antar siswa satu
-                            kelas .
-                        </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Sosial media
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            Sosial media tentunya sangat penting untuk siswa, kami mendukung interaksi semua siswa,
-                            sehingga dapat menjadi tempat promosi produk lokal dan sosialisi sekolah.
-                        </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            Absensi Mobile apss
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            Kemudahan absensi pastinya menjadi hal yang sangat penting untuk pendataan kehadiran, kami
-                            membuat absensi mobile apss dengan take foto dan get lokasi, untuk meminimalisir kecurangan.
-                        </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
-                        </a>
-                    </div>
-                </div>
-            </div>
-            <div class="w-full md:w-1/3 p-6 flex flex-col flex-grow flex-shrink">
-                <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-                    <a href="#" class="flex flex-wrap no-underline hover:no-underline">
-                        <div class="w-full font-bold text-xl text-gray-800 px-6">
-                            ZieWallet
-                        </div>
-                        <p class="text-gray-800 text-base px-6 mb-5">
-                            Bank siswa & dompet digital untuk aktifitas siswa di lingkungan sekolah, & membiasakan siswa dalam menabung.
-                        </p>
-                    </a>
-                </div>
-                <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
-                    <div class="flex items-center justify-start">
-                        <a href=""
-                            class="mx-auto lg:mx-0 hover:underline gradient text-white font-bold rounded-full my-6 py-4 px-8 shadow-lg focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                            Action
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
                         </a>
                     </div>
                 </div>
@@ -640,7 +487,8 @@
                         <div class="md:w-1/2 text-center md:text-left">
                             <h1 class="text-3xl font-bold text-gray-900 mb-4">Download Aplikasi Absen</h1>
                             <p class="text-gray-600 mb-6">
-                                siswa di wajibkan menggunakan aplikasi absen ini, untuk melakukan absen berbasis foto dan lokasi
+                                siswa di wajibkan menggunakan aplikasi absen ini, untuk melakukan absen berbasis foto
+                                dan lokasi
                             </p>
                             <div
                                 class="flex flex-col sm:flex-row items-center space-y-4 sm:space-y-0 sm:space-x-4 mb-6">
@@ -648,10 +496,13 @@
                                 <a href="#"
                                     class="flex items-center px-4 py-2 bg-teal-500 text-white rounded-lg shadow-md hover:bg-teal-600">
                                     <div class="mr-3 ">
-                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
-                                            <path fill-rule="evenodd" d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z"/>
-                                            <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"/>
-                                          </svg>
+                                        <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20"
+                                            fill="currentColor" class="bi bi-cloud-arrow-down" viewBox="0 0 16 16">
+                                            <path fill-rule="evenodd"
+                                                d="M7.646 10.854a.5.5 0 0 0 .708 0l2-2a.5.5 0 0 0-.708-.708L8.5 9.293V5.5a.5.5 0 0 0-1 0v3.793L6.354 8.146a.5.5 0 1 0-.708.708z" />
+                                            <path
+                                                d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383m.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z" />
+                                        </svg>
                                     </div>
                                     <span>Download on Google Drive</span>
                                 </a>
