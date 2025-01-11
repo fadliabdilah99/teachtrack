@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Absensi;
 use App\Models\User;
+use App\Models\wallet;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -51,12 +52,43 @@ class apiController extends Controller
     }
 
 
+
+    // status absen
     public function status(Request $request)
     {
         $statusAbsen = Absensi::where('user_id', $request->id_user)->whereDate('created_at',  date('Y-m-d'))->first();
 
         $data = [
             'status' => $statusAbsen ? 'sudah absen' : 'belum absen',
+        ];
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+
+    // api wallet
+    public function saldo(Request $request){
+        $data = [
+            'saldo' => wallet::where('user_id', $request->id_user)->where('jenis', 'uang masuk')->sum('nominal') - wallet::where('user_id', $request->id_user)->where('jenis', 'uang keluar')->sum('nominal'),
+        ];
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+    public function pengeluaran(Request $request){
+        $data = [
+            'pengeluaran' => wallet::where('user_id', $request->id_user)->where('jenis', 'uang keluar')->sum('nominal'),
+        ];
+        return response()->json([
+            'success' => true,
+            'data' => $data,
+        ]);
+    }
+    public function pemasukan(Request $request){
+        $data = [
+            'pemasukan' => wallet::where('user_id', $request->id_user)->where('jenis', 'uang masuk')->sum('nominal'),
         ];
         return response()->json([
             'success' => true,

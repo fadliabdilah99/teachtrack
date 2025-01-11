@@ -11,7 +11,7 @@ class walletController extends Controller
 {
     public function index()
     {
-        return view('siswa.wallet.index', compact('seriesData'));
+        return view('siswa.wallet.index');
     }
 
     public function transfer(Request $request)
@@ -45,4 +45,7 @@ class walletController extends Controller
         return redirect()->back()->with('success', 'Transfer berhasil');
 
     }
+
+
+
 }

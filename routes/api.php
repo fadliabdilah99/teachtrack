@@ -5,6 +5,7 @@
 use App\Http\Controllers\absensiController;
 use App\Http\Controllers\apiController;
 use App\Http\Controllers\paymentController;
+use App\Http\Controllers\walletController;
 use App\Models\absensi;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -26,3 +27,8 @@ Route::post('user/status', [apiController::class, 'status']);
 
 
 Route::post('/absensi', [absensiController::class, 'store']);
+
+// wallet
+Route::post('/wallet/saldo', [apiController::class, 'saldo']);
+Route::post('/wallet/pengeluaran', [apiController::class, 'pengeluaran']);
+Route::post('/wallet/pemasukan', [apiController::class, 'pemasukan']);
