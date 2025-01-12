@@ -68,7 +68,8 @@ class apiController extends Controller
     }
 
     // api wallet
-    public function saldo(Request $request){
+    public function saldo(Request $request)
+    {
         $data = [
             'saldo' => wallet::where('user_id', $request->id_user)->where('jenis', 'uang masuk')->sum('nominal') - wallet::where('user_id', $request->id_user)->where('jenis', 'uang keluar')->sum('nominal'),
         ];
@@ -77,7 +78,8 @@ class apiController extends Controller
             'data' => $data,
         ]);
     }
-    public function pengeluaran(Request $request){
+    public function pengeluaran(Request $request)
+    {
         $data = [
             'pengeluaran' => wallet::where('user_id', $request->id_user)->where('jenis', 'uang keluar')->sum('nominal'),
         ];
@@ -86,7 +88,8 @@ class apiController extends Controller
             'data' => $data,
         ]);
     }
-    public function pemasukan(Request $request){
+    public function pemasukan(Request $request)
+    {
         $data = [
             'pemasukan' => wallet::where('user_id', $request->id_user)->where('jenis', 'uang masuk')->sum('nominal'),
         ];
@@ -94,5 +97,24 @@ class apiController extends Controller
             'success' => true,
             'data' => $data,
         ]);
+    }
+
+    public function history(Request $request)
+    {
+        $id_user = $request->input('id_user'); // Get user ID from the request
+
+        // Fetch history records for the given user
+        $history = wallet::where('user_id', $id_user)->first(); // Get first record, if any
+
+        if ($history) {
+            return response()->json([
+                'success' => true,
+                'data' => $history
+            ]);
+        } else {
+            return response()->json([
+                'success' => false
+            ]);
+        }
     }
 }

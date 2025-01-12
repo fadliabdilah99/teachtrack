@@ -32,3 +32,4 @@ Route::post('/absensi', [absensiController::class, 'store']);
 Route::post('/wallet/saldo', [apiController::class, 'saldo']);
 Route::post('/wallet/pengeluaran', [apiController::class, 'pengeluaran']);
 Route::post('/wallet/pemasukan', [apiController::class, 'pemasukan']);
+Route::post('/wallet/history', [apiController::class, 'history']);
