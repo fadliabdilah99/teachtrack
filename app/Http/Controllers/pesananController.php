@@ -72,12 +72,13 @@ class pesananController extends Controller
         return redirect()->route('pesanan')->with('success', 'pesanan selesai');
     }
 
+    // proses refund pesanan
     public function refund(Request $request)
     {
         $pesanan = pesanan::where('id', $request->id_pesanan)->with('cart')->first();
-        if($pesanan->status == 'payment2'){
+        if ($pesanan->status == 'payment2') {
             $status = 'refundP';
-        }else{
+        } else {
             $status = 'refundC';
         };
         notification::create([
@@ -91,5 +92,12 @@ class pesananController extends Controller
             'catatan' => $request->alasan,
         ]);
         return redirect()->back()->with('success', 'menunggu konfirmasi penjual');
+    }
+
+    // halaman invoice
+    public function invoice($id)
+    {
+        $pesanan = pesanan::where('id', $id)->with('cart')->first();
+        return view('siswa.pesanan.invoice', compact('pesanan'));
     }
 }

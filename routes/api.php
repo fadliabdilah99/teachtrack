@@ -33,3 +33,5 @@ Route::post('/wallet/saldo', [apiController::class, 'saldo']);
 Route::post('/wallet/pengeluaran', [apiController::class, 'pengeluaran']);
 Route::post('/wallet/pemasukan', [apiController::class, 'pemasukan']);
 Route::post('/wallet/history', [apiController::class, 'history']);
+Route::post('/wallet/transfer', [apiController::class, 'transfer']);
+Route::post('/wallet/kuetansi', [apiController::class, 'kuetansi']);

@@ -229,8 +229,8 @@
                                     </h3>
                                 </td>
                                 <td class="p-4">
-                                    <a href="#"
-                                        class="btn confirmation text-base py-1 text-white w-fit hover:bg-blue-700">invoice
+                                    <a href="{{ route('invoice', $pesanans->id) }}"
+                                        class="btn  text-base py-1 text-white w-fit hover:bg-blue-700">invoice
                                     </a>
                                 </td>
                             </tr>

@@ -12,7 +12,6 @@ use App\Http\Controllers\materiController;
 use App\Http\Controllers\paymentController;
 use App\Http\Controllers\pesananController;
 use App\Http\Controllers\produkController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\profileController as ControllersProfileController;
 use App\Http\Controllers\rombelController;
 use App\Http\Controllers\sellerController;
@@ -26,6 +25,7 @@ use App\Livewire\Chat;
 use App\Livewire\ChatKelas;
 use App\Livewire\GuruChat;
 use App\Livewire\ReplyGuru;
+use App\Models\pesanan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -60,6 +60,7 @@ Route::middleware('auth')->group(function () {
     Route::get('pesanan/bayar/{id}', [pesananController::class, 'bayar'])->name('bayar');
     Route::post('pesanan/refund', [pesananController::class, 'refund'])->name('refund');
     Route::post('pesanan/selesai/{id}', [pesananController::class, 'selesai'])->name('selesai');
+    Route::get('pesanan/invoice/{id}', [pesananController::class, 'invoice'])->name('invoice');
     Route::post('pesanan/bayar/COD/{id}', [paymentController::class, 'COD'])->name('COD');
 
     // wallet

@@ -20,10 +20,10 @@ class absensiController extends Controller
 
         // Validasi data
         $validated = $request->validate([
-            'user_id' => 'required|exists:users,id',
-            'latitude' => 'required|numeric',
-            'longitude' => 'required|numeric',
-            'foto' => 'required|image|mimes:jpeg,png,jpg,gif|max:2048',
+            'user_id' => 'required',
+            'latitude' => 'required',
+            'longitude' => 'required',
+            'foto' => 'required',
         ]);
 
         try {
