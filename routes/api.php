@@ -21,6 +21,9 @@ Route::post('/notification', [paymentController::class, 'notification']);
 // payment shop
 Route::post('/payment', [paymentController::class, 'payment']);
 
+// TopUp
+Route::post('/topup', [paymentController::class, 'topup']);
+
 // auth
 Route::post('user/login', [apiController::class, 'login']);
 Route::post('user/status', [apiController::class, 'status']);

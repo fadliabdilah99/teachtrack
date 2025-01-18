@@ -62,7 +62,7 @@
     </div>
 
 
-@include('admin.mapel.modal')
+    @include('admin.mapel.modal')
 
 
 
@@ -89,7 +89,7 @@
     </script>
 
 
-
+    {{-- search fungsi --}}
     <script>
         function searchTablemapel() {
             const input = document.getElementById("searchInputmapel").value.toLowerCase();
@@ -104,6 +104,7 @@
             });
         }
     </script>
+
 
     <script>
         function modalmapel() {

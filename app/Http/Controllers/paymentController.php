@@ -101,101 +101,130 @@ class paymentController extends Controller
         $id = $notification->order_id;
         $fraudStatus = $notification->fraud_status;
         $amout = $notification->gross_amount;
-        
+
         if (pesanan::where('kode', $id)->first() != null) {
             $pesanan = pesanan::where('kode', $id)->with('cart')->first();
-        } else {
+        } elseif (buyMateri::where('id', $id)->first() != null) {
             $pesanan = buyMateri::where('id', $id)->with('materiGuru')->first();
             $parts = explode('-', $id);
             $user_id = $parts[1];
+        } else {
+            $parts = explode('-', $id);
+            $user_id = $parts[1];
+            $pesanan = null;
         }
 
-        Log::info('Pesanan:', [$pesanan]);
 
-
-        // Logika status transaksi
-        if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
-            $pesanan->status = ($fraudStatus == 'challenge') ? 'pending' : 'payment';
-        } elseif ($transactionStatus == 'settlement') {
-            $pesanan->status = 'payment';
-        } elseif ($transactionStatus == 'pending') {
-            $pesanan->status = 'pending';
-        } elseif ($transactionStatus == 'deny' || $transactionStatus == 'cancel') {
-            $pesanan->status = 'failed';
-        } elseif ($transactionStatus == 'expire') {
-            $pesanan->status = 'expired';
-        }
-
-        $pesanan->save();
-
-
-        if ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() == null) {
-            Log::info('masuk kedalam pembelian pelajaran');
-            // notifikasi ke admin
-            $sid    = env('TWILIO_SID');
-            $token  = env('TWILIO_TOKEN');
-            $twilio = new Client($sid, $token);
-
-            $message = $twilio->messages
-                ->create(
-                    "whatsapp:+6281220786387", // to
-                    array(
-                        "from" => "whatsapp:+14155238886",
-                        "body" => 'Anda telah membeli materi selamat belajar'
-                    )
-                );
-
-            if (wallet::where('keterangan', 'pembelian materi ' . $pesanan->materiGuru->judul)->first() == null) {
-                wallet::create([
-                    'user_id' => $pesanan->materiGuru->user->id,
-                    'nominal' => $amout,
-                    'keterangan' => 'pembelian materi ' . $pesanan->materiGuru->judul,
-                    'jenis' => 'uang masuk',
-                    'unique' => $id,
-                ]);
+        if ($pesanan != null) {
+            // Logika status transaksi
+            if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
+                $pesanan->status = ($fraudStatus == 'challenge') ? 'pending' : 'payment';
+            } elseif ($transactionStatus == 'settlement') {
+                $pesanan->status = 'payment';
+            } elseif ($transactionStatus == 'pending') {
+                $pesanan->status = 'pending';
+            } elseif ($transactionStatus == 'deny' || $transactionStatus == 'cancel') {
+                $pesanan->status = 'failed';
+            } elseif ($transactionStatus == 'expire') {
+                $pesanan->status = 'expired';
             }
+            $pesanan->save();
 
-            $materiStrukture = materiStrukture::where('materiGuru_id', $pesanan->materi_guru_id)->get();
+            if ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() == null) {
+                Log::info('masuk kedalam pembelian pelajaran');
+                // notifikasi ke admin
+                $sid    = env('TWILIO_SID');
+                $token  = env('TWILIO_TOKEN');
+                $twilio = new Client($sid, $token);
 
-            foreach ($materiStrukture as $strukture) {
-                if (user_materi_guru::where('materiStrukture_id', $strukture->id)->first() == null) {
-                    user_materi_guru::create([
-                        'user_id' => $user_id,
-                        'materiStrukture_id' => $strukture->id,
-                        'materi_guru_id' => $pesanan->materi_guru_id,
-                        'progres' => 2,
-                    ]);
-                }
-            }
-        } elseif ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() != null) {
-            Log::info('masuk kedalam pembelian produk');
-            // notifikasi ke penjual
-            $sid    = env('TWILIO_SID');
-            $token  = env('TWILIO_TOKEN');
-            $twilio = new Client($sid, $token);
+                $message = $twilio->messages
+                    ->create(
+                        "whatsapp:+6281220786387", // to
+                        array(
+                            "from" => "whatsapp:+14155238886",
+                            "body" => 'Anda telah membeli materi selamat belajar'
+                        )
+                    );
 
-            $message = $twilio->messages
-                ->create(
-                    "whatsapp:+6281220786387", // to
-                    array(
-                        "from" => "whatsapp:+14155238886",
-                        "body" => 'Ada pesanan baru, segera proses pesanan'
-                    )
-                );
-            foreach ($pesanan->cart as $carts) {
-                if (wallet::where('keterangan', 'penjualan produk ' . $carts->produk->judul)->first() == null) {
-                    $carts->produk->update([
-                        'stok' => $carts->produk->stok - $carts->qty
-                    ]);
+                if (wallet::where('keterangan', 'pembelian materi ' . $pesanan->materiGuru->judul)->first() == null) {
                     wallet::create([
-                        'user_id' => $carts->produk->user_id,
+                        'user_id' => $pesanan->materiGuru->user->id,
                         'nominal' => $amout,
-                        'keterangan' => 'penjualan produk ' . $carts->produk->judul,
-                        'jenis' => 'uang masuk'
+                        'keterangan' => 'pembelian materi ' . $pesanan->materiGuru->judul,
+                        'jenis' => 'uang masuk',
+                        'unique' => $id,
                     ]);
                 }
+
+                $materiStrukture = materiStrukture::where('materiGuru_id', $pesanan->materi_guru_id)->get();
+
+                foreach ($materiStrukture as $strukture) {
+                    if (user_materi_guru::where('materiStrukture_id', $strukture->id)->first() == null) {
+                        user_materi_guru::create([
+                            'user_id' => $user_id,
+                            'materiStrukture_id' => $strukture->id,
+                            'materi_guru_id' => $pesanan->materi_guru_id,
+                            'progres' => 2,
+                        ]);
+                    }
+                }
+            } elseif ($pesanan->status == 'payment' && pesanan::where('kode', $id)->first() != null) {
+                Log::info('masuk kedalam pembelian produk');
+                // notifikasi ke penjual
+                $sid    = env('TWILIO_SID');
+                $token  = env('TWILIO_TOKEN');
+                $twilio = new Client($sid, $token);
+
+                $message = $twilio->messages
+                    ->create(
+                        "whatsapp:+6281220786387", // to
+                        array(
+                            "from" => "whatsapp:+14155238886",
+                            "body" => 'Ada pesanan baru, segera proses pesanan'
+                        )
+                    );
+                foreach ($pesanan->cart as $carts) {
+                    if (wallet::where('keterangan', 'penjualan produk ' . $carts->produk->judul)->first() == null) {
+                        $carts->produk->update([
+                            'stok' => $carts->produk->stok - $carts->qty
+                        ]);
+                        wallet::create([
+                            'user_id' => $carts->produk->user_id,
+                            'nominal' => $amout,
+                            'keterangan' => 'penjualan produk ' . $carts->produk->judul,
+                            'jenis' => 'uang masuk'
+                        ]);
+                    }
+                }
+            }
+        } else {
+            if ($transactionStatus == 'capture' && $paymentType == 'credit_card') {
+                $status = ($fraudStatus == 'challenge') ? 'pending' : 'payment';
+            } elseif ($transactionStatus == 'settlement') {
+                $status = 'payment';
+            } elseif ($transactionStatus == 'pending') {
+                $status = 'pending';
+            } elseif ($transactionStatus == 'deny' || $transactionStatus == 'cancel') {
+                $status = 'failed';
+            } elseif ($transactionStatus == 'expire') {
+                $status = 'expired';
+            }
+
+            $id = 0;
+
+            if ($status == 'payment' && pesanan::where('kode', $id)->first() == null) {
+                
+                $wallet = wallet::create([
+                    'user_id' => $user_id,
+                    'nominal' => $amout,
+                    'keterangan' => 'Top-Up',
+                    'jenis' => 'uang masuk',
+                ]);
+                
+                $id = $wallet->id;
             }
         }
+
         return response('Notification processed.', 200);
     }
 
@@ -273,6 +302,53 @@ class paymentController extends Controller
                         [
                             'id'       => $request->name,
                             'price'    => $request->pembayaran,
+                            'quantity' => 1,
+                            'name'     => ucwords(str_replace('_', ' ', $request->name,))
+                        ]
+                    ]
+                ];
+
+                // Log payload sebelum diproses
+
+                // Mendapatkan Snap Token dari Midtrans
+                $snapToken = \Midtrans\Snap::getSnapToken($payload);
+
+                // Log Snap Token
+
+                $this->response['snap_token'] = $snapToken;
+
+                DB::commit();
+            } catch (\Exception $e) {
+                DB::rollBack();
+                $this->response['error'] = $e->getMessage();
+            }
+        } catch (\Exception $e) {
+            $this->response['error'] = $e->getMessage();
+        }
+
+        return response()->json($this->response);
+    }
+
+
+    public function topup(Request $request)
+    {
+        Log::info($request->all());
+        try {
+            DB::beginTransaction();
+            try {
+                $payload = [
+                    'transaction_details' => [
+                        'order_id'      => date('YmdHis') . '-' . $request->user_id,
+                        'gross_amount'  => $request->nominal,
+                    ],
+                    'customer_details' => [
+                        'first_name'    => $request->name,
+                        'email'         => $request->email,
+                    ],
+                    'item_details' => [
+                        [
+                            'id'       => $request->name,
+                            'price'    => $request->nominal,
                             'quantity' => 1,
                             'name'     => ucwords(str_replace('_', ' ', $request->name,))
                         ]

@@ -47,6 +47,7 @@
                         </div>
                     </div>
                     <button class="btn btn-primary" onclick="modalTransfer()">Transfer</button>
+                    <button class="btn btn-primary" onclick="modalTopUp()">Top Up</button>
                 </div>
             </div>
         </div>
@@ -105,4 +106,5 @@
 @endsection
 @push('script')
     @include('siswa.wallet.script')
+    
 @endpush

@@ -1,3 +1,48 @@
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"></script>
+<script
+    src="{{ !config('services.midtrans.isProduction') ? 'https://app.sandbox.midtrans.com/snap/snap.js' : 'https://app.midtrans.com/snap/snap.js' }}"
+    data-client-key="{{ config('services.midtrans.clientKey') }}"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+
+<script>
+    $("#topupForm").submit(function(event) {
+        console.log("Form submitted");
+        event.preventDefault();
+
+
+        $.post("/api/topup", {
+                _method: 'POST',
+                _token: '{{ csrf_token() }}',
+                name: $('#name').val(),
+                email: $('#email').val(),
+                nominal: $('#nominal').val(),
+                user_id: $('#user_id').val(),
+            },
+            function(data, status) {
+                console.log(data);
+                snap.pay(data.snap_token, {
+                    // Optional
+                    onSuccess: function(result) {
+                        location.reload();
+                    },
+                    // Optional
+                    onPending: function(result) {
+                        location.reload();
+                    },
+                    // Optional
+                    onError: function(result) {
+                        location.reload();
+                    }
+                });
+                return false;
+            }
+        );
+    });
+</script>
+
 <script>
     function modalFoto(url) {
         var modal = document.getElementById("modal-foto");
@@ -31,7 +76,7 @@
     // {{-- chart --}}
     var grade = {
         series: [
-            {{ Auth::user()->wallet()->where('jenis', 'lainnya')->sum('nominal')  }},
+            {{ Auth::user()->wallet()->where('jenis', 'lainnya')->sum('nominal') }},
             {{ Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') }},
             {{ Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal') }}
         ],
@@ -140,5 +185,14 @@
 
     function closeModaltransefer() {
         document.getElementById('modal-transfer').classList.add('hidden');
+    }
+
+    // modal TopUp
+    function modalTopUp() {
+        document.getElementById('modal-TopUp').classList.remove('hidden');
+    }
+
+    function closeModalTopUp() {
+        document.getElementById('modal-TopUp').classList.add('hidden');
     }
 </script>

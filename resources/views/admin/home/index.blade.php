@@ -2,6 +2,9 @@
 
 @section('title', 'Admin-Home')
 
+@push('style')
+@endpush
+
 @section('content')
     <div class="grid grid-cols-1 lg:grid-cols-3 lg:gap-x-6 gap-x-0 lg:gap-y-0 gap-y-6">
         <div class="col-span-2">
@@ -54,7 +57,7 @@
                                         <i class="ti ti-minus text-blue-500"></i>
                                     @endif
                                 </span>
-                                <p class="text-gray-500 text-sm font-normal">{{$presentase}}</p>
+                                <p class="text-gray-500 text-sm font-normal">{{ $presentase }}</p>
                                 <p class="text-gray-400 text-sm font-normal text-nowrap">Dari kemarin
                                 </p>
                             </div>
@@ -71,12 +74,12 @@
                         <div class="flex flex-col gap-4">
                             <h4 class="text-gray-500 text-lg font-semibold">Transaksi per-hari ini</h4>
                             <div class="flex flex-col gap-4">
-                                <h3 class="text-[22px] font-semibold text-gray-500">{{$transaksiHariIni}}</h3>
+                                <h3 class="text-[22px] font-semibold text-gray-500">{{ $transaksiHariIni }}</h3>
                                 <div class="flex items-center gap-1">
                                     <span class="flex items-center justify-center w-5 h-5 rounded-full bg-gray-200">
                                         <i class="ti ti-minus text-red-500"></i>
                                     </span>
-                                    <p class="text-gray-500 text-sm font-normal">{{$presentaseTransaksi}}</p>
+                                    <p class="text-gray-500 text-sm font-normal">{{ $presentaseTransaksi }}</p>
                                     <p class="text-gray-400 text-sm font-normal text-nowrap">Dari kemarin</p>
                                 </div>
                             </div>
@@ -187,42 +190,54 @@
                 class="text-blue-600 underline hover:text-blue-700">wrappixel.com</a></p>
     </footer>
 
-    @push('script')
-        {{-- modal foto --}}
-        <script>
-            function modalFoto(url) {
-                var modal = document.getElementById("modal-foto");
-                var img = document.getElementById("foto");
-                img.src = url;
-                modal.classList.remove("hidden");
-            }
 
-            function closeModalFoto() {
-                var modal = document.getElementById("modal-foto");
-                modal.classList.add("hidden");
-            }
-        </script>
+@endsection
 
-        {{-- sweet alert konfirmasi --}}
-        <script>
-            function confirmAction(formId, actionName) {
-                Swal.fire({
-                    title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
-                    icon: 'warning',
-                    showCancelButton: true,
-                    confirmButtonColor: '#3085d6',
-                    cancelButtonColor: '#d33',
-                    confirmButtonText: 'Yes, ' + actionName,
-                    cancelButtonText: 'Cancel'
-                }).then((result) => {
-                    if (result.isConfirmed) {
-                        document.getElementById(formId).submit();
-                    }
-                });
-            }
-        </script>
 
-        <script>
+@push('script')
+    <script>
+        $(document).ready(function() {
+            document.getElementById("main").classList.remove("hidden");
+        });
+    </script>
+    <script>
+        function modalFoto(url) {
+            var modal = document.getElementById("modal-foto");
+            var img = document.getElementById("foto");
+            img.src = url;
+            modal.classList.remove("hidden");
+        }
+
+        function closeModalFoto() {
+            var modal = document.getElementById("modal-foto");
+            modal.classList.add("hidden");
+        }
+    </script>
+
+    {{-- sweet alert konfirmasi --}}
+    <script>
+        function confirmAction(formId, actionName) {
+            Swal.fire({
+                title: `Apakah anda yakin untuk ${actionName.toLowerCase()}?`,
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, ' + actionName,
+                cancelButtonText: 'Cancel'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById(formId).submit();
+                }
+            });
+        }
+    </script>
+
+    <script>
+        $(function() {
+            // =====================================
+            // Profit
+            // =====================================
             var profit = {
                 series: [{
                         name: "Siswa Hadir ",
@@ -265,7 +280,8 @@
                 },
                 xaxis: {
                     type: "category",
-                    categories: ["januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus", "september",
+                    categories: ["januari", "februari", "maret", "april", "mei", "juni", "juli", "agustus",
+                        "september",
                         "oktober", "november", "desember"
                     ],
                     axisTicks: {
@@ -308,6 +324,30 @@
                     },
                 }, ],
             };
-        </script>
-    @endpush
-@endsection
+
+            var chart_column_basic = new ApexCharts(
+                document.querySelector("#profit"),
+                profit
+            );
+            chart_column_basic.render();
+
+
+
+            // =====================================
+            // Breakup
+            // =====================================
+
+
+            var chart = new ApexCharts(document.querySelector("#grade"), grade);
+            chart.render();
+
+
+
+            // =====================================
+            // Earning
+            // =====================================
+
+            new ApexCharts(document.querySelector("#earning"), earning).render();
+        })
+    </script>
+@endpush

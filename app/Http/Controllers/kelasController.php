@@ -36,11 +36,10 @@ class kelasController extends Controller
 
         $currentLesson = null;
         foreach ($days as $day) {
-            // Pastikan dari dan sampai adalah integer yang sesuai dengan jam
             $startHour = (int) $day->dari;
             $endHour = (int) $day->sampai;
 
-            // Cek apakah waktu saat ini berada dalam rentang jam pelajaran
+            // pengecekan berada dalam rentang jam pelajaran
             if ($currentHour >= $startHour && $currentHour < $endHour) {
                 $currentLesson = $day;
                 break;

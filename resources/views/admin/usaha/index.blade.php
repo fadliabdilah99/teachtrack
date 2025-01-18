@@ -27,7 +27,7 @@
                     </thead>
                     <tbody id="dataTablemapel">
                         @foreach ($kategori as $kat)
-                            <tr>
+                            <tr >
                                 <td class="p-4 text-sm">
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
@@ -38,9 +38,17 @@
                                 <td class="p-4 text-sm">
                                     <div class="flex gap-6 items-center">
                                         <div class="flex flex-col gap-1 text-gray-500">
-                                            <h3 class="font-bold">tes</h3>
+                                            <h3 class="font-bold">{{ $kat->produk->count() }}</h3>
                                         </div>
                                     </div>
+                                </td>
+                                <td class="p-4">
+                                    <button
+                                        class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                            class="bi bi-pen"></i></button>
+                                    <button
+                                        class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-red-400 text-white"><i
+                                            class="bi bi-trash"></i></button>
                                 </td>
                             </tr>
                         @endforeach

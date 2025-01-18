@@ -58,10 +58,6 @@
                             href="#download">Download</a>
                     </li>
                 </ul>
-                <a href="register"
-                    class="mx-auto lg:mx-0 hover:underline bg-white text-gray-800 font-bold rounded-full mt-4 lg:mt-0 py-4 px-8 shadow opacity-75 focus:outline-none focus:shadow-outline transform transition hover:scale-105 duration-300 ease-in-out">
-                    Register
-                </a>
             </div>
         </div>
         <hr class="border-b border-gray-100 opacity-25 my-0 py-0" />
@@ -407,10 +403,36 @@
                 <div
                     class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
                     <div class="p-6">
-                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Pendataan Kelas, Siswa, dan Guru</h3>
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Private Konseling</h3>
                         <p class="text-gray-600 mb-6">
-                            Kelas, guru, dan siswa terdata dengan mudah, selain untuk keperluan fitur yang dibuat data
-                            ini juga diperlukan untuk pendataan sekolah.
+                            Metode konsultasi anonymous ini menjaga privasi siswa, memungkinkan siswa berkosultasi
+                            dengan sangat terbuka, tanpa rasa canggung.
+                        </p>
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
+                        </a>
+                    </div>
+                </div>
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Absensi</h3>
+                        <p class="text-gray-600 mb-6">
+                            Menyediakan fitur absensi berbasis mobile, memudahkan siswa untuk melakukan absen, dengan
+                            fitur traking lokasi, dan take foto untuk meminimalisir kecurangan
+                        </p>
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
+                        </a>
+                    </div>
+                </div>
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Wallet</h3>
+                        <p class="text-gray-600 mb-6">
+                            Memudahkan siswa untuk bertransaksi di aplikasi TeachTrack, dengan fitur transfer antar
+                            akun, pembayaran, dan top-up saldo.
                         </p>
                         <a href="#" class="text-indigo-600 font-medium hover:underline">
                             Selengkapnya →
@@ -463,6 +485,19 @@
                         <p class="text-gray-600 mb-6">
                             Guru dapat membuat materi sebanyak mungkin baik itu untuk materi kelas ataupun untuk di
                             perjual belikan, untuk siswa dari jurusan berbeda dapat mempelajari jurusan lain.
+                        </p>
+                        <a href="#" class="text-indigo-600 font-medium hover:underline">
+                            Selengkapnya →
+                        </a>
+                    </div>
+                </div>
+                <div
+                    class="bg-white shadow-md hover:shadow-lg rounded-lg overflow-hidden transition-shadow duration-300">
+                    <div class="p-6">
+                        <h3 class="text-xl font-semibold text-gray-800 mb-4">Sosial Media</h3>
+                        <p class="text-gray-600 mb-6">
+                            Sosial media dapat diakses pada aplikasi TeachTrack untuk mendukung aktivitas siswa, seperti
+                            promosi penjualan, berbagi pengalaman, dan lain sebagainya.
                         </p>
                         <a href="#" class="text-indigo-600 font-medium hover:underline">
                             Selengkapnya →

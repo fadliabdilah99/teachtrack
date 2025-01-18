@@ -65,7 +65,7 @@
                         <input type="radio" id="radio-2" name="radio" class="hidden" />
                         <label for="radio-2"
                             class="flex items-center px-4 py-2 rounded-md border-2 border-gray-300 cursor-pointer">
-                            <form action="e" id="payment_form">
+                            <form  id="payment_form">
                                 <input type="number" name="pembayaran" id="pembayaran" value="{{ $bayar }}" hidden>
                                 <input type="number" name="pesanan_id" id="pesanan_id" value="{{ $pesanans->id }}" hidden>
                                 <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" hidden>

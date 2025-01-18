@@ -96,7 +96,9 @@
                                 src="{{ asset('file/profile/' . $post->user->fotoProfile) }}" @endif
                                     alt="User Avatar" class="w-10 h-10 rounded-full mr-3">
                                 <div>
-                                    <h3 class="font-semibold">{{ $post->user->name }}</h3>
+                                    <a href="{{ route('profile-siswa', $post->user->id) }}">
+                                        <h3 class="font-semibold">{{ $post->user->name }}</h3>
+                                    </a>
                                     <p class="text-sm text-gray-500">
                                         {{ $post->user->rombel->kelas . ' ' . $post->user->rombel->jurusan->jurusan . ' ' . $post->user->rombel->jurusan->no }}
                                         • {{ $post->created_at->diffForHumans() }}
