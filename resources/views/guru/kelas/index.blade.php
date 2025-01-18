@@ -53,18 +53,14 @@
                                 </td>
                                 <td class="p-4">
                                     <button onclick="modalmateri({{ $jadwals->id }}, {{ $jadwals->rombel->id }}, )"
-                                        class="inline-flex
-                                    items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-teal-400 text-white"><i
                                             class="bi bi-plus font-bold "></i></button>
                                     <button onclick="modallist({{ $jadwals->id }})"
-                                        class="inline-flex
-                                    items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
-                                            class="bi bi-eye font-bold"></i></button>
+                                        class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-teal-400 text-white">
+                                        <i class="bi bi-eye font-bold"></i>
+                                    </button>
                                 </td>
                             </tr>
-
-
-                            
                         @endforeach
                     </tbody>
                 </table>
@@ -134,8 +130,7 @@
                                     <div class="flex gap-6 items-center">
                                         <div class="flex items-center justify-center">
                                             <button
-                                                class="inline-flex
-                                    items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
+                                                class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-teal-400 text-white">
                                                 <i class="bi bi-eye"></i>
                                             </button>
                                         </div>

@@ -25,7 +25,6 @@ use App\Livewire\Chat;
 use App\Livewire\ChatKelas;
 use App\Livewire\GuruChat;
 use App\Livewire\ReplyGuru;
-use App\Models\pesanan;
 use Illuminate\Support\Facades\Route;
 
 
@@ -165,6 +164,7 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
 
     // shop
     Route::get('shop', [marketController::class, 'index'])->name('shop');
+    Route::get('shop/view/{id}', [marketController::class, 'view'])->name('viewshop');
     Route::post('/donation', [paymentController::class, 'store']);
 
     // bimbingan konseling

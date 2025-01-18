@@ -30,54 +30,52 @@ new #[Layout('layouts.guest')] class extends Component {
         } elseif (Auth::user()->role === 'penjual' ) {
             $this->redirect(route('seller'), navigate: true);
         } else {
-            $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
+            // $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
         }
     }
 }; ?>
-
-<div>
-    <!-- Session Status -->
-    <x-auth-session-status class="mb-4" :status="session('status')" />
-
-    <form wire:submit="login">
-        <!-- Email Address -->
-        <div>
-            <x-input-label for="email" :value="__('Email')" />
-            <x-text-input wire:model="form.email" id="email" class="block mt-1 w-full" type="email" name="email"
-                required autofocus autocomplete="username" />
-            <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+<div class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 light:bg-opacity-80">
+    <div class="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-lg light:bg-gray-800">
+        <div class="flex items-center justify-center">
+            <img class="w-auto h-7 sm:h-8" src="https://merakiui.com/images/logo.svg" alt="">
         </div>
 
-        <!-- Password -->
-        <div class="mt-4">
-            <x-input-label for="password" :value="__('Password')" />
+        <p class="mt-3 text-xl text-center text-gray-600 light:text-gray-200">
+            Welcome back!
+        </p>
 
-            <x-text-input wire:model="form.password" id="password" class="block mt-1 w-full" type="password"
-                name="password" required autocomplete="current-password" />
+        <form wire:submit="login">
+            <!-- Email -->
+            <div class="mt-4">
+                <label class="block mb-2 text-sm font-medium text-gray-600 light:text-gray-200" for="LoggingEmailAddress">Email Address</label>
+                <input wire:model="form.email" id="LoggingEmailAddress" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg light:bg-gray-800 light:text-gray-300 light:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 light:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="email" />
+                <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
+            </div>
 
-            <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
-        </div>
+            <!-- Password -->
+            <div class="mt-4">
+                <div class="flex justify-between">
+                    <label class="block mb-2 text-sm font-medium text-gray-600 light:text-gray-200" for="loggingPassword">Password</label>
+                    <a href="{{ route('password.request') }}" class="text-xs text-gray-500 light:text-gray-300 hover:underline">Forgot Password?</a>
+                </div>
+                <input wire:model="form.password" id="loggingPassword" class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg light:bg-gray-800 light:text-gray-300 light:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 light:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300" type="password" />
+                <x-input-error :messages="$errors->get('form.password')" class="mt-2" />
+            </div>
 
-        <!-- Remember Me -->
-        <div class="block mt-4">
-            <label for="remember" class="inline-flex items-center">
-                <input wire:model="form.remember" id="remember" type="checkbox"
-                    class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500" name="remember">
-                <span class="ms-2 text-sm text-gray-600">{{ __('Remember me') }}</span>
-            </label>
-        </div>
+            <!-- Remember Me -->
+            <div class="block mt-4">
+                <label for="remember" class="inline-flex items-center">
+                    <input wire:model="form.remember" id="remember" type="checkbox" class="rounded border-gray-300 text-indigo-600 shadow-sm focus:ring-indigo-500">
+                    <span class="ms-2 text-sm text-gray-600 light:text-gray-400">Remember me</span>
+                </label>
+            </div>
 
-        <div class="flex items-center justify-end mt-4">
-            @if (Route::has('password.request'))
-                <a class="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-                    href="{{ route('password.request') }}" wire:navigate>
-                    {{ __('Forgot your password?') }}
-                </a>
-            @endif
-
-            <x-primary-button class="ms-3">
-                {{ __('Log in') }}
-            </x-primary-button>
-        </div>
-    </form>
+            <!-- Submit Button -->
+            <div class="mt-6">
+                <button class="w-full px-6 py-3 text-sm font-medium tracking-wide text-white capitalize transition-colors duration-300 transform bg-gray-800 rounded-lg hover:bg-gray-700 focus:outline-none focus:ring focus:ring-gray-300 focus:ring-opacity-50">
+                    Sign In
+                </button>
+            </div>
+        </form>
+    </div>
 </div>

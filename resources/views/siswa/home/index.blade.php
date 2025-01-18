@@ -216,7 +216,7 @@
                                     </div>
                                     <div class="timeline-badge-wrap flex flex-col items-center">
                                         <div
-                                            class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-300 my-[10px]">
+                                            class="timeline-badge w-3 h-3 rounded-full shrink-0 border-2 bg-blue-300 border-blue-300 my-[10px]">
                                         </div>
                                         <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
                                     </div>

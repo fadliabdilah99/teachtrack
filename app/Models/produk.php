@@ -13,6 +13,10 @@ class produk extends Model
         return $this->belongsTo(kategori::class);
     }
 
+    public function cart(){
+        return $this->hasMany(cart::class);
+    }    
+
     public function user()
     {
         return $this->belongsTo(user::class);

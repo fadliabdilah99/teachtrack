@@ -72,16 +72,16 @@
             </button>
         </div>
         {{-- produk --}}
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 hidden" id="produk">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 hidden" id="produk">
             @foreach ($barang as $product)
                 <div class="filter-card card overflow-hidden {{ $product->kategori->kategori }}">
                     <div class="relative">
-                        <a href="javascript:void(0)">
+                        <a href="{{route('viewshop', $product->id)}}">
                             <img src="{{ asset('file/produk/' . $product->foto[0]->foto) }}" alt="product_img"
                                 class="w-full">
                         </a>
                         <button
-                            class="bg-blue-600 w-8 h-8 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3"
+                            class="bg-blue-600 w-10 h-10 flex justify-center items-center text-white rounded-full absolute bottom-0 right-0 mr-4 -mb-3"
                             onclick="modalcart('{{ $product->id }}','{{ $product->judul }}','{{ $product->harga }}','{{ asset('file/produk/' . $product->foto[0]->foto) }}','{{ $product->stok }}')">
                             <i class="bi bi-bag-plus-fill"></i>
                         </button>
@@ -112,7 +112,7 @@
             @endforeach
         </div>
         {{-- materi --}}
-        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-3 hidden" id="materi">
+        <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 hidden" id="materi">
             @foreach ($sell as $materi)
                 <div class="card">
                     <img class="w-full" src="https://picsum.photos/300/300/?random" alt="">
