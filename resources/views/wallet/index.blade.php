@@ -11,7 +11,7 @@
                     <div>
                         <h3 class="text-[22px] font-semibold text-gray-500 mb-4">
                             Rp
-                            {{ number_format($nominal = Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') - Auth::user()->wallet()->where('jenis', 'uang keluar')->whereNot('unique', '!=', null)->sum('nominal')) }}
+                            {{ number_format($nominal = Auth::user()->wallet()->where('jenis', 'uang masuk')->whereNot('unique', '!=', null)->sum('nominal') - Auth::user()->wallet()->where('jenis', 'uang keluar')->sum('nominal')) }}
                         </h3>
                         <div class="flex items-center gap-1 mb-3">
                             <span class="flex items-center justify-center w-5 h-5 rounded-full bg-teal-400">
@@ -43,7 +43,7 @@
                 </div>
                 <button class="btn btn-primary" onclick="modalTransfer()">Transfer</button>
                 <button class="btn btn-primary" onclick="modalTopUp()">Top Up</button>
-                <button class="btn btn-primary" onclick="modalTopUp()">Tarik Uang</button>
+                <button class="btn btn-primary" onclick="modalTarikSaldo()">Tarik Uang</button>
             </div>
         </div>
     </div>
@@ -64,7 +64,7 @@
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach (Auth::user()->wallet()->whereNot('unique', '!=', null)->get() as $riwayat)
+                                @foreach (Auth::user()->wallet()->get() as $riwayat)
                                     <tr>
                                         <td class="p-4">
                                             <h3 class="font-medium">{{ $riwayat->created_at->format('d-m-Y') }}</h3>
@@ -76,13 +76,16 @@
                                             <h3 class="font-medium">{{ $riwayat->keterangan }}</h3>
                                         </td>
                                         <td class="p-4 flex gap-2">
-                                            @if ($riwayat->jenis == 'uang masuk')
+                                            @if ($riwayat->unique != null)
+                                                <span class="bg-yellow-100 text-yellow-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-200 dark:text-yellow-900">sedang di proses</span>
+                                            @elseif ($riwayat->jenis == 'uang masuk')
                                                 <i class="bi text-green-500 bi-arrow-down-right-circle"></i>
+                                                <h3 class="font-medium">{{ $riwayat->jenis }}</h3>
                                             @else
                                                 <i class="bi text-red-500 bi-arrow-up-right-circle"></i>
+                                                <h3 class="font-medium">{{ $riwayat->jenis }}</h3>
                                             @endif
                                             {{-- <p></p> --}}
-                                            <h3 class="font-medium">{{ $riwayat->jenis }}</h3>
                                         </td>
                                     </tr>
                                 @endforeach

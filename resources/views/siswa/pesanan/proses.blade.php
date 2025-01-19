@@ -65,14 +65,16 @@
                         <input type="radio" id="radio-2" name="radio" class="hidden" />
                         <label for="radio-2"
                             class="flex items-center px-4 py-2 rounded-md border-2 border-gray-300 cursor-pointer">
-                            <form  id="payment_form">
+                            <form id="payment_form">
                                 <input type="number" name="pembayaran" id="pembayaran" value="{{ $bayar }}" hidden>
                                 <input type="number" name="pesanan_id" id="pesanan_id" value="{{ $pesanans->id }}" hidden>
                                 <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" hidden>
-                                <input type="text" name="email" id="email" value="{{ Auth::user()->email }}" hidden>
-                                <button type="submit" class="text-sm text-gray-800 mr-2">Dompet Digital</button>
+                                <input type="text" name="email" id="email" value="{{ Auth::user()->email }}"
+                                    hidden>
+                                <button type="submit" class="text-sm text-gray-800 mr-2">Dompet Digital
+                                    <span class="text-sm font-bold text-gray-800">Rp. {{ number_format($bayar) }}</span>
+                                </button>
                             </form>
-                            <span class="text-sm font-bold text-gray-800">Rp. {{ number_format($bayar) }}</span>
                         </label>
                     </div>
                     <form action="{{ route('COD', $id) }}" method="POST">
@@ -81,14 +83,43 @@
                             <input type="radio" id="radio-3" name="radio" class="hidden" />
                             <label for="radio-3"
                                 class="flex items-center px-4 py-2 rounded-md border-2 border-gray-300 cursor-pointer">
-                                <button type="submit" class="text-sm text-gray-800 mr-2">Bayar Di Tempat</button>
-                                <span class="text-sm font-bold text-gray-800">Rp. {{ number_format($bayar) }}</span>
+                                <button type="submit" class="text-sm text-gray-800 mr-2">Bayar Di Tempat
+                                    <span class="text-sm font-bold text-gray-800">Rp. {{ number_format($bayar) }}</span>
+                                </button>
+                            </label>
+                        </div>
+                    </form>
+                    <form action="{{ route('bayar-ZIEwallet', $id) }}" method="POST">
+                        @csrf
+                        <div class="flex items-center">
+                            <input type="radio" id="radio-3" name="radio" class="hidden" />
+                            <label for="radio-3"
+                                class="flex items-center px-4 py-2 rounded-md border-2 border-gray-300 cursor-pointer">
+                                @php
+                                    $saldoWallet =
+                                        Auth::user()
+                                            ->wallet->where('jenis', 'uang masuk')
+                                            ->where('unique', '==', null)
+                                            ->sum('nominal') -
+                                        Auth::user()->wallet->where('jenis', 'uang keluar')->sum('nominal');
+                                @endphp
+                                @if ($saldoWallet <= $bayar)
+                                    <button type="button" onclick="saldokurang()" class="text-sm text-gray-800 mr-2">Bayar
+                                        ZIEWallet
+                                        <span class="text-sm font-bold text-gray-800">saldo :
+                                            {{ number_format($saldoWallet) }}</span>
+                                    </button>
+                                @else
+                                    <button type="submit" class="text-sm text-gray-800 mr-2">Bayar ZIEWallet
+                                        <span class="text-sm font-bold text-gray-800">saldo :
+                                            {{ number_format($saldoWallet) }}</span>
+                                    </button>
+                                @endif
                             </label>
                         </div>
                     </form>
                 </div>
             </div>
-
         </div>
     </div>
 @endsection
@@ -137,5 +168,17 @@
                 }
             );
         });
+    </script>
+
+    {{-- alert saldo kurang --}}
+    <script>
+        function saldokurang() {
+            Swal.fire({
+                title: 'Saldo tidak mencukupi',
+                text: 'Saldo ZIEWallet Anda tidak mencukupi untuk membayar pesanan ini',
+                icon: 'info',
+                confirmButtonColor: '#0ea5e9'
+            })
+        }
     </script>
 @endpush

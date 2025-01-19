@@ -29,6 +29,17 @@ class pesananController extends Controller
             'alamat' => $request->alamat,
             'catatan' => $request->catatan,
         ]);
+
+        // memastikan produk yang di checkout dari toko yang sama
+        $perbandingan = cart::where('id', $request->cart_items[0])->first();
+        $perbandingan = $perbandingan->produk->user_id;
+        foreach ($request->cart_items as $check) {
+            $cart = cart::where('id', $check)->first();
+            if ($perbandingan != $cart->produk->user_id) {
+                return redirect()->back()->with('error', 'pesan dari toko yang sama');
+            }
+        }
+        
         foreach ($request->cart_items as $produk) {
             $cart = cart::where('id', $produk)->first();
             $cart->update([
@@ -70,6 +81,23 @@ class pesananController extends Controller
             'uang_masuk' => $nominal,
         ]);
         return redirect()->route('pesanan')->with('success', 'pesanan selesai');
+    }
+
+    public function batalkan($id){
+        $pesanan = pesanan::where('id', $id)->with('cart')->first();
+        foreach ($pesanan->cart as $carts) {
+            $nominal = $carts->qty * $carts->produk->harga;
+        }
+        wallet::create([
+            'user_id' => Auth::user()->id,
+            'nominal' => $nominal,
+            'jenis' => 'uang masuk',
+            'keterangan' => 'pembatalan pesanan ' . $pesanan->kode,
+        ]);
+        $pesanan->update([
+            'status' => 'refund',
+        ]);
+        return redirect()->route('pesanan')->with('success', 'pesanan dibatalkan');
     }
 
     // proses refund pesanan

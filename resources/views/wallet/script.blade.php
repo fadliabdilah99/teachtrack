@@ -195,4 +195,12 @@
     function closeModalTopUp() {
         document.getElementById('modal-TopUp').classList.add('hidden');
     }
+
+    function modalTarikSaldo() {
+        document.getElementById('modal-tarik-saldo').classList.remove('hidden');
+    }
+
+    function closeModalTarikSaldo() {
+        document.getElementById('modal-tarik-saldo').classList.add('hidden');
+    }
 </script>
