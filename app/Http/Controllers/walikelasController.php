@@ -36,8 +36,8 @@ class walikelasController extends Controller
     }
 
     public function skor(Request $request){
+        // dd($request->all());
         skor::create($request->all());
-
         return redirect()->back()->with('success', 'Berhasil menambahkan skor');
     }
 }

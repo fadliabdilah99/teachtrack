@@ -33,16 +33,16 @@ class guruController extends Controller
         // jadwal mengajar hari ini
         $hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
         // $data['hari_ini'] = $hari[Carbon::now()->format('w')];
-        $data['hari_ini'] = 'Jumat';
-        $data['jadwal'] = rombel_mapel_guru::whereHas('guruMapel', function ($q) {
+        $data['hari_ini'] = 'senin';
+        $data['jadwals'] = rombel_mapel_guru::whereHas('guruMapel', function ($q) {
             $q->where('user_id', Auth::user()->id);
-        })->where('hari', $data['hari_ini'])->get();
+        })->where('hari', $data['hari_ini'])->orderBy('dari', 'asc')->get();
 
         // jam saat ini
         // $jamSekarang = (int) Carbon::now('Asia/Jakarta')->format('H');
         $jamSekarang = 13;
         $jadwal = null;
-        foreach ($data['jadwal'] as $day) {
+        foreach ($data['jadwals'] as $day) {
             $data['jamAwal'] = (int) $day->dari;
             $data['jamAkhir'] = (int) $day->sampai;
             // pengecekan berada dalam rentang jam pelajaran
@@ -51,6 +51,7 @@ class guruController extends Controller
                 break;
             }
         }
+        // dd($data['jadwals']);
 
         $data['jadwal'] = $jadwal;
         return view('guru.home.index')->with($data);
