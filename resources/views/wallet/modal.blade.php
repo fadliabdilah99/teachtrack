@@ -26,8 +26,6 @@
                     placeholder="" aria-describedby="hs-input-helper-text">transfer</textarea>
             </div>
             <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700">Transfer</button>
-            <button type="button" onclick="closeModaltransefer()"
-                class="btn text-base py-2.5 text-white font-medium w-fit bg-gray-500 hover:bg-gray-700">close</button>
         </form>
     </div>
 </div>
@@ -52,8 +50,6 @@
             <input type="text" name="email" id="email" value="{{ Auth::user()->email }}" hidden>
             <input type="text" name="number" id="user_id" value="{{ Auth::user()->id }}" hidden>
             <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700">Top-Up</button>
-            <button type="button"
-                class="btn text-base py-2.5 text-white font-medium w-fit bg-gray-500 hover:bg-gray-700">close</button>
         </form>
     </div>
 </div>

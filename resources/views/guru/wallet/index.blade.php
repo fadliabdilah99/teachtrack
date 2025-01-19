@@ -1,6 +1,6 @@
-@extends('siswa.template.main')
+@extends('guru.template.main')
 
-@section('title', 'Siswa-Wallet')
+@section('title', 'Guru-Wallet')
 
 @push('style')
 @endpush

@@ -72,9 +72,7 @@
                        </div>
                    </div>
                </li>
-               <li class=""><i class="bi bi-wallet text-green-500"></i> : <span class="font-bold">Rp.
-                       {{ Auth::user()->wallet->where('jenis', 'uang masuk')->sum('nominal') - Auth::user()->wallet->where('jenis', 'uang keluar')->sum('nominal') }}</span>
-               </li>
+
            </ul>
            <div class="flex items-center gap-4">
 

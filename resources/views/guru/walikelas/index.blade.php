@@ -23,14 +23,16 @@
                     </thead>
                     <tbody id="dataTablemapel">
                         @foreach ($murid as $user)
-                            <tr>
+                            <tr class="{{$user->role == 'guru' ? 'hidden' : ''}}">
                                 <td class="p-4 text-sm">
                                     <div class="flex gap-6 items-center">
+                                        <div class="h-12 w-12 inline-block"><img
+                                                src="{{ $user->fotoProfile == null ? asset('assets/images/profile/user-3.jpg') : asset('file/profile/' . $user->fotoProfile) }}"
+                                                alt="" class="rounded-full w-100"></div>
                                         <div class="flex flex-col gap-1 text-gray-500">
-                                            <h3 class="font-bold">
-                                                <p>{{ $user->name }}
-                                                </p>
+                                            <h3 class="font-bold">{{ $user->name }}
                                             </h3>
+                                            <span class="font-normal">{{ $user->role }}</span>
                                         </div>
                                     </div>
                                 </td>

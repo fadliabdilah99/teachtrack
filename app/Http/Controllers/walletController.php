@@ -46,6 +46,10 @@ class walletController extends Controller
 
     }
 
+    public function indexguru(){
+        return view('guru.wallet.index');
+    }
+
 
 
 }
