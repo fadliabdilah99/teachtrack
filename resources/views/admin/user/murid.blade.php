@@ -1,6 +1,6 @@
 <div class="card h-full">
     <div class="card-body">
-        <h4 class="text-gray-500 text-lg font-semibold mb-5">Kelas & KM</h4>
+        <h4 class="text-gray-500 text-lg font-semibold mb-5">Tambah jadwal ke Kelas</h4>
         <div class="relative overflow-x-auto">
             <button onclick="modalsiswa()" class="bg-teal-500 text-white px-4 py-2 rounded-md"><i
                     class="bi bi-plus-lg"></i></button>

@@ -15,8 +15,6 @@
                         <th scope="col" class="p-4 font-semibold">Nama</th>
                         <th scope="col" class="p-4 font-semibold">No Guru</th>
                         <th scope="col" class="p-4 font-semibold">email</th>
-                        <th scope="col" class="p-4 font-semibold">Jam Mengajar</th>
-                        <th scope="col" class="p-4 font-semibold">Status</th>
                     </tr>
                 </thead>
                 <tbody id="dataTableguru">
@@ -42,13 +40,6 @@
                             </td>
                             <td class="p-4">
                                 <h3 class="font-medium">{{ $gurus->email }}</h3>
-                            </td>
-                            <td class="p-4">
-                                <h3 class="font-medium text-teal-500">+53jam</h3>
-                            </td>
-                            <td class="p-4">
-                                <span
-                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-teal-500">Available</span>
                             </td>
                         </tr>
                     @endforeach

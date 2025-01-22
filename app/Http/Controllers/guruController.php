@@ -54,6 +54,7 @@ class guruController extends Controller
         // dd($data['jadwals']);
 
         $data['jadwal'] = $jadwal;
+        // dd($data['jadwal']);
         return view('guru.home.index')->with($data);
     }
 
@@ -98,5 +99,9 @@ class guruController extends Controller
             'mapel_id' => $request->mapel_id
         ]);
         return redirect()->back()->with('success', 'pengajar berhasil ditambahkan');
+    }
+
+    public function profile(Request $request){
+        return view('guru.profile.index');
     }
 }

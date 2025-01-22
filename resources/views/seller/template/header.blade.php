@@ -4,7 +4,7 @@
     <!-- Start Vertical Layout Sidebar -->
     <!-- ---------------------------------- -->
     <div class="p-4">
-        <h1 class="text-2xl font-bold">{{Auth::user()->seller->namaToko}}</h1>
+        <h1 class="text-2xl font-bold">{{ Auth::user()->seller->namaToko }}</h1>
     </div>
     <div class="scroll-sidebar" data-simplebar="">
         <nav class="w-full flex flex-col sidebar-nav px-4 mt-5">
@@ -33,12 +33,5 @@
         </nav>
     </div>
 
-    <!-- Bottom Upgrade Option -->
-    <div class="m-4 relative grid">
-        <form action="{{ url('logout') }}" method="POST">
-            @csrf
-            <button class="text-base font-semibold hover:bg-blue-700 btn" type="submit">Logout</button>
-        </form>
-    </div>
-    <!-- </aside> -->
+   
 </aside>

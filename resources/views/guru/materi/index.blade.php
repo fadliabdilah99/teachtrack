@@ -20,10 +20,10 @@
                 <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                     <thead>
                         <tr class="text-sm">
-                            <th scope="col" class="p-4 font-semibold">materi</th>
-                            <th scope="col" class="p-4 font-semibold">tipe</th>
-                            <th scope="col" class="p-4 font-semibold">total materi</th>
-                            <th scope="col" class="p-4 font-semibold">kembangkan</th>
+                            <th scope="col" class="p-4 font-semibold">Materi</th>
+                            <th scope="col" class="p-4 font-semibold">Tipe</th>
+                            <th scope="col" class="p-4 font-semibold">Total materi</th>
+                            <th scope="col" class="p-4 font-semibold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="dataTablemapel">
@@ -52,13 +52,13 @@
                                     </div>
                                 </td>
                                 <td class="p-4">
-                                    @if ($mapel->jenis == 'ujian(fixed)' || $mapel->jenis == 'ujian')
-                                        <a href="{{ url('guru/materi/ujian/' . $mapel->id) }}"
-                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
-                                            <i class="bi bi-eye font-bold"></i>
-                                        </a>
-                                    @else
-                                        <div class="flex gap-2">
+                                    <div class="flex gap-2">
+                                        @if ($mapel->jenis == 'ujian(fixed)' || $mapel->jenis == 'ujian')
+                                            <a href="{{ url('guru/materi/ujian/' . $mapel->id) }}"
+                                                class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
+                                                <i class="bi bi-eye font-bold"></i>
+                                            </a>
+                                        @else
                                             <a href="{{ url('guru/materi/structure/' . $mapel->id) }}"
                                                 class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">
                                                 <i class="bi bi-eye font-bold"></i>
@@ -80,8 +80,17 @@
                                                             class="bi bi-slash-circle"></i></button>
                                                 </form>
                                             @endif
-                                        </div>
-                                    @endif
+                                        @endif
+                                        <form id="form-delete-{{ $mapel->id }}"
+                                            action="{{ route('deletemateri' , $mapel->id) }}" method="post">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button onclick="confirmDelete({{ $mapel->id }})"
+                                                id="btn-stop-sell-{{ $mapel->id }}"
+                                                class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                                    class="bi bi-trash"></i></button>
+                                        </form>
+                                    </div>
                                 </td>
                             </tr>
                         @endforeach
@@ -131,7 +140,8 @@
                                     <td class="p-4 text-sm">
                                         <div class="flex gap-6 items-center">
                                             <div class="flex flex-col gap-1 text-gray-500">
-                                                <h3 class="font-bold">{{ $jual->pembeli ? $jual->pembeli->count() : 0 }}</h3>
+                                                <h3 class="font-bold">{{ $jual->pembeli ? $jual->pembeli->count() : 0 }}
+                                                </h3>
                                             </div>
                                         </div>
                                     </td>
@@ -210,6 +220,23 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     document.getElementById('form-stop-sell-' + id).submit();
+                }
+            })
+        }
+        // delelte materi
+        function confirmDelete(id) {
+            event.preventDefault();
+            Swal.fire({
+                title: 'Anda yakin?',
+                text: "Materi akan di tarik dari semua kelas, dan penjualannya dihentikan",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Ya, Hapus Materi ini!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    document.getElementById('form-delete-' + id).submit();
                 }
             })
         }

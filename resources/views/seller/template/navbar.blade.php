@@ -97,10 +97,15 @@
                                <i class="ti ti-list-check text-xl"></i>
                                <p class="text-sm">My Task</p>
                            </a>
-                           <div class="px-4 mt-[7px] grid">
-                               <a href="../../pages/authentication-login.html"
-                                   class="btn-outline-primary font-medium text-[15px] w-full hover:bg-blue-600 hover:text-white">Logout</a>
+                           <!-- Bottom Upgrade Option -->
+                           <div class="m-4 relative grid">
+                               <form action="{{ url('logout') }}" method="POST">
+                                   @csrf
+                                   <button class="text-base font-semibold hover:bg-blue-700 btn"
+                                       type="submit">Logout</button>
+                               </form>
                            </div>
+                           <!-- </aside> -->
                        </div>
                    </div>
                </div>

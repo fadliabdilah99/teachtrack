@@ -10,6 +10,7 @@ use App\Models\materiGuru;
 use App\Models\materiStrukture;
 use App\Models\questions;
 use App\Models\rombel_mapel_guru;
+use App\Models\sellMateri;
 use App\Models\User;
 use App\Models\user_materi_guru;
 use Illuminate\Http\Request;
@@ -36,6 +37,35 @@ class materiController extends Controller
         materiGuru::create($request->all());
         return redirect()->back()->with('success', 'materi berhasil ditambahkan');
     }
+
+    public function deletemateri($id)
+    {
+
+        // Temukan data materiGuru berdasarkan ID
+        $materiGuru = materiGuru::findOrFail($id);
+
+
+        // hapus dari market
+        sellMateri::where('materi_guru_id', $id)->delete();
+
+
+        // Hapus relasi one-to-many
+        $materiGuru->struktur()->delete();
+        $materiGuru->question()->delete();
+        $materiGuru->nilai()->delete();
+        $materiGuru->sell()->delete();
+        $materiGuru->buy()->delete();
+        $materiGuru->materi_rombels()->delete();
+
+        // Hapus relasi many-to-many (pivot)
+        $materiGuru->materi_rombel()->detach();
+
+        // Hapus data utama materiGuru
+        $materiGuru->delete();
+
+        return redirect()->back()->with('success', 'materi berhasil di hapus');
+    }
+
 
     public function struktur($id)
     {
@@ -95,6 +125,7 @@ class materiController extends Controller
 
         return redirect()->back()->with('success', 'materi struktur berhasil ditambahkan');
     }
+
 
 
     public function strukturMapel($id)

@@ -6,55 +6,55 @@
 @endpush
 
 @section('content')
-<div class="relative flex justify-around items-center space-x-4 my-4">
-    <!-- Garis Horizontal -->
-    <div class="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-[2px] bg-gray-300"></div>
+    <div class="relative flex justify-around items-center space-x-4 my-4">
+        <!-- Garis Horizontal -->
+        <div class="absolute inset-x-0 top-1/2 transform -translate-y-1/2 h-[2px] bg-gray-300"></div>
 
-    <!-- Tombol -->
-    <button onclick="pesanan()"
-        class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
-        <i class="bi bi-clock text-xl mr-2"></i> Belum di bayar
-        @if (Auth::user()->pesanan->where('status', 'pending')->count() > 0)
-        <span
-            class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
-            {{ Auth::user()->pesanan->where('status', 'pending')->count() }}
-        </span>
-        @endif
-    </button>
+        <!-- Tombol -->
+        <button onclick="pesanan()"
+            class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-clock text-xl mr-2"></i> Belum di bayar
+            @if (Auth::user()->pesanan->where('status', 'pending')->count() > 0)
+                <span
+                    class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
+                    {{ Auth::user()->pesanan->where('status', 'pending')->count() }}
+                </span>
+            @endif
+        </button>
 
-    <button onclick="konfirmasi()"
-        class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
-        <i class="bi bi-arrow-repeat text-xl mr-2"></i> Menunggu Konfirmasi
-        @if (Auth::user()->pesanan->whereIn('status', ['COD', 'payment'])->count() > 0)
-        <span
-            class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
-            {{ Auth::user()->pesanan->whereIn('status', ['COD', 'payment'])->count() }}
-        </span>
-        @endif
-    </button>
+        <button onclick="konfirmasi()"
+            class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-arrow-repeat text-xl mr-2"></i> Menunggu Konfirmasi
+            @if (Auth::user()->pesanan->whereIn('status', ['COD', 'payment'])->count() > 0)
+                <span
+                    class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
+                    {{ Auth::user()->pesanan->whereIn('status', ['COD', 'payment'])->count() }}
+                </span>
+            @endif
+        </button>
 
-    <button onclick="proses()"
-        class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
-        <i class="bi bi-arrow-repeat text-xl mr-2"></i> Dalam proses
-        @if (Auth::user()->pesanan->whereIn('status', ['COD1', 'payment1'])->count() > 0)
-        <span
-            class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
-            {{ Auth::user()->pesanan->whereIn('status', ['COD1', 'payment1'])->count() }}
-        </span>
-        @endif
-    </button>
+        <button onclick="proses()"
+            class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-arrow-repeat text-xl mr-2"></i> Dalam proses
+            @if (Auth::user()->pesanan->whereIn('status', ['COD1', 'payment1'])->count() > 0)
+                <span
+                    class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
+                    {{ Auth::user()->pesanan->whereIn('status', ['COD1', 'payment1'])->count() }}
+                </span>
+            @endif
+        </button>
 
-    <button onclick="selesai()"
-        class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
-        <i class="bi bi-check-circle text-xl mr-2"></i> Selesai
-        @if (Auth::user()->pesanan->where('status', 'selesai')->count() > 0)
-        <span
-            class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
-            {{ Auth::user()->pesanan->where('status', 'selesai')->count() }}
-        </span>
-        @endif
-    </button>
-</div>
+        <button onclick="selesai()"
+            class="relative z-10 px-4 py-2 text-sm font-medium text-gray-700 border border-gray-300 rounded-full bg-white hover:bg-gray-200 transition duration-200 focus:outline-none focus:ring-2 focus:ring-gray-300">
+            <i class="bi bi-check-circle text-xl mr-2"></i> Selesai
+            @if (Auth::user()->pesanan->where('status', 'selesai')->count() > 0)
+                <span
+                    class="absolute -top-2 -right-2 inline-flex items-center justify-center w-6 h-6 text-xs font-bold text-white bg-blue-500 rounded-full">
+                    {{ Auth::user()->pesanan->where('status', 'selesai')->count() }}
+                </span>
+            @endif
+        </button>
+    </div>
 
 
     <div class="card h-full " id="pesanan">
@@ -198,7 +198,8 @@
                                             sedang diproses
                                         </p>
                                     @elseif($pesanans->status == 'refundP' || $pesanans->status == 'refundC')
-                                        <p type="button" class="btn text-base py-1 text-white bg-yellow-500 w-fit hover:bg-yellow-700">
+                                        <p type="button"
+                                            class="btn text-base py-1 text-white bg-yellow-500 w-fit hover:bg-yellow-700">
                                             menunggu konfirmasi refund</p>
                                     @else
                                         <form action="{{ route('selesai', $pesanans->id) }}" method="POST">
@@ -400,7 +401,8 @@
             document.getElementById('refund').classList.remove('hidden');
             document.getElementById('id_pesanan').value = id;
         }
-        function refundclose(){
+
+        function refundclose() {
             document.getElementById('refund').classList.add('hidden');
         }
     </script>

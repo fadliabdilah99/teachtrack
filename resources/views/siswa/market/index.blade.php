@@ -38,28 +38,28 @@
         <div class="grid grid-cols-3 gap-4 mb-6">
             <!-- materi -->
             <button onclick="materi()"
-                class="relative rounded-lg p-4 bg-gradient-to-r from-emerald-500 to-emerald-700 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                class="relative rounded-lg p-4 bg-gradient-to-r from-blue-500 to-blue-700 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <i
                     class="bi bi-journals text-4xl mr-4 transform group-hover:rotate-12 transition-transform duration-300"></i>
                 <span
                     class="font-semibold text-lg relative z-10 group-hover:tracking-wide transition-all duration-300">Materi</span>
                 <div
-                    class="absolute inset-0 bg-emerald-800 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg">
+                    class="absolute inset-0 bg-blue-800 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg">
                 </div>
             </button>
             <!-- produk -->
             <button onclick="produk()"
-                class="relative rounded-lg p-4 bg-gradient-to-r from-emerald-400 to-emerald-600 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                class="relative rounded-lg p-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <i class="bi bi-bag text-4xl mr-4 transform group-hover:rotate-12 transition-transform duration-300"></i>
                 <span
                     class="font-semibold text-lg relative z-10 group-hover:tracking-wide transition-all duration-300">Produk</span>
                 <div
-                    class="absolute inset-0 bg-emerald-800 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg">
+                    class="absolute inset-0 bg-blue-800 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg">
                 </div>
             </button>
             <!-- cart -->
             <button onclick="cart()"
-                class="relative rounded-lg p-4 bg-gradient-to-r from-emerald-400 to-emerald-600 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
+                class="relative rounded-lg p-4 bg-gradient-to-r from-blue-400 to-blue-600 text-white flex items-center group cursor-pointer overflow-hidden shadow-md hover:shadow-lg transition-shadow duration-300">
                 <div class="absolute top-0 left-0 z-10 m-1 text-white bg-red-700 rounded-full px-2 text-sm">
                     {{ Auth::user()->cart->where('status', 'cart')->count() == 0 ? '' : Auth::user()->cart->where('status', 'cart')->count() }}
                 </div>
@@ -67,7 +67,7 @@
                 <span
                     class="font-semibold text-lg relative z-10 group-hover:tracking-wide transition-all duration-300">Cart</span>
                 <div
-                    class="absolute inset-0 bg-emerald-800 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg">
+                    class="absolute inset-0 bg-blue-800 opacity-0 group-hover:opacity-20 transition-opacity duration-300 rounded-lg">
                 </div>
             </button>
         </div>
@@ -76,7 +76,7 @@
             @foreach ($barang as $product)
                 <div class="filter-card card overflow-hidden {{ $product->kategori->kategori }}">
                     <div class="relative">
-                        <a href="{{route('viewshop', $product->id)}}">
+                        <a href="{{ route('viewshop', $product->id) }}">
                             <img src="{{ asset('file/produk/' . $product->foto[0]->foto) }}" alt="product_img"
                                 class="w-full">
                         </a>
@@ -151,7 +151,7 @@
                     <div class="relative overflow-x-auto">
                         <h2 class="mb-4">Shopping Cart</h2>
 
-                        <form action="{{ route('checkout') }}" method="POST">
+                        <form id="form-cart" method="POST">
                             @csrf
                             <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
                                 <thead>
@@ -173,9 +173,21 @@
                                             $total += $subtotal;
                                         @endphp
                                         <tr>
-                                            <td class="p-4 text-sm">
+                                            <td class=" text-sm flex items-center gap-4">
                                                 <input type="checkbox" name="cart_items[]" value="{{ $carts->id }}"
-                                                    class="select-item" onchange="updateTotal()">
+                                                    class="rounded border-gray-300 text-blue-600 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 select-item"
+                                                    onchange="updateTotal()">
+                                                <div class="flex gap-6 items-center">
+                                                    <div class="h-12 w-12 inline-block"><img
+                                                            src="{{ $carts->produk->user->fotoProfile == null ? asset('assets/images/profile/user-3.jpg') : asset('file/profile/' . $carts->produk->user->fotoProfile) }}"
+                                                            alt="" class="rounded-full w-100"></div>
+                                                    <div class="flex flex-col gap-1 text-gray-500">
+                                                        <h3 class="font-bold">{{ $carts->produk->user->name }}
+                                                        </h3>
+                                                        <span
+                                                            class="font-normal">{{ $carts->produk->user->NoUnik }}</span>
+                                                    </div>
+                                                </div>
                                             </td>
                                             <td class="p-4 text-sm">
                                                 <div class="flex gap-6 items-center">
@@ -215,10 +227,10 @@
                                     <tr>
                                         <td>
                                             <div class="mb-4">
-                                                <label for="alamat"
-                                                    class="block text-sm mb-2 text-gray-400">antar ke (lingkungan sekolah)</label>
+                                                <label for="alamat" class="block text-sm mb-2 text-gray-400">antar ke
+                                                    (lingkungan sekolah)</label>
                                                 <input type="text" name="alamat" id="alamat"
-                                                    value="{{Auth::user()->rombel->kelas . '-' . Auth::user()->rombel->jurusan->jurusan . ' ' . Auth::user()->rombel->jurusan->no}}"
+                                                    value="{{ Auth::user()->rombel->kelas . '-' . Auth::user()->rombel->jurusan->jurusan . ' ' . Auth::user()->rombel->jurusan->no }}"
                                                     class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0" />
                                             </div>
                                             <div class="mb-4">
@@ -236,8 +248,12 @@
                                     </tr>
                                     <tr>
                                         <td colspan="6" class="text-center p-4">
-                                            <button type="submit" class="btn btn-primary">Checkout</button>
-
+                                            <button onclick="checkout()" type="button"
+                                                class="btn btn-primary">Checkout</button>
+                                        </td>
+                                        <td colspan="6" class="text-center p-4">
+                                            <button onclick="deleteCart()" type="button"
+                                                class="btn btn-primary">Delete</button>
                                         </td>
                                     </tr>
                                 </tfoot>
@@ -265,6 +281,19 @@
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 
+
+    {{-- chekout/delete --}}
+    <script>
+        function checkout() {
+            document.getElementById('form-cart').action = 'checkout';
+            document.getElementById('form-cart').submit();
+        }
+
+        function deleteCart() {
+            document.getElementById('form-cart').action = 'deleteCart';
+            document.getElementById('form-cart').submit();
+        }
+    </script>
 
     <script>
         // manampilkan materi saat pertama kali di buka

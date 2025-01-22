@@ -43,7 +43,7 @@
                 </div>
                 <button class="btn btn-primary" onclick="modalTransfer()">Transfer</button>
                 <button class="btn btn-primary" onclick="modalTopUp()">Top Up</button>
-                <button class="btn btn-primary" onclick="modalTarikSaldo()">Tarik Uang</button>
+                {{-- <button class="btn btn-primary" onclick="modalTarikSaldo()">Tarik Uang</button> --}}
             </div>
         </div>
     </div>

@@ -5,7 +5,7 @@
     <!-- ---------------------------------- -->
     <div class="p-4">
         <a href="../" class="text-nowrap">
-            <img src="{{ asset('assets/images/logos/logo-light.svg') }}" alt="Logo-Dark" />
+            <img src="{{ asset('assets/images/logos/favicon.png') }}" alt="Logo-Dark" class="w-20 h-20" />
         </a>
     </div>
     <div class="scroll-sidebar" data-simplebar="">

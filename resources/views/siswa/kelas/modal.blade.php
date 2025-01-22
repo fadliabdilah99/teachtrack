@@ -18,8 +18,9 @@
                             <th scope="col" class="p-4 font-semibold">Nama</th>
                             <th scope="col" class="p-4 font-semibold">Hadir</th>
                             <th scope="col" class="p-4 font-semibold">Sakit</th>
-                            <th scope="col" class="p-4 font-semibold">izin</th>
+                            <th scope="col" class="p-4 font-semibold">Izin</th>
                             <th scope="col" class="p-4 font-semibold">Skor</th>
+                            <th scope="col" class="p-4 font-semibold">Aksi</th>
                         </tr>
                     </thead>
                     <tbody id="dataTableguru">
@@ -27,12 +28,13 @@
                             <tr>
                                 <td class="p-4 text-sm">
                                     <div class="flex gap-6 items-center">
-                                        {{-- <div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-1.jpg"
-                                            alt="" class="rounded-full w-100" />
-                                    </div> --}}
+                                        <div class="h-12 w-12 inline-block"><img
+                                                src="{{ $siswa->fotoProfile == null ? asset('assets/images/profile/user-3.jpg') : asset('file/profile/' . $siswa->fotoProfile) }}"
+                                                alt="" class="rounded-full w-100"></div>
                                         <div class="flex flex-col gap-1 text-gray-500">
-                                            <h3 class="font-bold">{{ $siswa->name }}</h3>
-                                            <span class="font-normal">{{ $siswa->role }}</span>
+                                            <h3 class="font-bold">{{ $siswa->name }}
+                                            </h3>
+                                            <span class="font-normal">{{ $siswa->NoUnik }}</span>
                                         </div>
                                     </div>
                                 </td>
@@ -52,6 +54,25 @@
                                 <td class="p-4">
                                     <span
                                         class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">{{ $siswa->skor->sum('skor') }}</span>
+                                </td>
+                                <td class="p-4">
+                                    @if (Auth::user()->role == 'sekertaris')
+                                        <button
+                                            onclick="modaledit({{ $siswa->id }}, '{{ $siswa->name }}', {{ $siswa->NoUnik }})"
+                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                                class="bi bi-pencil"></i></button>
+                                    @else
+                                        <button
+                                            onclick="Swal.fire({
+                                            title: 'info',
+                                            text: 'Hanya Sekertaris Yang Bisa Mengubah Data',
+                                            icon: 'info',
+                                            confirmButtonText: 'ok',
+                                            confirmButtonColor: '#3085d6',
+                                        })"
+                                            class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white"><i
+                                                class="bi bi-pencil"></i></button>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -74,7 +95,7 @@
                         </thead>
                         <tbody id="dataTableguru">
                             @foreach ($belumAbsen as $tanpaketerangan)
-                                <tr>
+                                <tr class="{{ $tanpaketerangan->role == 'guru' ? 'hidden' : ''}}">
                                     <td class="p-4 text-sm">
                                         <div class="flex gap-6 items-center">
                                             {{-- <div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-1.jpg"
@@ -171,7 +192,8 @@
         <div class="card-body p-6">
 
             <div class="flex gap-4">
-                <button class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded" onclick="dibeli()">
+                <button class="bg-teal-500 hover:bg-teal-700 text-white font-bold py-2 px-4 rounded"
+                    onclick="dibeli()">
                     Materi di beli
                 </button>
                 <button class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 rounded"

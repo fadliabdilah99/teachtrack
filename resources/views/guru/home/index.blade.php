@@ -14,14 +14,18 @@
                 <!-- Konten Utama -->
                 <div>
                     <h4 class="text-lg font-bold tracking-wide">Jadwal Sekarang</h4>
-                    <p class="text-lg mt-2 leading-relaxed">
-                        {{ $jadwal->rombel->kelas . '-' . $jadwal->rombel->jurusan->jurusan . ' ' . $jadwal->rombel->jurusan->no }}
-                        <br>
-                        Dari jam <span class="font-semibold">{{ $jamAwal }}</span> -
-                        <span class="font-semibold">{{ $jamAkhir }}</span>
-                        <br>
-                        Pelajaran: <span class="font-semibold">{{ $jadwal->guruMapel->mapel->pelajaran }}</span>
-                    </p>
+                    @if ($jadwal == null)
+                       <p>Tidak ada jadwal saat ini</p>
+                    @else
+                        <p class="text-lg mt-2 leading-relaxed">
+                            {{ $jadwal->rombel->kelas . '-' . $jadwal->rombel->jurusan->jurusan . ' ' . $jadwal->rombel->jurusan->no }}
+                            <br>
+                            Dari jam <span class="font-semibold">{{ $jamAwal }}</span> -
+                            <span class="font-semibold">{{ $jamAkhir }}</span>
+                            <br>
+                            Pelajaran: <span class="font-semibold">{{ $jadwal->guruMapel->mapel->pelajaran }}</span>
+                        </p>
+                    @endif
                 </div>
 
                 <!-- Ikon -->
@@ -80,108 +84,107 @@
             <div class="card-body">
                 <h4 class="text-gray-500 text-lg font-semibold mb-5">Jadwal Hari ini</h4>
                 <ul class="timeline-widget relative">
-                    @foreach ($jadwals as $jadwalHari)
-                        <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
-                            <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">Jam -
-                                {{ $jadwalHari->dari }} - {{ $jadwalHari->sampai }}
-                            </div>
-                            <div class="timeline-badge-wrap flex flex-col items-center">
-                                <div
-                                    class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-600 my-[10px]">
+                    @if ($jadwals->isEmpty())
+                        <li class="text-gray-500">Tidak ada jadwal untuk hari ini.</li>
+                    @else
+                        @foreach ($jadwals as $jadwalHari)
+                            <li class="timeline-item flex relative overflow-hidden min-h-[70px]">
+                                <div class="timeline-time text-gray-500 text-sm min-w-[90px] py-[6px] pr-4 text-end">Jam -
+                                    {{ $jadwalHari->dari }} - {{ $jadwalHari->sampai }}
                                 </div>
-                                <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
-                            </div>
-                            <div class="timeline-desc py-[6px] px-4">
-                                <p class="text-gray-500 text-sm font-normal">
-                                    {{ $jadwalHari->guruMapel->mapel->pelajaran . ' - ' . $jadwalHari->rombel->kelas . '-' . $jadwalHari->rombel->jurusan->jurusan . ' ' . $jadwalHari->rombel->jurusan->no }}
-                                </p>
-                            </div>
-                        </li>
-                    @endforeach
+                                <div class="timeline-badge-wrap flex flex-col items-center">
+                                    <div
+                                        class="timeline-badge w-3 h-3 rounded-full shrink-0 bg-transparent border-2 border-blue-600 my-[10px]">
+                                    </div>
+                                    <div class="timeline-badge-border block h-full w-[1px] bg-gray-100"></div>
+                                </div>
+                                <div class="timeline-desc py-[6px] px-4">
+                                    <p class="text-gray-500 text-sm font-normal">
+                                        {{ $jadwalHari->guruMapel?->mapel?->pelajaran . ' - ' . $jadwalHari->rombel?->kelas . '-' . $jadwalHari->rombel?->jurusan?->jurusan . ' ' . $jadwalHari->rombel?->jurusan?->no }}
+                                    </p>
+                                </div>
+                            </li>
+                        @endforeach
+                    @endif
                 </ul>
             </div>
         </div>
         <div class="col-span-2">
             <div class="card h-full">
                 <div class="card-body">
-                    <div class="flex">
+                    @if ($jadwal)
                         <h4 class="text-gray-500 text-lg font-semibold mb-5">Siswa
-                            {{ $jadwal->rombel->kelas . '-' . $jadwal->rombel->jurusan->jurusan . ' ' . $jadwal->rombel->jurusan->no }}
+                            {{ $jadwal->rombel?->kelas . '-' . $jadwal->rombel?->jurusan?->jurusan . ' ' . $jadwal->rombel?->jurusan?->no }}
                         </h4>
-                        <div class="hs-dropdown relative inline-flex [--placement:bottom-left] sm:[--trigger:hover]">
-                            <a class="relative hs-dropdown-toggle inline-flex  text-gray-500" href="#">
-                                <i class="bi bi-info-circle px-2"></i>
-                                <h1></h1>
-                            </a>
-                            <div class="card hs-dropdown-menu transition-[opacity,margin] rounded-md duration hs-dropdown-open:opacity-100 opacity-0 mt-2 min-w-max w-[300px] hidden z-[12]"
-                                aria-labelledby="hs-dropdown-custom-icon-trigger">
-                                <div>
-                                    <h3 class="text-gray-500 font-semibold text-base px-6 py-3">
-                                        Informasi kelas jadwal sekarang</h3>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    @else
+                        <h4 class="text-gray-500 text-lg font-semibold mb-5">Tidak ada siswa karena tidak ada jadwal saat
+                            ini.</h4>
+                    @endif
 
-                    <div class="relative overflow-x-auto">
-                        <!-- table -->
-                        <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
-                            <thead>
-                                <tr class="text-sm">
-                                    <th scope="col" class="p-4 font-semibold">Profile</th>
-                                    <th scope="col" class="p-4 font-semibold">Nis</th>
-                                    <th scope="col" class="p-4 font-semibold">Status</th>
-                                    <th scope="col" class="p-4 font-semibold">aksi</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @foreach ($jadwal->rombel->user as $siswa)
-                                    <tr>
-                                        <td class="p-4 text-sm">
-                                            <div class="flex gap-6 items-center">
-                                                <div class="h-12 w-12 inline-block"><img
-                                                        src="{{ $siswa->fotoProfile == null ? asset('assets/images/profile/user-3.jpg') : asset('file/profile/' . $siswa->fotoProfile) }}" alt=""
-                                                        class="rounded-full w-100"></div>
-                                                <div class="flex flex-col gap-1 text-gray-500">
-                                                    <h3 class="font-bold">{{$siswa->name}}
-                                                        <span class="{{$siswa->skor->sum('skor') >= 0 ? 'bg-green-500' : 'bg-red-500'}} rounded-full px-2 py-1 text-white text-xs font-semibold ml-2">{{$siswa->skor->sum('skor')}}</span>
-                                                    </h3>
-                                                    <span class="font-normal">{{$siswa->role}}</span>
-                                                </div>
-                                            </div>
-                                        </td>
-                                        <td class="p-4">
-                                            <h3 class="font-medium">{{$siswa->NoUnik}}</h3>
-                                        </td>
-                                        <td class="p-4">
-                                            <h3 class="font-medium ">
-                                                {{ $siswa->absen->where('status', 'hadir')->whereBetween('created_at', [now()->format('Y-m-d') . ' 00:00:00', now()->format('Y-m-d') . ' 23:59:59'])->count() == 0 ? 'Tidak Hadir' : 'Hadir' }}
-                                            </h3>
-                                        </td>
-                                        <td class="p-4">
-                                            <button type="button" onclick="openModalskors({{ $siswa->id }})" 
-                                                class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">Skor</button>
-                                        </td>
+                    @if ($jadwal)
+                        <div class="relative overflow-x-auto">
+                            <!-- table -->
+                            <table class="text-left w-full whitespace-nowrap text-sm text-gray-500">
+                                <thead>
+                                    <tr class="text-sm">
+                                        <th scope="col" class="p-4 font-semibold">Profile</th>
+                                        <th scope="col" class="p-4 font-semibold">Nis</th>
+                                        <th scope="col" class="p-4 font-semibold">Status</th>
+                                        <th scope="col" class="p-4 font-semibold">Aksi</th>
                                     </tr>
-                                @endforeach
-                            </tbody>
-                        </table>
-                    </div>
+                                </thead>
+                                <tbody>
+                                    @foreach ($jadwal->rombel->user as $siswa)
+                                        <tr>
+                                            <td class="p-4 text-sm">
+                                                <div class="flex gap-6 items-center">
+                                                    <div class="h-12 w-12 inline-block">
+                                                        <img src="{{ $siswa->fotoProfile == null ? asset('assets/images/profile/user-3.jpg') : asset('file/profile/' . $siswa->fotoProfile) }}"
+                                                            alt="" class="rounded-full w-100">
+                                                    </div>
+                                                    <div class="flex flex-col gap-1 text-gray-500">
+                                                        <h3 class="font-bold">{{ $siswa->name }}
+                                                            <span
+                                                                class="{{ $siswa->skor->sum('skor') >= 0 ? 'bg-green-500' : 'bg-red-500' }} rounded-full px-2 py-1 text-white text-xs font-semibold ml-2">{{ $siswa->skor->sum('skor') }}</span>
+                                                        </h3>
+                                                        <span class="font-normal">{{ $siswa->role }}</span>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                            <td class="p-4">
+                                                <h3 class="font-medium">{{ $siswa->NoUnik }}</h3>
+                                            </td>
+                                            <td class="p-4">
+                                                <h3 class="font-medium ">
+                                                    {{ $siswa->absen->where('status', 'hadir')->whereBetween('created_at', [now()->format('Y-m-d') . ' 00:00:00', now()->format('Y-m-d') . ' 23:59:59'])->count() == 0? 'Tidak Hadir': 'Hadir' }}
+                                                </h3>
+                                            </td>
+                                            <td class="p-4">
+                                                <button type="button" onclick="openModalskors({{ $siswa->id }})"
+                                                    class="inline-flex items-center py-2 px-4 rounded-3xl font-semibold bg-teal-400 text-white">Skor</button>
+                                            </td>
+                                        </tr>
+                                    @endforeach
+                                </tbody>
+                            </table>
+                        </div>
+                    @endif
                 </div>
             </div>
         </div>
     </div>
-    @include('guru.home.modal')
 @endsection
 
+
 @push('script')
-<script>
-    function openModalskors(id) {
-        document.getElementById('skor').classList.remove('hidden');
-        document.getElementById('user_id').value = id;
-    }
-    function closeModalskors() {
-        document.getElementById('skor').classList.add('hidden');
-    }
-</script>
+    <script>
+        function openModalskors(id) {
+            document.getElementById('skor').classList.remove('hidden');
+            document.getElementById('user_id').value = id;
+        }
+
+        function closeModalskors() {
+            document.getElementById('skor').classList.add('hidden');
+        }
+    </script>
 @endpush

@@ -50,22 +50,18 @@
 @endpush
 
 @section('content')
-
-
-
-
     <div class="min-h-screen bg-gray-100 p-6">
         <!-- Dashboard Cards -->
         <div class="grid grid-cols-3 gap-4 mb-6">
-            <div class="bg-green-500 rounded-lg p-4 flex items-center text-white">
+            <a href="{{ route('siswa-profile') }}" class="bg-blue-500 rounded-lg p-4 flex items-center text-white">
                 <i class="ti ti-layout-dashboard text-3xl mr-3"></i>
-                <span class="font-semibold text-lg">Dashboard Kelas</span>
-            </div>
-            <div class="bg-pink-400 rounded-lg p-4 flex items-center text-white">
+                <span class="font-semibold text-lg">Profile</span>
+            </a>
+            <div class="bg-blue-400 rounded-lg p-4 flex items-center text-white">
                 <i class="ti ti-trophy text-3xl mr-3"></i>
-                <span class="font-semibold text-lg">Achievement</span>
+                <span class="font-semibold text-lg">Skors History</span>
             </div>
-            <div class="bg-yellow-400 rounded-lg p-4 flex items-center text-white">
+            <div class="bg-blue-400 rounded-lg p-4 flex items-center text-white">
                 <i class="ti ti-star text-3xl mr-3"></i>
                 <div class="slider-container overflow-hidden">
                     <div class="slider-words">

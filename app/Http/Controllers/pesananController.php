@@ -39,7 +39,7 @@ class pesananController extends Controller
                 return redirect()->back()->with('error', 'pesan dari toko yang sama');
             }
         }
-        
+
         foreach ($request->cart_items as $produk) {
             $cart = cart::where('id', $produk)->first();
             $cart->update([
@@ -48,6 +48,14 @@ class pesananController extends Controller
             ]);
         }
         return redirect()->route('pesanan')->with('success', 'pesanan berhasil di checkout');
+    }
+
+    public function deleteCart(Request $request)
+    {
+        foreach ($request->cart_items as $produk) {
+            cart::where('id', $produk)->delete();
+        }
+        return redirect()->route('shop')->with('success', 'Cart di hapus');
     }
 
     public function index()
@@ -83,7 +91,8 @@ class pesananController extends Controller
         return redirect()->route('pesanan')->with('success', 'pesanan selesai');
     }
 
-    public function batalkan($id){
+    public function batalkan($id)
+    {
         $pesanan = pesanan::where('id', $id)->with('cart')->first();
         foreach ($pesanan->cart as $carts) {
             $nominal = $carts->qty * $carts->produk->harga;

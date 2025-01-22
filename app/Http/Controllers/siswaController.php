@@ -85,4 +85,21 @@ class siswaController extends Controller
         ]);
         return redirect()->back()->with('success', 'berhasil menambahkan Ketua Murid & akun Orang Tua');
     }
+
+    public function editsiswa(Request $request){
+        $request->validate([
+            'name' => 'required',
+            'NoUnik' => 'required',
+        ]);
+        User::where('id', $request->user_id)->update([
+            'name' => $request->name,
+            'NoUnik' => $request->NoUnik,
+        ]);
+
+        return redirect()->back()->with('success', 'berhasil mengedit data siswa');
+    }
+    public function profile(){
+        // dd(Auth::user());
+        return view('siswa.profile.editdata');
+    }
 }

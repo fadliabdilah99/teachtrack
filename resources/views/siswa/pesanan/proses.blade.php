@@ -153,7 +153,7 @@
                     snap.pay(data.snap_token, {
                         // Optional
                         onSuccess: function(result) {
-                            location.reload();
+                            window.location.href = "{{ route('pesanan') }}";
                         },
                         // Optional
                         onPending: function(result) {

@@ -32,13 +32,20 @@ Route::view('/', 'welcome');
 
 
 
-Route::view('profile', 'profile')
-    ->middleware(['auth'])
-    ->name('profile');
+
 
 
 // harus login terlebih dahulu
 Route::middleware('auth')->group(function () {
+    Route::get('dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
+    
+    
+    
+    Route::get('profile', function () {
+        return view('profile');
+    })->name('profile');
     // profile siswa
     Route::get('siswa/profile/{id}', [ControllersProfileController::class, 'profile'])->name('profile-siswa');
 
@@ -53,6 +60,7 @@ Route::middleware('auth')->group(function () {
     // proses pemesanan
     Route::post('add-to-cart', [pesananController::class, 'addcart'])->name('add-to-cart');
     Route::post('checkout', [pesananController::class, 'checkout'])->name('checkout');
+    Route::post('deleteCart', [pesananController::class, 'deleteCart'])->name('deleteCart');
     Route::get('pesanan', [pesananController::class, 'index'])->name('pesanan');
     Route::get('pesanan/bayar/{id}', [pesananController::class, 'bayar'])->name('bayar');
     Route::post('pesanan/refund', [pesananController::class, 'refund'])->name('refund');
@@ -100,6 +108,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 Route::group(['middleware' => ['role:guru,konseling']], function () {
     // dashboard
     Route::get('guru', [guruController::class, 'index'])->name('guru');
+    Route::get('guru/profile', [guruController::class, 'profile'])->name('guru-profile');
 
 
     // halaman materi
@@ -107,6 +116,7 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
     Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
     Route::get('guru/materi/structure/{id}', [materiController::class, 'struktur'])->name('struktur');
     Route::post('guru/materi/addstruktur', [materiController::class, 'addstruktur'])->name('addstruktur');
+    Route::delete('guru/materi/deletemateri/{id}', [materiController::class, 'deletemateri'])->name('deletemateri');
 
     // ujian controller
     Route::get('guru/materi/ujian/{id}', [ujianController::class, 'struktur'])->name('struktur');
@@ -142,6 +152,7 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
 Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     // dashboard
     Route::get('siswa', [siswaController::class, 'index'])->name('siswa');
+    Route::get('siswa/profile', [siswaController::class, 'profile'])->name('siswa-profile');
 
     // mail
     Route::get('siswa/mail', [mailController::class, 'mailSiswa'])->name('mailsiswa');
@@ -150,7 +161,8 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
     Route::get('siswa/kelas', [kelasController::class, 'index'])->name('kelas');
     Route::get('siswa/kelas/structure/{id}', [materiController::class, 'strukturMapel'])->name('strukturrombel');
     Route::post('siswa/kelas/structure/done', [materiController::class, 'done'])->name('paham');
-    Route::post('addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
+    Route::post('siswa/kelas/addsiswa', [siswaController::class, 'addsiswa'])->name('addsiswa');
+    Route::post('siswa/kelas/editsiswa', [siswaController::class, 'editsiswa'])->name('editsiswa');
 
     // ujian
     Route::get('siswa/kelas/ujian/{id}', [ujianController::class, 'ujian'])->name('ujian');
@@ -179,7 +191,7 @@ Route::group(['middleware' => ['role:siswa,KM,sekertaris']], function () {
 
     // absensi
     Route::post('siswa/absensi', [absensiController::class, 'absensi'])->name('absensiSekertaris');
-    
+
     // walleet
     Route::get('siswa/wallet', [walletController::class, 'index'])->name('wallet');
 });
