@@ -15,7 +15,7 @@
         <div class="flex items-center mt-2 text-pink-500 font-semibold">
             <i class="ti ti-flame mr-1 text-xs"></i> {{ Auth::user()->skor->sum('skor') }} Exp <span
                 class="text-black text-xs">
-                {{ Auth::user()->skor->sortByDesc('created_at')->first()->skor }}
+                {{ Auth::user()->skor->sortByDesc('created_at')->first()->skor ?? 0 }}
             </span>
         </div>
     </div>

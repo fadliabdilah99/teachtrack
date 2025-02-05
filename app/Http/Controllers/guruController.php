@@ -67,6 +67,7 @@ class guruController extends Controller
         $request->validate([
             'name' => 'required',
             'NoUnik' => 'required',
+            'role' => 'required',
         ]);
 
 
@@ -75,11 +76,13 @@ class guruController extends Controller
                 'name' => $request->name,
                 'rombel_id' => $request->rombel,
                 'NoUnik' => $request->NoUnik,
-                'role' => 'guru',
+                'role' => $request->role,
                 'password' => Hash::make('*' . $request->NoUnik),
                 'email' => $request->NoUnik . '@gmail.com',
             ]
         );
+
+        return redirect()->back()->with('success', 'berhasil ditambahkan');
     }
 
     public function addmapel(Request $request)

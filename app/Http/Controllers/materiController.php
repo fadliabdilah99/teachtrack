@@ -105,7 +105,7 @@ class materiController extends Controller
             'judul' => $request->judul,
             'subjudul' => $request->subjudul,
             'artikel' => $request->artikel,
-            'file' => $request->file,
+            'file' => $fileName,
         ]);
 
         // mengambil data user yang memiliki rombel yang sama dengan rombel mapel
@@ -126,8 +126,39 @@ class materiController extends Controller
         return redirect()->back()->with('success', 'materi struktur berhasil ditambahkan');
     }
 
+    public function editstruktur(Request $request)
+    {
+        $request->validate([
+            'id' => 'required',
+            'judul' => 'required',
+            'subjudul' => 'required',
+            'artikel' => 'required',
+            'file' => 'mimes:pdf,doc,docx,ppt,pptx,jpg,png,mp4',
+        ]);
 
+        $materi = materiStrukture::where('id', $request->id)->first();
+        // dd($materi);
 
+        if (file_exists(public_path('file/' . $materi->file))) {
+            unlink(public_path('file/' . $materi->file));
+        }
+
+        if ($request->hasFile('file')) {
+            $file = $request->file('file');
+            $fileName = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('file'), $fileName);
+            $request->merge(['file' => $fileName]);
+        }
+
+        $materi->update([
+            'judul' => $request->judul,
+            'subjudul' => $request->subjudul,
+            'artikel' => $request->artikel,
+            'file' => $fileName,
+        ]);
+
+        return redirect()->back()->with('success', 'materi struktur berhasil diperbarui');
+    }
     public function strukturMapel($id)
     {
         if (!(materi_rombel::where('materi_guru_id', $id)->where('rombel_id', Auth::user()->rombel_id)->exists() || buyMateri::where(['materi_guru_id' => $id, 'user_id' => Auth::user()->id])->exists())) {

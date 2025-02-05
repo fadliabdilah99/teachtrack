@@ -20,7 +20,7 @@ class userController extends Controller
     {
         $user = User::with(['rombel', 'siswa', 'mapel'])->get();
         $data['jurusan'] = jurusan::get();
-        $data['guru'] = $user->where('role', 'guru');
+        $data['guru'] = user::where('role', '=', 'guru')->orWhere('role', 'konseling')->get();
         $data['murid'] = $user->where('role', 'KM');
         $data['total'] = $user->groupBy('rombel_id')->map->count();
         $data['orangtua'] = $user->where('role', 'ortu');

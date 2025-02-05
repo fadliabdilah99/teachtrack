@@ -18,8 +18,8 @@ class kelasController extends Controller
     public function index()
     {
         $hari = ['Minggu', 'Senin', 'Selasa', 'Rabu', 'Kamis', 'Jumat', 'Sabtu'];
-        $data['hari_ini'] = $hari[Carbon::now()->format('w')];
-        // $data['hari_ini'] = 'Jumat';
+        // $data['hari_ini'] = $hari[Carbon::now()->format('w')];
+        $data['hari_ini'] = 'Senin';
 
         $data['kelas'] = rombel::where('id', Auth::user()->rombel_id)->with('jurusan')->first();
         $data['siswas'] = User::whereIn('role', ['siswa', 'KM', 'sekertaris'])->where('rombel_id', $data['kelas']->id)->get();

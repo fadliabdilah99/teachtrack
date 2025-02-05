@@ -95,7 +95,7 @@
                         </thead>
                         <tbody id="dataTableguru">
                             @foreach ($belumAbsen as $tanpaketerangan)
-                                <tr class="{{ $tanpaketerangan->role == 'guru' ? 'hidden' : ''}}">
+                                <tr class="{{ $tanpaketerangan->role == 'guru' ? 'hidden' : '' }}">
                                     <td class="p-4 text-sm">
                                         <div class="flex gap-6 items-center">
                                             {{-- <div class="h-12 w-12 inline-block"><img src="./assets/images/profile/user-1.jpg"
@@ -169,6 +169,7 @@
                                         $link = 'strukturrombel';
                                     }
                                 @endphp
+                                {{-- @dd($link) --}}
 
                                 <div class="border-t border-gray-200 p-4 flex justify-between items-center">
                                     <a href="{{ route($link, $materi->id) }}"
@@ -281,9 +282,17 @@
                                     <span class="ml-1 text-gray-500">(0) Penilaian</span>
                                 </div>
 
+                                @php
+                                    if ($alls->materi->jenis == 'ujian(fixed)') {
+                                        $link2 = 'ujian';
+                                    } elseif ($alls->materi->jenis == 'materi') {
+                                        $link2 = 'strukturrombel';
+                                    }
+                                @endphp
+
 
                                 <div class="border-t border-gray-200 p-4 flex justify-between items-center">
-                                    <a href="{{ route($link, $alls->materi->id) }}"
+                                    <a href="{{ route($link2, $alls->materi->id) }}"
                                         class="bg-teal-500 text-white px-4 py-2 rounded-md">
                                         <i class="bi bi-book"></i>
                                     </a>

@@ -4,6 +4,7 @@ use App\Http\Controllers\absensiController;
 use App\Http\Controllers\adminController;
 use App\Http\Controllers\diskusiController;
 use App\Http\Controllers\guruController;
+use App\Http\Controllers\jurusanController;
 use App\Http\Controllers\kelasController;
 use App\Http\Controllers\mailController;
 use App\Http\Controllers\mapelController;
@@ -92,6 +93,7 @@ Route::group(['middleware' => ['role:admin']], function () {
 
     // rombel
     Route::post('admin/addrombel', [rombelController::class, 'mapelRombel'])->name('addrombelmapel');
+    Route::delete('admin/delete/{id}', [rombelController::class, 'deleteJadwal'])->name('delete-jadwal');
 
     // pengajuan akun seller
     Route::post('admin/seller/konfir', [userController::class, 'konfirseller'])->name('konfirmasi');
@@ -101,6 +103,10 @@ Route::group(['middleware' => ['role:admin']], function () {
     Route::get('admin/mapel', [mapelController::class, 'index'])->name('mapel');
     Route::post('admin/addmapel', [mapelController::class, 'create'])->name('addmapel');
     Route::post('admin/addpengajar', [guruController::class, 'addmapel'])->name('addpengajar');
+
+    // jurusan
+    Route::get('admin/jurusan', [jurusanController::class, 'index'])->name('admin-jurusan');
+    Route::post('admin/jurusan', [jurusanController::class, 'create'])->name('add-jurusan');
 });
 
 
@@ -116,6 +122,7 @@ Route::group(['middleware' => ['role:guru,konseling']], function () {
     Route::post('guru/addmateri', [materiController::class, 'create'])->name('addmateri');
     Route::get('guru/materi/structure/{id}', [materiController::class, 'struktur'])->name('struktur');
     Route::post('guru/materi/addstruktur', [materiController::class, 'addstruktur'])->name('addstruktur');
+    Route::post('guru/materi/edit', [materiController::class, 'editstruktur'])->name('editstruktur');
     Route::delete('guru/materi/deletemateri/{id}', [materiController::class, 'deletemateri'])->name('deletemateri');
 
     // ujian controller

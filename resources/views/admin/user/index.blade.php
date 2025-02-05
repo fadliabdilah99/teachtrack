@@ -17,7 +17,7 @@
         <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">
             <!-- Header Modal -->
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">Tambah Jadwal Ke Kelas</h2>
+                <h2 class="text-xl font-bold">Tambah Ketua Kelas</h2>
                 <button onclick="closeModalsiswa()" class="text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
@@ -57,7 +57,7 @@
                         </div>
                         <!-- Footer Modal -->
                         <div class="flex justify-end">
-                            <button onclick="closeModalsiswa()"
+                            <button onclick="closeModalsiswa()" type="button"
                                 class="bg-gray-300 hover:bg-gray-400 text-gray-800 px-4 py-2 rounded mr-2">Cancel</button>
                             <button class="btn text-base py-2.5 text-white font-medium w-fit hover:bg-blue-700"
                                 type="submit">Confirm</button>
@@ -73,7 +73,7 @@
         <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6">
             <!-- Header Modal -->
             <div class="flex justify-between items-center mb-4">
-                <h2 class="text-xl font-bold">tambah guru</h2>
+                <h2 class="text-xl font-bold">Tambah Guru</h2>
                 <button onclick="closeModalguru()" class="text-gray-400 hover:text-gray-600">&times;</button>
             </div>
 
@@ -94,11 +94,19 @@
                 <div class="mb-6">
                     <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Wali Kelas</label>
                     <select id="country" name="rombel" autocomplete="country-name"
-                        class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
-                        <option value="">Tidak ada</option>
-                        @foreach ($jurusan as $rombels)
-                            <option value="{{ $rombels->id }}">{{ $rombels->jurusan }}-{{ $rombels->no }}</option>
-                        @endforeach
+                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
+                    <option value="">Tidak ada</option>
+                    @foreach ($jurusan as $rombels)
+                    <option value="{{ $rombels->id }}">{{ $rombels->jurusan }}-{{ $rombels->no }}</option>
+                    @endforeach
+                </select>
+                </div>
+                <div class="mb-6">
+                    <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Role</label>
+                    <select id="country" name="role" autocomplete="country-name"
+                    class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
+                        <option value="guru">Guru</option>
+                        <option value="konseling">konseling</option>
                     </select>
                 </div>
                 <!-- Footer Modal -->
@@ -122,7 +130,7 @@
             <div class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/3 p-6 max-h-[90vh] overflow-y-auto">
                 <!-- Header Modal -->
                 <div class="flex justify-between items-center mb-4">
-                    <h2 class="text-xl font-semibold">Jadwal untuk Rombel: {{ $rombel->nama_rombel }}</h2>
+                    <h2 class="text-xl font-semibold">Jadwal untuk Rombel: {{ $rombel->kelas ?? '' }}-{{ $rombel->jurusan?->jurusan ?? '' }}-{{ $rombel->jurusan?->no ?? '' }} </h2>
                     <!-- Nama Rombel -->
                     <button onclick="closeModaljadwal({{ $rombel->id }})"
                         class="text-gray-400 hover:text-gray-600">&times;</button>
@@ -154,6 +162,13 @@
                                                 {{ $jadwal->guruMapel->mapel->pelajaran }} -
                                                 {{ $jadwal->guruMapel->user->name }}
                                             </a>
+                                            <form action="{{ route('delete-jadwal', $jadwal->id) }}" method="POST" onsubmit="return confirm('Jadwal akan di hapus dari jam');">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="text-red-600">
+                                                    Delete 
+                                                </button>
+                                            </form>
                                         </div>
                                     </li>
                                 @endforeach

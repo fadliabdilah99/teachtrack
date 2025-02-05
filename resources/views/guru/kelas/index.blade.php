@@ -52,7 +52,7 @@
                                     </div>
                                 </td>
                                 <td class="p-4">
-                                    <button onclick="modalmateri({{ $jadwals->id }}, {{ $jadwals->rombel->id }}, )"
+                                    <button onclick="modalmateri({{ $jadwals->id }}, {{ $jadwals->rombel->id }})"
                                         class="inline-flex items-center justify-center w-10 h-10 rounded-full bg-teal-400 text-white"><i
                                             class="bi bi-plus font-bold "></i></button>
                                     <button onclick="modallist({{ $jadwals->id }})"
@@ -152,8 +152,8 @@
         // add materi ke rombel
         function modalmateri(kelasID, rombelID) {
             document.getElementById(`addmateri${kelasID}`).classList.remove("hidden");
-            document.getElementById('rombel_mapel_guru_id').value = kelasID;
-            document.getElementById('rombel_id').value = rombelID;
+            document.getElementById(`rombel_mapel_guru_id${kelasID}`).value = kelasID;
+            document.getElementById(`rombel_id${kelasID}`).value = rombelID;
         }
 
         function closeModallist(id) {

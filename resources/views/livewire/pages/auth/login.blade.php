@@ -13,7 +13,11 @@ new #[Layout('layouts.guest')] class extends Component {
      */
     public function login(): void
     {
-        $this->validate();
+        
+        // $this->validate();
+
+        // Append '@gmail.com' to the username provided in the form
+        $this->form->email = $this->form->email . '@gmail.com';
 
         $this->form->authenticate();
 
@@ -21,13 +25,13 @@ new #[Layout('layouts.guest')] class extends Component {
 
         $user = Auth::user();
 
-        if (Auth::user()->role == 'admin') {
+        if ($user->role == 'admin') {
             $this->redirect(route('admin'), navigate: true);
-        } elseif (Auth::user()->role === 'siswa' || Auth::user()->role === 'KM' || Auth::user()->role === 'sekertaris') {
+        } elseif ($user->role === 'siswa' || $user->role === 'KM' || $user->role === 'sekertaris') {
             $this->redirect(route('siswa'), navigate: true);
-        } elseif (Auth::user()->role === 'guru' || Auth::user()->role == 'konseling') {
+        } elseif ($user->role === 'guru' || $user->role == 'konseling') {
             $this->redirect(route('guru'), navigate: true);
-        } elseif (Auth::user()->role === 'penjual') {
+        } elseif ($user->role === 'penjual') {
             $this->redirect(route('seller'), navigate: true);
         } else {
             // $this->redirectIntended(default: route('dashboard', absolute: false), navigate: true);
@@ -48,10 +52,10 @@ new #[Layout('layouts.guest')] class extends Component {
             <!-- Email -->
             <div class="mt-4">
                 <label class="block mb-2 text-sm font-medium text-gray-600 light:text-gray-200"
-                    for="LoggingEmailAddress">Email Address</label>
+                    for="LoggingEmailAddress">No Unik</label>
                 <input wire:model="form.email" id="LoggingEmailAddress"
                     class="block w-full px-4 py-2 text-gray-700 bg-white border rounded-lg light:bg-gray-800 light:text-gray-300 light:border-gray-600 focus:border-blue-400 focus:ring-opacity-40 light:focus:border-blue-300 focus:outline-none focus:ring focus:ring-blue-300"
-                    type="email" />
+                    type="text" />
                 <x-input-error :messages="$errors->get('form.email')" class="mt-2" />
             </div>
 

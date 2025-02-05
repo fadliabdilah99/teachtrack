@@ -173,9 +173,78 @@
                                                 diunduh.</p>
                                         @endif
                                     </div>
-
+                                    @if (Auth::user()->role == 'guru')
+                                        <button onclick="editmateri({{ $materis->id }})"
+                                            class="btn items-center justify-center mt-5 bg-teal-400 text-white">Edit
+                                            Materi</button>
+                                    @endif
                                 </section>
                             </div>
+
+                            @if (Auth::user()->role == 'guru')
+                                {{-- modal edit materi --}}
+                                <div id="editmateri{{ $materis->id }}"
+                                    class="fixed inset-0 flex items-center justify-center bg-black bg-opacity-50 hidden overflow-y-scroll">
+                                    <div
+                                        class="bg-white rounded-lg shadow-lg w-11/12 md:w-1/2 lg:w-1/2 p-6 overflow-y-auto max-h-full">
+                                        <!-- Header Modal -->
+                                        <div class="flex justify-between items-center mb-4">
+                                            <h2 class="text-xl font-bold">Edit Materi</h2>
+                                            <button onclick="closeModalmateri({{ $materi->id }})"
+                                                class="text-gray-400 hover:text-gray-600">&times;</button>
+                                        </div>
+
+                                        <div class="card">
+                                            <div class="card-body">
+                                                <form action="{{ url('guru/materi/edit') }}" method="POST"
+                                                    enctype="multipart/form-data">
+                                                    @csrf
+                                                    <input type="number" name="id" value="{{ $materis->id }}"
+                                                        hidden>
+                                                    <!-- Input Judul -->
+                                                    <label for="judul"
+                                                        class="block text-gray-700 font-medium mb-2">Judul
+                                                        Materi:</label>
+                                                    <input type="text" id="judul" name="judul"
+                                                        value="{{ $materis->judul }}"
+                                                        class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                                        placeholder="Masukkan judul materi" required />
+
+                                                    <!-- Input Subjudul -->
+                                                    <label for="subjudul"
+                                                        class="block text-gray-700 font-medium mb-2">Subjudul/Deskripsi</label>
+                                                    <input type="text" id="subjudul" name="subjudul"
+                                                        value="{{ $materis->subjudul }}"
+                                                        class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                                        placeholder="Masukkan Deskripsi" required />
+
+                                                    <!-- Textarea sebagai teks editor sederhana -->
+                                                    <label for="materi"
+                                                        class="block text-gray-700 font-medium mb-2">Deskripsi
+                                                        Materi:</label>
+                                                    <textarea id="materi" name="artikel"
+                                                        class="w-full h-48 px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200 resize-none mb-4"
+                                                        placeholder="Tulis deskripsi materi di sini...">{{ $materis->artikel }}</textarea>
+
+                                                    <!-- Input untuk Upload File -->
+                                                    <label for="file"
+                                                        class="block text-gray-700 font-medium mb-2">Upload File
+                                                        (opsional):</label>
+                                                    <input type="file" id="file" name="file"
+                                                        class="w-full px-4 py-2 mb-4 border border-gray-300 rounded-lg focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-200"
+                                                        accept=".pdf,.doc,.docx,.ppt,.pptx,.jpg,.png,.mp4" />
+
+                                                    <!-- Tombol submit -->
+                                                    <button type="submit"
+                                                        class="mt-4 w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3 rounded-lg focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                                        Simpan Materi
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            @endif
                         @endforeach
 
                     </div>
@@ -241,6 +310,16 @@
         </script>
     @endif
 
+
+    <script>
+        function editmateri(id) {
+            document.getElementById('editmateri' + id).classList.remove('hidden');
+        }
+
+        function closeModalmateri(id) {
+            document.getElementById('editmateri' + id).classList.add('hidden');
+        }
+    </script>
 </body>
 
 </html>

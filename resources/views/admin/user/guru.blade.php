@@ -28,7 +28,7 @@
                                     <div class="flex flex-col gap-1 text-gray-500">
                                         <h3 class="font-bold">{{ $gurus->name }}</h3>
                                         <span class="font-normal">
-                                            @if ($gurus->rombel_id != null)
+                                            @if ($gurus->rombel_id != null && $gurus->rombel != null)
                                                 {{ $gurus->rombel->kelas }}-{{ $gurus->rombel->jurusan->jurusan }}-{{$gurus->rombel->jurusan->no}}
                                             @endif
                                         </span>

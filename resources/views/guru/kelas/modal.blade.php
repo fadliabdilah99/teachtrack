@@ -13,8 +13,8 @@
                 <div class="card-body">
                     <form id="addmaterirombel" action="{{ route('addmaterirombel') }}" method="POST">
                         @csrf
-                        <input type="number" name="rombel_mapel_guru_id" id="rombel_mapel_guru_id" hidden>
-                        <input type="number" name="rombel_id" id="rombel_id" hidden>
+                        <input type="number" name="rombel_mapel_guru_id" id="rombel_mapel_guru_id{{$list->id}}" hidden>
+                        <input type="number" name="rombel_id" id="rombel_id{{$list->id}}" hidden>
                         <div class="mb-6">
                             <label for="input-label-with-helper-text"
                                 class="block text-sm mb-2 text-gray-400">Jenis</label>

@@ -28,6 +28,17 @@ class rombelController extends Controller
             'hari' => 'required|string',
         ]);
 
+        $existingSchedule = rombel_mapel_guru::where('guru_mapel_id', $request->mapel_id)
+            ->where('hari', $request->hari)
+            ->where(function ($query) use ($request) {
+                $query->whereBetween('dari', [$request->dari, $request->sampai])
+                      ->orWhereBetween('sampai', [$request->dari, $request->sampai]);
+            })
+            ->first();
+
+        if ($existingSchedule) {
+            return redirect()->back()->with('error', 'Guru tersebut sudah memiliki jadwal di kelas lain pada jam yang sama');
+        }
         $mapel = rombel_mapel_guru::where('rombel_id', $request->rombel_id)->where('hari', $request->hari)->first();
         if ($mapel != null && $mapel->dari >= $request->dari && $mapel->sampai <= $request->sampai) {
             return redirect()->back()->with('error', 'Jam tersebut sudah terisi oleh mapel lain');
@@ -117,4 +128,11 @@ class rombelController extends Controller
         materi_rombel::create($request->all());
         return redirect()->back()->with('success', 'materi berhasil ditambahkan');
     }
+
+    public function deleteJadwal($id){
+        rombel_mapel_guru::where('id', $id)->delete();
+        return redirect()->back()->with('success', 'jadwal berhasil dihapus');
+    }
+
+
 }

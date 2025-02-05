@@ -70,16 +70,19 @@
             Swal.fire({
                 title: "Berhasil!",
                 text: "{{ $message }}",
-                icon: "success"
+                icon: "success",
+                confirmButtonColor: "#3e8ef7"
             });
         </script>
     @endif
+    
     @if ($message = Session::get('error'))
         <script>
             Swal.fire({
                 title: "gagal!",
                 text: "{{ $message }}",
-                icon: "error"
+                icon: "error",
+                confirmButtonColor: "#ed2f2f"
             });
         </script>
     @endif
@@ -89,7 +92,8 @@
             Swal.fire({
                 title: "Errors!",
                 text: "{{ $message }}",
-                icon: "error"
+                icon: "error",
+                confirmButtonColor: "#ed2f2f"
             });
         </script>
     @endif
@@ -99,6 +103,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 html: '<ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+                confirmButtonColor: "#ed2f2f"
             });
         </script>
     @endif
