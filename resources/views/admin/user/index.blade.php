@@ -47,7 +47,7 @@
                             </select>
                         </div>
                         <div class="mb-6">
-                            <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">kelas</label>
+                            <label for="input-label-with-helper-text" class="block text-sm mb-2 text-gray-400">Jurusan</label>
                             <select id="country" name="rombel" autocomplete="country-name"
                                 class="py-3 px-4 text-gray-500 block w-full border-gray-200 rounded-sm text-sm focus:border-blue-600 focus:ring-0">
                                 @foreach ($jurusan as $rombels)

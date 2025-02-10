@@ -7,6 +7,7 @@ use App\Models\skor;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Log;
 
 class absensiController extends Controller
@@ -15,7 +16,6 @@ class absensiController extends Controller
     // api
     public function store(Request $request)
     {
-        // Debug: Menampilkan data request yang diterima
         Log::info($request->all());
 
         // Validasi data
@@ -23,11 +23,36 @@ class absensiController extends Controller
             'user_id' => 'required',
             'latitude' => 'required',
             'longitude' => 'required',
-            'foto' => 'required',
+            // 'foto' => 'required',
         ]);
 
         try {
-            // Debug: Cek apakah foto tersedia
+            $latitudeCenter = -6.826727;
+            $longitudeCenter = 107.136935;
+            $maxDistance = 500; // Maksimal jarak dalam meter
+
+            $distance = DB::select("SELECT (6371000 * ACOS(COS(RADIANS(?)) * COS(RADIANS(?)) * COS(RADIANS(?) - RADIANS(?)) + SIN(RADIANS(?)) * SIN(RADIANS(?)))) AS distance", [
+                $latitudeCenter,
+                $validated['latitude'],
+                $longitudeCenter,
+                $validated['longitude'],
+                $latitudeCenter,
+                $validated['latitude']
+            ]);
+
+            $actualDistance = $distance[0]->distance; // Ambil hasil jarak dalam meter
+
+            Log::info("Jarak user: " . $actualDistance . " meter");
+
+            // Jika jarak lebih dari 500 meter, tolak absen
+            if ($actualDistance > $maxDistance) {
+                return response()->json([
+                    'status' => 'error',
+                    'message' => 'Anda berada di luar jangkauan absen (lebih dari 500m)',
+                    'distance' => $actualDistance . ' meter'
+                ], 400);
+            }
+
             Log::info('Foto tersedia: ' . $request->hasFile('foto'));
 
             if ($request->hasFile('foto')) {
@@ -51,25 +76,28 @@ class absensiController extends Controller
                 'foto' => $fotoPath,
             ]);
 
-            if ($absensi->created_at->format('H:i:s') >= '06:00:00' && $absensi->created_at->format('H:i:s') < '06:40:00') {
+            // Hitung skor berdasarkan waktu masuk
+            $waktuMasuk = $absensi->created_at->format('H:i:s');
+            if ($waktuMasuk >= '06:00:00' && $waktuMasuk < '06:40:00') {
                 $skor = 5;
-            } elseif ($absensi->created_at->format('H:i:s') >= '06:40:00' && $absensi->created_at->format('H:i:s') < '07:00:00') {
+            } elseif ($waktuMasuk >= '06:40:00' && $waktuMasuk < '07:00:00') {
                 $skor = 3;
-            } elseif ($absensi->created_at->format('H:i:s') <= '07:00:00') {
+            } elseif ($waktuMasuk <= '07:00:00') {
                 $skor = 1;
             } else {
                 $skor = -5;
             }
 
-            skor::create([
+            // Simpan skor
+            Skor::create([
                 'user_id' => $validated['user_id'],
                 'skor' => $skor,
             ]);
 
-
             return response()->json([
                 'message' => 'Absensi berhasil disimpan!',
                 'data' => $absensi,
+                'distance' => $actualDistance . ' meter'
             ], 201);
         } catch (\Exception $e) {
             Log::error('Error menyimpan absensi: ' . $e->getMessage());

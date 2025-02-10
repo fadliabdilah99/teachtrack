@@ -41,7 +41,7 @@ new #[Layout('layouts.guest')] class extends Component {
 <div class="fixed inset-0 flex items-center justify-center bg-gray-700 bg-opacity-50 light:bg-opacity-80">
     <div class="w-full max-w-md p-6 mx-auto bg-white rounded-lg shadow-lg light:bg-gray-800">
         <div class="flex items-center justify-center">
-            <img class="h-20 w-100" src="{{ asset('assets/images/logos/TEACHTRACK.png') }}" >
+            <img class="h-10 w-70" src="{{ asset('assets/TEACHTRACK.png') }}" >
         </div>
 
         <p class=" text-xl text-center text-gray-600 light:text-gray-200">
