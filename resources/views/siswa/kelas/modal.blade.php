@@ -136,7 +136,7 @@
                     @foreach ($currentLesson->materiGuru as $materi)
                         <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                             <!-- Gambar -->
-                            <img class="w-full h-48 object-cover" src="{{ $materi->image_url }}" alt="Course Image">
+                            <img class="w-full h-48 object-cover" src="{{ asset('assets/images/materi/' . $materi->foto) }}" alt="Course Image">
                             <div class="p-4">
                                 <div class="text-sm text-gray-500 flex items-center">
                                     <span>By {{ $materi->user->name }}</span>
@@ -237,9 +237,17 @@
                                     <span class="ml-1 text-gray-500">(0) Penilaian</span>
                                 </div>
 
+                                @php
+                                    if ($dibelis->materiGuru->jenis == 'ujian(fixed)') {
+                                        $dibelilink = 'ujian';
+                                    } elseif ($dibelis->materiGuru->jenis == 'materi') {
+                                        $dibelilink = 'strukturrombel';
+                                    }
+                                @endphp
+
                                 <!-- Tombol -->
                                 <div class="border-t border-gray-200 p-4 flex justify-between items-center">
-                                    <a href="{{ route($link, $dibelis->materiGuru->id) }}"
+                                    <a href="{{ route($dibelilink, $dibelis->materiGuru->id) }}"
                                         class="bg-teal-500 text-white px-4 py-2 rounded-md">
                                         <i class="bi bi-book"></i>
                                     </a>

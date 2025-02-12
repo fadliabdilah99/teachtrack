@@ -115,7 +115,7 @@
         <div class="grid grid-cols-1 gap-6 md:grid-cols-2 lg:grid-cols-4 hidden" id="materi">
             @foreach ($sell as $materi)
                 <div class="card">
-                    <img class="w-full" src="https://picsum.photos/300/300/?random" alt="">
+                    <img class="w-full h-48 object-cover" src="{{ asset('assets/images/materi/' . $materi->materiGuru->foto) }}" alt="">
                     <div class="p-4">
                         <h2 class="text-lg font-bold">{{ $materi->materiGuru->judul }}</h2>
                         <p class="text-sm text-gray-500">Rekomendasi {{ $materi->materiGuru->gurumapel->mapel->jenis }}</p>

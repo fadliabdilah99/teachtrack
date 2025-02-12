@@ -31,8 +31,8 @@ class kelasController extends Controller
 
         // Jadwal hari ini
         $days = $rombe[$data['hari_ini']] ?? collect([]);
-        $currentHour = (int) Carbon::now('Asia/Jakarta')->format('H');
-        // $currentHour = 10;
+        // $currentHour = (int) Carbon::now('Asia/Jakarta')->format('H');
+        $currentHour = 10;
 
         $currentLesson = null;
         foreach ($days as $day) {

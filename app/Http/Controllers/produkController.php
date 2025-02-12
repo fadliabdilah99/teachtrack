@@ -24,6 +24,7 @@ class produkController extends Controller
             'deskripsi' => 'required|string',
             'kode' => 'required|string',
             'stok' => 'required|string',
+            'foto' => 'required|file|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
         produk::create($produk);
 

@@ -32,9 +32,24 @@ class materiController extends Controller
             'judul' => 'required',
             'jenis' => 'required',
             'guru_mapel_id' => 'required',
+            'foto' => 'image|mimes:jpeg,png,jpg,gif,svg|max:2048',
         ]);
 
-        materiGuru::create($request->all());
+        if ($request->hasFile('foto')) {
+            $file = $request->file('foto');
+            $filename = time() . '.' . $file->getClientOriginalExtension();
+            $file->move(public_path('assets/images/materi'), $filename);
+            $request->merge(['foto' => $filename]);
+        }
+
+        materiGuru::create([
+            'user_id' => $request->user_id,
+            'judul' => $request->judul,
+            'jenis' => $request->jenis,
+            'menit' => $request->menit,
+            'guru_mapel_id' => $request->guru_mapel_id,
+            'foto' => $filename,
+        ]);
         return redirect()->back()->with('success', 'materi berhasil ditambahkan');
     }
 

@@ -36,7 +36,7 @@
                 <main class="h-full max-w-full">
                     <div class="container full-container p-0 flex flex-col gap-6">
                         <!--  Header Start -->
-                       @include('guru.template.navbar')
+                        @include('guru.template.navbar')
                         <!--  Header End -->
                         @yield('content')
                     </div>
@@ -69,7 +69,8 @@
             Swal.fire({
                 title: "Berhasil!",
                 text: "{{ $message }}",
-                icon: "success"
+                icon: "success",
+                confirmButtonColor: "#3085d6",
             });
         </script>
     @endif
@@ -78,7 +79,8 @@
             Swal.fire({
                 title: "gagal!",
                 text: "{{ $message }}",
-                icon: "error"
+                icon: "error",
+                confirmButtonColor: "#3085d6",
             });
         </script>
     @endif
@@ -88,7 +90,8 @@
             Swal.fire({
                 title: "Errors!",
                 text: "{{ $message }}",
-                icon: "error"
+                icon: "error",
+                confirmButtonColor: "#3085d6",
             });
         </script>
     @endif
@@ -98,6 +101,7 @@
                 icon: 'error',
                 title: 'Oops...',
                 html: '<ul>@foreach ($errors->all() as $error)<li>{{ $error }}</li>@endforeach</ul>',
+                confirmButtonColor: "#3085d6",
             });
         </script>
     @endif
