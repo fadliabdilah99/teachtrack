@@ -139,6 +139,10 @@ class sellerController extends Controller
     // Mengubah atau menghapus background seller
     public function updatebg(Request $request)
     {
+
+        $request->validate([
+           'pinPict' => 'image|mimes:jpeg,png,jpg,gif'
+        ]);
         $user = User::where('id', Auth::user()->id)->with('seller')->first();
 
         // Jika tidak ada file, hapus background lama

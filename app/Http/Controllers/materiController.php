@@ -107,9 +107,13 @@ class materiController extends Controller
             $fileName = time() . '.' . $file->getClientOriginalExtension();
             $file->move(public_path('file'), $fileName);
             $request->merge(['file' => $fileName]);
+        }else{
+            $fileName = null;
         }
 
         // memanggil data data yang di perlukan untuk menginput progres materi bila ada tambahan materi
+        $guru_mapel_id = materiGuru::where('id', $request->materiGuru_id)->first()->id;
+        $rombel_mapel = rombel_mapel_guru::where('guru_mapel_id', $guru_mapel_id)->select('rombel_id')->distinct()->get();
         $guru_mapel_id = materiGuru::where('id', $request->materiGuru_id)->first()->id;
         $rombel_mapel = rombel_mapel_guru::where('guru_mapel_id', $guru_mapel_id)->select('rombel_id')->distinct()->get();
 

@@ -37,6 +37,6 @@ class diskusiController extends Controller
             'materiStrukture_id' => $request->materiStrukture_id,
         ]);
 
-        return redirect()->back()->withInput()->with('success', 'berhasil menambahkan diskusi')->with(['materi_id' => $request->materiStrukture_id]);
+        return redirect()->back()->withInput()->with(['materi_id' => $request->materiStrukture_id]);
     }
 }

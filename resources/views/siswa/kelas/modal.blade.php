@@ -213,7 +213,7 @@
                     @foreach ($dibeli as $dibelis)
                         <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                             <!-- Gambar -->
-                            <img class="w-full h-48 object-cover" src="{{ $dibelis->materiGuru->image_url }}"
+                            <img class="w-full h-48 object-cover" src="{{ asset('assets/images/materi/' . $dibelis->materiGuru->foto) }}"
                                 alt="Course Image">
                             <div class="p-4">
                                 <div class="text-sm text-gray-500 flex items-center">
@@ -265,7 +265,7 @@
                     @foreach ($allmaterimurid as $alls)
                         <div class="bg-white border border-gray-200 rounded-lg shadow-md overflow-hidden">
                             <!-- Gambar -->
-                            <img class="w-full h-48 object-cover" src="{{ $alls->materi->image_url }}"
+                            <img class="w-full h-48 object-cover" src="{{ asset('assets/images/materi/' . $alls->materi->foto) }}"
                                 alt="Course Image">
                             <div class="p-4">
                                 <div class="text-sm text-gray-500 flex items-center">

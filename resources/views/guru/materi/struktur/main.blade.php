@@ -190,7 +190,7 @@
                                         <!-- Header Modal -->
                                         <div class="flex justify-between items-center mb-4">
                                             <h2 class="text-xl font-bold">Edit Materi</h2>
-                                            <button onclick="closeModalmateri({{ $materi->id }})"
+                                            <button onclick="closeModalmateri({{ $materis->id }})"
                                                 class="text-gray-400 hover:text-gray-600">&times;</button>
                                         </div>
 
@@ -313,10 +313,12 @@
 
     <script>
         function editmateri(id) {
+            // console.log('editmateri' + id);
             document.getElementById('editmateri' + id).classList.remove('hidden');
         }
 
         function closeModalmateri(id) {
+            // console.log('editmateri' + id);
             document.getElementById('editmateri' + id).classList.add('hidden');
         }
     </script>

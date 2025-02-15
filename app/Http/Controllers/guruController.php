@@ -40,13 +40,13 @@ class guruController extends Controller
 
         // jam saat ini
         // $jamSekarang = (int) Carbon::now('Asia/Jakarta')->format('H');
-        $jamSekarang = 13;
+        $jamSekarang = 10;
         $jadwal = null;
         foreach ($data['jadwals'] as $day) {
             $data['jamAwal'] = (int) $day->dari;
             $data['jamAkhir'] = (int) $day->sampai;
             // pengecekan berada dalam rentang jam pelajaran
-            if ($jamSekarang >= $data['jamAwal'] && $jamSekarang < $data['jamAkhir']) {
+            if ($jamSekarang >= $data['jamAwal'] && $jamSekarang <= $data['jamAkhir']) {
                 $jadwal = $day;
                 break;
             }

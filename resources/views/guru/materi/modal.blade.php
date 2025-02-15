@@ -55,7 +55,7 @@
                     <div class="mb-6" id="ujian">
                         <label for="input-label-with-helper-text"
                             class="block text-sm mb-2 text-gray-400">Sampul</label>
-                        <input type="file" name="foto"
+                        <input type="file" name="foto" accept="image/*"
                             class="py-3 px-4 text-gray-500 block w-full border-gray-300 rounded-md shadow-sm text-sm focus:border-indigo-500 focus:ring-indigo-500"
                             placeholder="" aria-describedby="hs-input-helper-text">
                     </div>
